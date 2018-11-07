@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace FakeSensor
 {
-    public partial class Form1 : Form
+    public partial class SensorForm : Form
     {
-        public Form1()
+        public SensorForm()
         {
             InitializeComponent();
         }
