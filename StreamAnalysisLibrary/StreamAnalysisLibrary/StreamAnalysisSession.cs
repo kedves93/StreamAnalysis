@@ -5,7 +5,7 @@ namespace StreamAnalysisLibrary
 {
     public class StreamAnalysisSession : IStreamAnalysisSession
     {
-        private const string DESTINATION = "queue://testQUEUE";
+        private const string DESTINATION = "queue://StreamAnalysisQueue";
 
         internal ISession Session { get; set; }
 
