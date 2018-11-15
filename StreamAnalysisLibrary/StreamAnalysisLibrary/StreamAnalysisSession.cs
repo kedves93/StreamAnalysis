@@ -27,6 +27,10 @@ namespace StreamAnalysisLibrary
             }
         }
 
+        /// <summary>
+        /// Sends data to StreamAnalysis. The object must be serializable to XML.
+        /// </summary>
+        /// <param name="data"></param>
         public void SendData(object data)
         {
             try

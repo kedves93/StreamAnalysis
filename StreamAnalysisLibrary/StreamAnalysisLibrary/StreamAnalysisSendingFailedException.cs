@@ -3,7 +3,7 @@
 namespace StreamAnalysisLibrary
 {
     [Serializable]
-    internal class StreamAnalysisSendingFailedException : Exception
+    public class StreamAnalysisSendingFailedException : Exception
     {
         public StreamAnalysisSendingFailedException()
         { }

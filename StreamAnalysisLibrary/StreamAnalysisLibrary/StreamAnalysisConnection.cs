@@ -27,6 +27,10 @@ namespace StreamAnalysisLibrary
             IsStarted = Connection.IsStarted;
         }
 
+        /// <summary>
+        /// Creates a new session in order to start streaming data to StreamAnalysis.
+        /// </summary>
+        /// <returns></returns>
         public IStreamAnalysisSession CreateStreamingSession()
         {
             try

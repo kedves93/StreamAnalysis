@@ -11,19 +11,26 @@ namespace APIXU
             var factory = new StreamAnalysisConnectionFactory();
 
             Console.WriteLine("Establishing connection...");
-            using (IStreamAnalysisConnection connection = factory.CreateConnection())
+            try
             {
-                connection.Start();
-                Console.WriteLine(connection.IsStarted);
-                using (IStreamAnalysisSession session = connection.CreateStreamingSession())
+                using (IStreamAnalysisConnection connection = factory.CreateConnection())
                 {
-                    var weather = Observable.Interval(TimeSpan.FromSeconds(5)).Select(x => ApixuService.GetWeatherDataByAutoIP());
-                    weather.Subscribe(x =>
+                    connection.Start();
+                    Console.WriteLine(connection.IsStarted);
+                    using (IStreamAnalysisSession session = connection.CreateStreamingSession())
                     {
-                        Console.WriteLine("Sending data...");
-                        session.SendData(x.current.last_updated + "  |  " + x.current.temp_c);
-                    });
+                        var weather = Observable.Interval(TimeSpan.FromSeconds(5)).Select(x => ApixuService.GetWeatherDataByAutoIP());
+                        weather.Subscribe(x =>
+                        {
+                            Console.WriteLine("Sending data...");
+                            session.SendData(x.current.last_updated + "  |  " + x.current.temp_c);
+                        });
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
             Console.ReadKey();
