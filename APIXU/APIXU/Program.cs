@@ -23,7 +23,7 @@ namespace APIXU
                         weather.Subscribe(x =>
                         {
                             Console.WriteLine("Sending data...");
-                            session.SendData(x.current.last_updated + "  |  " + x.current.temp_c);
+                            session.SendData("Last APIXU update: " + x.current.last_updated + "  |  Temperature: " + x.current.temp_c);
                         });
                     }
                 }
