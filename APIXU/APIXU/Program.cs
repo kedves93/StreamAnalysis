@@ -10,13 +10,14 @@ namespace APIXU
         {
             var factory = new StreamAnalysisConnectionFactory();
 
-            Console.WriteLine("Establishing connection...");
+            Console.WriteLine("Started connecting to broker....");
             try
             {
                 using (IStreamAnalysisConnection connection = factory.CreateConnection())
                 {
                     connection.Start();
-                    Console.WriteLine(connection.IsStarted);
+                    if (connection.IsStarted)
+                        Console.WriteLine("Connection established succesfully.");
                     using (IStreamAnalysisSession session = connection.CreateStreamingSession())
                     {
                         Console.WriteLine("Sending data...");

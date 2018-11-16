@@ -65,6 +65,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IStartable.cs" />
+    <Compile Include="IStopable.cs" />
     <Compile Include="IStreamAnalysisSession.cs" />
     <Compile Include="StreamAnalysisConnection.cs" />
     <Compile Include="IStreamAnalysisConnection.cs" />
