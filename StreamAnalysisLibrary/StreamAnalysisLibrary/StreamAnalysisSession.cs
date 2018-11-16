@@ -28,7 +28,7 @@ namespace StreamAnalysisLibrary
         }
 
         /// <summary>
-        /// Sends data to StreamAnalysis. The object must be serializable to XML.
+        /// Sends data to Stream Analysis. The object must be serializable to XML.
         /// </summary>
         /// <param name="data"></param>
         public void SendData(object data)
@@ -41,6 +41,15 @@ namespace StreamAnalysisLibrary
             {
                 throw new StreamAnalysisSendingFailedException($"Failed sending the data: {ex.Message}.");
             }
+        }
+
+        /// <summary>
+        /// Subscribes to the given stream and sends its data to Stream Analysis. The object must be serializable to XML.
+        /// </summary>
+        /// <param name="stream"></param>
+        public void StreamData(IObservable<object> stream)
+        {
+            stream.Subscribe(onNext: data => SendData(data), onError: error => throw new StreamAnalysisSendingFailedException($"The stream ecountered an error: {error.Message}"));
         }
 
         public void Dispose()

@@ -19,12 +19,9 @@ namespace APIXU
                     Console.WriteLine(connection.IsStarted);
                     using (IStreamAnalysisSession session = connection.CreateStreamingSession())
                     {
+                        Console.WriteLine("Sending data...");
                         var weather = Observable.Interval(TimeSpan.FromSeconds(5)).Select(x => ApixuService.GetWeatherDataByAutoIP());
-                        weather.Subscribe(x =>
-                        {
-                            Console.WriteLine("Sending data...");
-                            session.SendData("Last APIXU update: " + x.current.last_updated + "  |  Temperature: " + x.current.temp_c);
-                        });
+                        session.StreamData(weather);
                     }
                 }
             }

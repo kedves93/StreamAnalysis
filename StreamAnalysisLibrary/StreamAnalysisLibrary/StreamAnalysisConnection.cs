@@ -35,7 +35,7 @@ namespace StreamAnalysisLibrary
         {
             try
             {
-                ISession session = this.Connection.CreateSession();
+                ISession session = Connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
                 return new StreamAnalysisSession(session);
             }
             catch (Exception ex)
