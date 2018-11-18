@@ -14,7 +14,7 @@ namespace StreamAnalysisLibrary
         private const string ACTIVE_MQ_PASSWORD = "adminPassword";
 
         /// <summary>
-        /// Creates a new connection to StreamAnalysis.
+        /// Creates a new connection to Stream Analysis.
         /// </summary>
         /// <returns></returns>
         public IStreamAnalysisConnection CreateConnection()

@@ -37,7 +37,7 @@ namespace StreamAnalysisLibrary
         }
 
         /// <summary>
-        /// Creates a new session in order to start streaming data to StreamAnalysis.
+        /// Creates a new session in order to start streaming data to Stream Analysis.
         /// </summary>
         /// <returns></returns>
         public IStreamAnalysisSession CreateStreamingSession()
