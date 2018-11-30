@@ -13,3 +13,10 @@ StreamAnalysisLibrary/.vs/StreamAnalysisLibrary/v15/
 StreamAnalysisMQListener/.vs/StreamAnalysisMQListener/v15/
 StreamAnalysisMQListener/StreamAnalysisMQListener/bin/Debug/
 StreamAnalysisMQListener/StreamAnalysisMQListener/obj/
+Libraries/StreamAnalysisLibrary/StreamAnalysisLibrary/obj/
+Libraries/StreamAnalysisLibrary/StreamAnalysisLibrary/bin/
+Applications/FakeSensor/FakeSensor/FakeSensor/obj/
+Applications/FakeSensor/FakeSensor/FakeSensor/bin/
+Applications/APIXU/APIXU/bin/
+Applications/DotNetEC2/DotNetEC2/bin/
+Applications/DotNetEC2/DotNetEC2/obj/
