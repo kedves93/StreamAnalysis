@@ -21,10 +21,25 @@ namespace StreamAnalysisWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region CustomSettings
+
+            // adding AwsDevCredentials from AWS_Credentials.json
             services.Configure<AwsDevCredentials>(Configuration.GetSection("AwsDevCredentials"));
 
             // adding custom services
             services.AddScoped<IDynamoDBService, DynamoDBService>();
+
+            // redis
+            //services.AddDistributedRedisCache(option =>
+            //{
+            //    option.Configuration = "127.0.0.1";
+            //    option.InstanceName = "master";
+            //});
+
+            // session
+            services.AddSession();
+
+            #endregion CustomSettings
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -51,6 +66,13 @@ namespace StreamAnalysisWebApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            #region CustomSettings
+
+            //Enable sessions
+            app.UseSession();
+
+            #endregion CustomSettings
 
             app.UseMvc(routes =>
             {
