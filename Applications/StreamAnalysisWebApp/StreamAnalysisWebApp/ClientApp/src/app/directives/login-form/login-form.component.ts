@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -8,20 +9,24 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class LoginFormComponent implements OnInit {
 
+  validAuth: boolean;
+
   loginForm = new FormGroup({
     username: new FormControl(''),
     password: new FormControl(''),
     rememberMe: new FormControl('')
   });
 
-  constructor() { }
+  constructor(private auth: AuthService) {}
 
   ngOnInit() {
   }
 
   onSubmit() {
-    // TODO: Use EventEmitter with form value
-    console.warn(this.loginForm.value);
+    this.auth.signInUser(this.loginForm.value.username, this.loginForm.value.password).subscribe(
+      result => this.validAuth = result,
+      error => console.error(error)
+    );
   }
 
 }

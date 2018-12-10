@@ -45,3 +45,9 @@
     font-size: 14px;
     font-weight: bold;
 }
+
+.invalid-user-errormessage {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 13px;
+}
