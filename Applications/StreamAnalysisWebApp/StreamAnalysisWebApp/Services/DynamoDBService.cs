@@ -2,7 +2,7 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
-using Amazon.Runtime;
+using Microsoft.Extensions.Options;
 using StreamAnalysisWebApp.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +10,29 @@ using System.Threading.Tasks;
 
 namespace StreamAnalysisWebApp.Services
 {
-    public static class DynamoDBService
+    public class DynamoDBService : IDynamoDBService
     {
-        private static readonly AmazonDynamoDBClient dynamoDBClient;
-        private static readonly BasicAWSCredentials credentials;
+        private readonly IAmazonDynamoDB _dynamoDBClient;
 
-        static DynamoDBService()
+        public DynamoDBService()
         {
-            credentials = new BasicAWSCredentials("AKIAJHUARGC4GM2YYLJQ", "5tGFt26hQ4Z1FlT/eNiX/JxfJ5/VZKTz/VR/OS7c");
-            dynamoDBClient = new AmazonDynamoDBClient(credentials, RegionEndpoint.EUCentral1);
         }
 
-        public static async Task<bool> ValidateUser(SignInUserInfo user)
+        /// <summary>
+        /// The parameter 'credentials' is injected, see Startup.cs
+        /// </summary>
+        /// <param name="credentials"></param>
+        public DynamoDBService(IOptions<AwsDevCredentials> credentials)
+        {
+            string accessKey = credentials.Value.AwsAccessKeyId;
+            string secretKey = credentials.Value.AwsSecretAccessKey;
+            _dynamoDBClient = new AmazonDynamoDBClient(accessKey, secretKey, RegionEndpoint.EUCentral1);
+        }
+
+        public async Task<bool> ValidateUser(SignInUserInfo user)
         {
             // context
-            DynamoDBContext context = new DynamoDBContext(dynamoDBClient);
+            DynamoDBContext context = new DynamoDBContext(_dynamoDBClient);
 
             // conditions
             List<ScanCondition> conditions = new List<ScanCondition>

@@ -1,6 +1,7 @@
 import { AuthService } from './../../services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -17,14 +18,19 @@ export class LoginFormComponent implements OnInit {
     rememberMe: new FormControl('')
   });
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit() {
   }
 
   onSubmit() {
     this.auth.signInUser(this.loginForm.value.username, this.loginForm.value.password).subscribe(
-      result => this.validAuth = result,
+      result => {
+        this.validAuth = result;
+        if (this.validAuth === true) {
+          this.router.navigate(['/dashboard']);
+        }
+      },
       error => console.error(error)
     );
   }

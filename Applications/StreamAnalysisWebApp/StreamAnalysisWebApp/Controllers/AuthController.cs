@@ -9,11 +9,22 @@ namespace StreamAnalysisWebApp.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly IDynamoDBService _dynamoDBService;
+
+        /// <summary>
+        /// The parameter 'dynamoDBService' is injected, see Startup.cs
+        /// </summary>
+        /// <param name="dynamoDBService"></param>
+        public AuthController(IDynamoDBService dynamoDBService)
+        {
+            _dynamoDBService = dynamoDBService;
+        }
+
         [Route("[action]")]
         [HttpPost]
         public async Task<ActionResult<bool>> SignIn([FromBody] SignInUserInfo user)
         {
-            return await DynamoDBService.ValidateUser(user);
+            return await _dynamoDBService.ValidateUser(user);
         }
     }
 }

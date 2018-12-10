@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginFormComponent } from './directives/login-form/login-form.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { LoginFormComponent } from './directives/login-form/login-form.component
     AppComponent,
     LoginComponent,
     HomeComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -31,6 +33,7 @@ import { LoginFormComponent } from './directives/login-form/login-form.component
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
       { path: 'home', component: HomeComponent },
+      { path: 'dashboard', component: DashboardComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', redirectTo: 'home', pathMatch: 'full' }
     ]),

@@ -20,3 +20,4 @@ Applications/FakeSensor/FakeSensor/FakeSensor/bin/
 Applications/APIXU/APIXU/bin/
 Applications/DotNetEC2/DotNetEC2/bin/
 Applications/DotNetEC2/DotNetEC2/obj/
+Applications/StreamAnalysisWebApp/StreamAnalysisWebApp/AWS_Credentials.json
