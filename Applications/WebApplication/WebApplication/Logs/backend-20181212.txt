@@ -1,0 +1,171 @@
+2018-12-12T15:58:58.3413468+02:00  [INF] Starting @angular/cli on port 64319... (4485fa03)
+2018-12-12T15:58:58.8774784+02:00 0HLJ077RAP1DQ:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44315/   (ca22a1cb)
+2018-12-12T15:58:58.8774784+02:00 0HLJ077RAP1DR:00000001 [INF] Request starting HTTP/1.1 DEBUG http://localhost:59029/  0 (ca22a1cb)
+2018-12-12T15:58:58.9438899+02:00 0HLJ077RAP1DR:00000001 [INF] Request finished in 68.9483ms 200  (791a596a)
+2018-12-12T15:59:20.1256817+02:00  [INF] > StreamAnalysisWebApp@0.0.0 start d:\Git Projects\StreamAnalysis\Applications\WebApplication\WebApplication\ClientApp
+> ng serve "--port" "64319"
+
+** Angular Live Development Server is listening on localhost:64319, open your browser on http://localhost:64319/ **
+ (d73dfd72)
+2018-12-12T15:59:28.5097526+02:00  [INF] i ´Żówdm´Żú: wait until bundle finished: /
+ (4cd25174)
+2018-12-12T15:59:34.2562711+02:00  [INF] Date: 2018-12-12T13:59:34.251Z
+Hash: 6cbcc8feaff7f17b9492
+Time: 13859ms
+chunk {main} main.js, main.js.map (main) 38.4 kB [initial] [rendered]
+chunk {polyfills} polyfills.js, polyfills.js.map (polyfills) 222 kB [initial] [rendered]
+chunk {runtime} runtime.js, runtime.js.map (runtime) 6.08 kB [entry] [rendered]
+chunk {scripts} scripts.js, scripts.js.map (scripts) 393 kB  [rendered]
+chunk {styles} styles.js, styles.js.map (styles) 1.53 MB [initial] [rendered]
+chunk {vendor} vendor.js, vendor.js.map (vendor) 4.31 MB [initial] [rendered]
+ (44b7a51c)
+2018-12-12T15:59:34.7295141+02:00  [INF] i ´Żówdm´Żú: Compiled successfully.
+ (acadde37)
+2018-12-12T15:59:35.0299390+02:00 0HLJ077RAP1DS:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44315/vendor.js   (ca22a1cb)
+2018-12-12T15:59:35.0421469+02:00 0HLJ077RAP1DU:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44315/main.js   (ca22a1cb)
+2018-12-12T15:59:35.0531093+02:00 0HLJ077RAP1DT:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44315/styles.js   (ca22a1cb)
+2018-12-12T15:59:35.0661575+02:00 0HLJ077RAP1DR:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44315/polyfills.js   (ca22a1cb)
+2018-12-12T15:59:35.0771125+02:00 0HLJ077RAP1DV:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:44315/scripts.js   (ca22a1cb)
+2018-12-12T15:59:45.5825165+02:00 0HLJ077RAP1DQ:00000001 [ERR] Error closing the session. (0daab2ad)
+StackExchange.Redis.RedisConnectionException: It was not possible to connect to the redis server(s); to create a disconnected multiplexer, disable AbortOnConnectFail. SocketFailure on PING
+   at StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(String configuration, TextWriter log) in c:\code\StackExchange.Redis\StackExchange.Redis\StackExchange\Redis\ConnectionMultiplexer.cs:line 799
+   at Microsoft.Extensions.Caching.Redis.RedisCache.ConnectAsync(CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.GetAndRefreshAsync(String key, Boolean getData, CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+2018-12-12T15:59:45.5926017+02:00 0HLJ077RAP1DQ:00000001 [INF] Request finished in 46719.4829ms 200 text/html; charset=UTF-8 (791a596a)
+2018-12-12T15:59:45.5970006+02:00 0HLJ077RAP1DQ:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44315/runtime.js   (ca22a1cb)
+2018-12-12T15:59:55.6732977+02:00 0HLJ077RAP1DU:00000001 [ERR] Error closing the session. (0daab2ad)
+StackExchange.Redis.RedisConnectionException: It was not possible to connect to the redis server(s); to create a disconnected multiplexer, disable AbortOnConnectFail. SocketFailure on PING
+   at StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(String configuration, TextWriter log) in c:\code\StackExchange.Redis\StackExchange.Redis\StackExchange\Redis\ConnectionMultiplexer.cs:line 799
+   at Microsoft.Extensions.Caching.Redis.RedisCache.ConnectAsync(CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.GetAndRefreshAsync(String key, Boolean getData, CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+2018-12-12T15:59:55.6772667+02:00 0HLJ077RAP1DU:00000001 [INF] Request finished in 20641.9699ms 304  (791a596a)
+2018-12-12T16:00:05.9083015+02:00 0HLJ077RAP1DT:00000001 [ERR] Error closing the session. (0daab2ad)
+StackExchange.Redis.RedisConnectionException: It was not possible to connect to the redis server(s); to create a disconnected multiplexer, disable AbortOnConnectFail. SocketFailure on PING
+   at StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(String configuration, TextWriter log) in c:\code\StackExchange.Redis\StackExchange.Redis\StackExchange\Redis\ConnectionMultiplexer.cs:line 799
+   at Microsoft.Extensions.Caching.Redis.RedisCache.ConnectAsync(CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.GetAndRefreshAsync(String key, Boolean getData, CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+2018-12-12T16:00:05.9133947+02:00 0HLJ077RAP1DT:00000001 [INF] Request finished in 30878.1043ms 304  (791a596a)
+2018-12-12T16:00:16.1139390+02:00 0HLJ077RAP1DR:00000002 [ERR] Error closing the session. (0daab2ad)
+StackExchange.Redis.RedisConnectionException: It was not possible to connect to the redis server(s); to create a disconnected multiplexer, disable AbortOnConnectFail. SocketFailure on PING
+   at StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(String configuration, TextWriter log) in c:\code\StackExchange.Redis\StackExchange.Redis\StackExchange\Redis\ConnectionMultiplexer.cs:line 799
+   at Microsoft.Extensions.Caching.Redis.RedisCache.ConnectAsync(CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.GetAndRefreshAsync(String key, Boolean getData, CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+2018-12-12T16:00:16.1175705+02:00 0HLJ077RAP1DR:00000002 [INF] Request finished in 41083.1559ms 304  (791a596a)
+2018-12-12T16:00:26.3007707+02:00 0HLJ077RAP1DS:00000001 [ERR] Error closing the session. (0daab2ad)
+StackExchange.Redis.RedisConnectionException: It was not possible to connect to the redis server(s); to create a disconnected multiplexer, disable AbortOnConnectFail. SocketFailure on PING
+   at StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(String configuration, TextWriter log) in c:\code\StackExchange.Redis\StackExchange.Redis\StackExchange\Redis\ConnectionMultiplexer.cs:line 799
+   at Microsoft.Extensions.Caching.Redis.RedisCache.ConnectAsync(CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.GetAndRefreshAsync(String key, Boolean getData, CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+2018-12-12T16:00:26.3049100+02:00 0HLJ077RAP1DS:00000001 [INF] Request finished in 51274.5457ms 304  (791a596a)
+2018-12-12T16:00:41.5170733+02:00 0HLJ077RAP1DV:00000001 [ERR] Error closing the session. (0daab2ad)
+StackExchange.Redis.RedisConnectionException: It was not possible to connect to the redis server(s); to create a disconnected multiplexer, disable AbortOnConnectFail. 
+   at StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(String configuration, TextWriter log) in c:\code\StackExchange.Redis\StackExchange.Redis\StackExchange\Redis\ConnectionMultiplexer.cs:line 799
+   at Microsoft.Extensions.Caching.Redis.RedisCache.ConnectAsync(CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.GetAndRefreshAsync(String key, Boolean getData, CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+2018-12-12T16:00:41.5214926+02:00 0HLJ077RAP1DV:00000001 [INF] Request finished in 66446.6283ms 304  (791a596a)
+2018-12-12T16:00:56.7440485+02:00 0HLJ077RAP1DQ:00000002 [ERR] Error closing the session. (0daab2ad)
+StackExchange.Redis.RedisConnectionException: It was not possible to connect to the redis server(s); to create a disconnected multiplexer, disable AbortOnConnectFail. 
+   at StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(String configuration, TextWriter log) in c:\code\StackExchange.Redis\StackExchange.Redis\StackExchange\Redis\ConnectionMultiplexer.cs:line 799
+   at Microsoft.Extensions.Caching.Redis.RedisCache.ConnectAsync(CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.GetAndRefreshAsync(String key, Boolean getData, CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+2018-12-12T16:00:56.7477848+02:00 0HLJ077RAP1DQ:00000002 [INF] Request finished in 71151.5415ms 304  (791a596a)
+2018-12-12T16:00:57.3170185+02:00 0HLJ077RAP1DT:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44315/digital.jpg   (ca22a1cb)
+2018-12-12T16:00:57.3663649+02:00 0HLJ077RAP1DR:00000003 [INF] Request starting HTTP/1.1 GET http://localhost:44315/sockjs-node/info?t=1544623257358   (ca22a1cb)
+2018-12-12T16:01:06.3896537+02:00 0HLJ077RAP1DS:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44315/sockjs-node/info?t=1544623266380   (ca22a1cb)
+2018-12-12T16:01:07.5496620+02:00 0HLJ077RAP1DT:00000002 [ERR] Error closing the session. (0daab2ad)
+StackExchange.Redis.RedisConnectionException: It was not possible to connect to the redis server(s); to create a disconnected multiplexer, disable AbortOnConnectFail. SocketFailure on PING
+   at StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(String configuration, TextWriter log) in c:\code\StackExchange.Redis\StackExchange.Redis\StackExchange\Redis\ConnectionMultiplexer.cs:line 799
+   at Microsoft.Extensions.Caching.Redis.RedisCache.ConnectAsync(CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.GetAndRefreshAsync(String key, Boolean getData, CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+2018-12-12T16:01:07.5535108+02:00 0HLJ077RAP1DT:00000002 [INF] Request finished in 10237.4726ms 304  (791a596a)
+2018-12-12T16:01:16.4353851+02:00 0HLJ077RAP1DV:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:44315/sockjs-node/info?t=1544623276428   (ca22a1cb)
+2018-12-12T16:01:17.7687971+02:00 0HLJ077RAP1DR:00000003 [ERR] Error closing the session. (0daab2ad)
+StackExchange.Redis.RedisConnectionException: It was not possible to connect to the redis server(s); to create a disconnected multiplexer, disable AbortOnConnectFail. SocketFailure on PING
+   at StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(String configuration, TextWriter log) in c:\code\StackExchange.Redis\StackExchange.Redis\StackExchange\Redis\ConnectionMultiplexer.cs:line 799
+   at Microsoft.Extensions.Caching.Redis.RedisCache.ConnectAsync(CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.GetAndRefreshAsync(String key, Boolean getData, CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+2018-12-12T16:01:17.7734386+02:00 0HLJ077RAP1DR:00000003 [INF] Request finished in 20407.8009ms 200 application/json; charset=UTF-8 (791a596a)
+2018-12-12T16:01:21.6349504+02:00 0HLJ077RAP1DQ:00000003 [INF] Request starting HTTP/1.1 GET http://localhost:44315/open-sans-v15-latin-regular.woff2   (ca22a1cb)
+2018-12-12T16:01:21.6373619+02:00 0HLJ077RAP1DT:00000003 [INF] Request starting HTTP/1.1 GET http://localhost:44315/stream-logo.png   (ca22a1cb)
+2018-12-12T16:01:25.2653199+02:00 0HLJ077RAP1DR:00000004 [INF] Request starting HTTP/1.1 POST http://localhost:44315/api/Auth/SignIn application/json 39 (ca22a1cb)
+2018-12-12T16:01:25.3218617+02:00 0HLJ077RAP1DR:00000004 [INF] Route matched with "{action = \"SignIn\", controller = \"Auth\", page = \"\"}". Executing action "WebApplication.Controllers.AuthController.SignIn (WebApplication)" (a44c0341)
+2018-12-12T16:01:25.6704485+02:00 0HLJ077RAP1DR:00000004 [INF] Executing action method "WebApplication.Controllers.AuthController.SignIn (WebApplication)" with arguments (["WebApplication.Models.SignInUserInfo"]) - Validation state: Valid (4e3479ed)
+2018-12-12T16:01:25.6764529+02:00 0HLJ077RAP1DR:00000004 [INF] Hello, world! (f83bcf75)
+2018-12-12T16:01:26.4881561+02:00 0HLJ077RAP1DR:00000004 [INF] Executed action method "WebApplication.Controllers.AuthController.SignIn (WebApplication)", returned result "Microsoft.AspNetCore.Mvc.ObjectResult" in 810.1853ms. (50a9e262)
+2018-12-12T16:01:26.5016950+02:00 0HLJ077RAP1DR:00000004 [INF] Executing ObjectResult, writing value of type '"System.Boolean"'. (8a1b66c8)
+2018-12-12T16:01:26.5184947+02:00 0HLJ077RAP1DR:00000004 [INF] Executed action "WebApplication.Controllers.AuthController.SignIn (WebApplication)" in 1188.1365ms (afa2e885)
+2018-12-12T16:01:28.0007636+02:00 0HLJ077RAP1DS:00000002 [ERR] Error closing the session. (0daab2ad)
+StackExchange.Redis.RedisConnectionException: It was not possible to connect to the redis server(s); to create a disconnected multiplexer, disable AbortOnConnectFail. SocketFailure on PING
+   at StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(String configuration, TextWriter log) in c:\code\StackExchange.Redis\StackExchange.Redis\StackExchange\Redis\ConnectionMultiplexer.cs:line 799
+   at Microsoft.Extensions.Caching.Redis.RedisCache.ConnectAsync(CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.GetAndRefreshAsync(String key, Boolean getData, CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+2018-12-12T16:01:28.0044978+02:00 0HLJ077RAP1DS:00000002 [INF] Request finished in 21616.0056ms 200 application/json; charset=UTF-8 (791a596a)
+2018-12-12T16:01:28.5443103+02:00 0HLJ077RAP1DS:00000003 [INF] Request starting HTTP/1.1 GET http://localhost:44315/sockjs-node/info?t=1544623288536   (ca22a1cb)
+2018-12-12T16:01:38.2348983+02:00 0HLJ077RAP1DV:00000002 [ERR] Error closing the session. (0daab2ad)
+StackExchange.Redis.RedisConnectionException: It was not possible to connect to the redis server(s); to create a disconnected multiplexer, disable AbortOnConnectFail. SocketFailure on PING
+   at StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(String configuration, TextWriter log) in c:\code\StackExchange.Redis\StackExchange.Redis\StackExchange\Redis\ConnectionMultiplexer.cs:line 799
+   at Microsoft.Extensions.Caching.Redis.RedisCache.ConnectAsync(CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.GetAndRefreshAsync(String key, Boolean getData, CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+2018-12-12T16:01:38.2386138+02:00 0HLJ077RAP1DV:00000002 [INF] Request finished in 21804.0554ms 200 application/json; charset=UTF-8 (791a596a)
+2018-12-12T16:01:44.6179974+02:00 0HLJ077RAP1DV:00000003 [INF] Request starting HTTP/1.1 GET http://localhost:44315/sockjs-node/info?t=1544623304607   (ca22a1cb)
+2018-12-12T16:01:53.4508240+02:00 0HLJ077RAP1DQ:00000003 [ERR] Error closing the session. (0daab2ad)
+StackExchange.Redis.RedisConnectionException: It was not possible to connect to the redis server(s); to create a disconnected multiplexer, disable AbortOnConnectFail. 
+   at StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(String configuration, TextWriter log) in c:\code\StackExchange.Redis\StackExchange.Redis\StackExchange\Redis\ConnectionMultiplexer.cs:line 799
+   at Microsoft.Extensions.Caching.Redis.RedisCache.ConnectAsync(CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.GetAndRefreshAsync(String key, Boolean getData, CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+2018-12-12T16:01:53.4546054+02:00 0HLJ077RAP1DQ:00000003 [INF] Request finished in 31821.7892ms 304  (791a596a)
+2018-12-12T16:02:08.6542709+02:00 0HLJ077RAP1DT:00000003 [ERR] Error closing the session. (0daab2ad)
+StackExchange.Redis.RedisConnectionException: It was not possible to connect to the redis server(s); to create a disconnected multiplexer, disable AbortOnConnectFail. 
+   at StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(String configuration, TextWriter log) in c:\code\StackExchange.Redis\StackExchange.Redis\StackExchange\Redis\ConnectionMultiplexer.cs:line 799
+   at Microsoft.Extensions.Caching.Redis.RedisCache.ConnectAsync(CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.GetAndRefreshAsync(String key, Boolean getData, CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+2018-12-12T16:02:08.6580781+02:00 0HLJ077RAP1DT:00000003 [INF] Request finished in 47025.3394ms 304  (791a596a)
+2018-12-12T16:02:08.7201091+02:00 0HLJ077RAP1DQ:00000004 [INF] Request starting HTTP/1.1 GET http://localhost:44315/sockjs-node/info?t=1544623328713   (ca22a1cb)
+2018-12-12T16:02:18.8732304+02:00 0HLJ077RAP1DR:00000004 [ERR] Error closing the session. (0daab2ad)
+StackExchange.Redis.RedisConnectionException: It was not possible to connect to the redis server(s); to create a disconnected multiplexer, disable AbortOnConnectFail. SocketFailure on PING
+   at StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(String configuration, TextWriter log) in c:\code\StackExchange.Redis\StackExchange.Redis\StackExchange\Redis\ConnectionMultiplexer.cs:line 799
+   at Microsoft.Extensions.Caching.Redis.RedisCache.ConnectAsync(CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.GetAndRefreshAsync(String key, Boolean getData, CancellationToken token)
+   at Microsoft.Extensions.Caching.Redis.RedisCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+2018-12-12T16:02:18.8775380+02:00 0HLJ077RAP1DR:00000004 [INF] Request finished in 53612.3825ms 200 application/json; charset=utf-8 (791a596a)

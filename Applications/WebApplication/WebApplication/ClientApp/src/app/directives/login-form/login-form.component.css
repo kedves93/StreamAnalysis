@@ -1,0 +1,53 @@
+.login-inputs-container {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+#remember-me {
+    height: 40px;
+    width: 100%;
+    font-size: 14px;
+}
+
+.login-input {
+    height: 32px;
+    width: 240px;
+    font-size: 14px;
+    border-width: 0.7px;
+}
+
+.login-sign-in-btn-wrapper {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#sign-in-btn {
+    width: 240px;
+    height: 30px;
+    background-color: #16b;
+    background-image: linear-gradient(#2d8cec,#16b);
+    border-color: #16b #0b4075 #0b4075;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    color: white;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.75);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.invalid-user-errormessage {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 13px;
+}
