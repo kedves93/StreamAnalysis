@@ -66,7 +66,7 @@ namespace WebApplication
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -86,9 +86,6 @@ namespace WebApplication
 
             // Enable sessions
             app.UseSession();
-
-            // Log into file
-            loggerFactory.AddFile("Logs/backend-{Date}.txt");
 
             _logger.LogInformation("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 

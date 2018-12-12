@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System.IO;
 
 namespace WebApplication
@@ -18,6 +19,11 @@ namespace WebApplication
             {
                 config.SetBasePath(Directory.GetCurrentDirectory());
                 config.AddJsonFile("aws_credentials.json", optional: false, reloadOnChange: false);
+            })
+            .ConfigureLogging(logging =>
+            {
+                logging.ClearProviders();
+                logging.AddFile("Logs/backend-{Date}.txt");
             })
             .UseStartup<Startup>();
     }
