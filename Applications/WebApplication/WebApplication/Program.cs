@@ -22,8 +22,8 @@ namespace WebApplication
             })
             .ConfigureLogging(logging =>
             {
-                logging.ClearProviders();
-                logging.AddFile("Logs/backend-{Date}.txt");
+                logging.AddLog4Net();
+                logging.SetMinimumLevel(LogLevel.Debug);
             })
             .UseStartup<Startup>();
     }

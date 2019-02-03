@@ -10,9 +10,9 @@ import { Router } from '@angular/router';
 })
 export class LoginFormComponent implements OnInit {
 
-  validAuth: boolean;
+  public validAuth: boolean;
 
-  loginForm = new FormGroup({
+  public loginForm = new FormGroup({
     username: new FormControl(''),
     password: new FormControl(''),
     rememberMe: new FormControl('')

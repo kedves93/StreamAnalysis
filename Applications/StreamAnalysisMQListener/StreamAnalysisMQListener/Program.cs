@@ -7,7 +7,7 @@ namespace StreamAnalysisMQListener
     internal class Program
     {
         private const string PROTOCOL = "ssl";
-        private const string HOST_NAME = "b-4959ef54-a5ac-4a87-971d-a17e199f1c54-1.mq.eu-central-1.amazonaws.com";
+        private const string HOST_NAME = "b-d517d345-559e-4c9c-b84a-8413f5aedbdd-1.mq.eu-central-1.amazonaws.com";
         private const int PORT = 61617;
 
         private const string ACTIVE_MQ_USERNAME = "admin";

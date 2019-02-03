@@ -8,7 +8,7 @@ namespace DotNetEC2
         private static void Main(string[] args)
         {
             Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(x => Console.WriteLine(x));
-            Console.ReadKey();
+			Console.Read();
         }
     }
 }

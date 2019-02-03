@@ -1,20 +1,20 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  
+
   <div *ngIf="validAuth == false" class="invalid-user-errormessage">Your authentication information is incorrect.</div>
   <div class="login-inputs-container">
     <span class="ui-float-label login-input">
-      <input pInputText id="username" class="login-input" type="text" formControlName="username"> 
-      <label for="float-input">Username</label>
+      <input pInputText id="username" class="login-input" type="text" formControlName="username">
+      <label for="username">Username</label>
     </span>
     <span class="ui-float-label login-input">
-      <input pInputText id="password" class="login-input" type="password" formControlName="password"> 
-      <label for="float-input">Password</label>
+      <input pInputText id="password" class="login-input" type="password" formControlName="password">
+      <label for="password">Password</label>
     </span>
   </div>
-  <p-checkbox id="remember-me" [formControl]="loginForm.controls['rememberMe']" binary="true" label="Rememeber Me"></p-checkbox>
-  
+  <p-checkbox id="remember-me" formControlName="rememberMe" binary="true" label="Rememeber Me"></p-checkbox>
+
   <div class="login-sign-in-btn-wrapper">
-    <button id="sign-in-btn" label="Sign in" type="submit" [disabled]="!loginForm.valid">Sign in</button>
+    <button id="sign-in-btn" label="Sign in" type="submit">Sign in</button>
   </div>
 
 </form>

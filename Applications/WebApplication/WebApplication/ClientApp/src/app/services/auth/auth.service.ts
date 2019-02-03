@@ -15,13 +15,33 @@ export class AuthService {
   }
 
   public signInUser(username: string, password: string): Observable<boolean> {
-    const body = JSON.stringify({ username: username, password: password });
+    const body = JSON.stringify({
+      username: username,
+      password: password
+    });
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
     return this.http.post<boolean>(this.baseUrl + 'api/Auth/SignIn', body, httpOptions).pipe(
+      tap(result => console.log(result)),
+      catchError(this.handleError)
+    );
+  }
+
+  public registerUser(email: string, username: string, password: string): Observable<boolean> {
+    const body = JSON.stringify({
+      email: email,
+      username: username,
+      password: password
+    });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.post<boolean>(this.baseUrl + 'api/Auth/Register', body, httpOptions).pipe(
       tap(result => console.log(result)),
       catchError(this.handleError)
     );

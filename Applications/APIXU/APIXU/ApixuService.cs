@@ -1,6 +1,6 @@
 ﻿using APIXULib;
 
-namespace APIXU
+namespace Apixu
 {
     public static class ApixuService
     {

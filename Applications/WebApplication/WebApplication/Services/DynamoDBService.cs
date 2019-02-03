@@ -3,10 +3,11 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using Microsoft.Extensions.Options;
-using WebApplication.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplication.Models;
 
 namespace WebApplication.Services
 {
@@ -29,7 +30,7 @@ namespace WebApplication.Services
             _dynamoDBClient = new AmazonDynamoDBClient(accessKey, secretKey, RegionEndpoint.EUCentral1);
         }
 
-        public async Task<bool> ValidateUser(SignInUserInfo user)
+        public async Task<bool> ValidateUserAsync(SignInUserInfo user)
         {
             // context
             DynamoDBContext context = new DynamoDBContext(_dynamoDBClient);
@@ -48,6 +49,26 @@ namespace WebApplication.Services
             context.Dispose();
 
             return foundUsers.Any();
+        }
+
+        public async Task<bool> RegisterUserAsync(RegisterUserInfo user)
+        {
+            // context
+            DynamoDBContext context = new DynamoDBContext(_dynamoDBClient);
+
+            // save
+            await context.SaveAsync(new User
+            {
+                UserId = Guid.NewGuid().ToString("N"),
+                Email = user.Email,
+                Username = user.Username,
+                Password = user.Password
+            });
+
+            // dispose context
+            context.Dispose();
+
+            return true;
         }
     }
 }

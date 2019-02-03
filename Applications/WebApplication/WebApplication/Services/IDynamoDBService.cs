@@ -1,10 +1,12 @@
-﻿using WebApplication.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using WebApplication.Models;
 
 namespace WebApplication.Services
 {
     public interface IDynamoDBService
     {
-        Task<bool> ValidateUser(SignInUserInfo user);
+        Task<bool> ValidateUserAsync(SignInUserInfo user);
+
+        Task<bool> RegisterUserAsync(RegisterUserInfo user);
     }
 }

@@ -24,3 +24,12 @@ Applications/StreamAnalysisWebApp/StreamAnalysisWebApp/AWS_Credentials.json
 Applications/WebApplication/.vs/WebApplication/v15/.suo
 Applications/WebApplication/.vs/WebApplication/v15/
 Applications/WebApplication/WebApplication/aws_credentials.json
+Libraries/ApixuCoreLibrary/ApixuCoreLibrary/obj/
+Libraries/ApixuCoreLibrary/ApixuCoreLibrary/bin/
+Libraries/ApixuCoreLibrary/.vs/ApixuCoreLibrary/v15/
+Keys/accessKeys.csv
+Keys/web-server-key.pem
+Keys/ECS/Log-in.txt
+Applications/WebApplication/.vs/
+Applications/Apixu/Apixu/obj/
+Applications/(OBSOLETE)StreamAnalysisWebApp/.vs/

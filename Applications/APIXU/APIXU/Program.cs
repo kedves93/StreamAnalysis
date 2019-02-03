@@ -1,8 +1,7 @@
-﻿using StreamAnalysisLibrary;
-using System;
+﻿using System;
 using System.Reactive.Linq;
 
-namespace APIXU
+namespace Apixu
 {
     internal static class Program
     {
@@ -31,7 +30,7 @@ namespace APIXU
                 Console.WriteLine(ex.Message);
             }
 
-            Console.ReadKey();
+            Console.ReadLine();
         }
     }
 }

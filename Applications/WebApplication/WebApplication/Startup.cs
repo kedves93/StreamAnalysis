@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System;
 using WebApplication.Models;
 using WebApplication.Services;
@@ -13,12 +12,9 @@ namespace WebApplication
 {
     public class Startup
     {
-        private readonly ILogger _logger;
-
-        public Startup(IConfiguration configuration, ILogger<Startup> logger)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _logger = logger;
         }
 
         public IConfiguration Configuration { get; }
@@ -28,31 +24,27 @@ namespace WebApplication
         {
             #region CustomSettings
 
-            _logger.LogInformation("IIIIIIIIIIIIIIIIIIIIIIIIIII");
-
-            // adding AwsDevCredentials from AWS_Credentials.json
+            // adding AwsDevCredentials from aws_credentials.json
             services.Configure<AwsDevCredentials>(Configuration.GetSection("AwsDevCredentials"));
 
             // adding custom services
             services.AddScoped<IDynamoDBService, DynamoDBService>();
+            services.AddScoped<IContainerService, ContainerService>();
 
             // redis
-            try
-            {
-                _logger.LogDebug("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
-                services.AddDistributedRedisCache(option =>
-                {
-                    option.Configuration = Configuration.GetConnectionString("Redis");
-                    option.InstanceName = "redis-cluster";
-                });
-            }
-            catch (Exception)
-            {
-                _logger.LogDebug("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
-            }
+            //services.AddDistributedRedisCache(option =>
+            //{
+            //    option.Configuration = Configuration.GetConnectionString("Redis");
+            //    option.InstanceName = "redis-cluster";
+            //});
 
             // session
-            services.AddSession();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Name = ".Login.Session";
+            });
 
             #endregion CustomSettings
 
@@ -86,8 +78,6 @@ namespace WebApplication
 
             // Enable sessions
             app.UseSession();
-
-            _logger.LogInformation("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
             #endregion CustomSettings
 
