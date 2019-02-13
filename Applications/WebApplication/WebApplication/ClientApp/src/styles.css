@@ -10,9 +10,3 @@ body {
     height: 100%;
     font: 400 15px/1.8 "Lato", sans-serif;
 }
-
-/* Disabling anchor properties */
-a, a:visited, a:hover, a:active {
-    color: inherit !important;
-    text-decoration: inherit !important;
-}

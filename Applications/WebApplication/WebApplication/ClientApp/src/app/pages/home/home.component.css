@@ -1,3 +1,9 @@
+/* Disabling anchor properties */
+a, a:visited, a:hover, a:active {
+    color: inherit !important;
+    text-decoration: inherit !important;
+}
+
 .home-page-container {
     height: 100%;
 }

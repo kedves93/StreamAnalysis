@@ -1,1 +1,116 @@
-<p-steps [model]="stepItems"></p-steps>
+<div class="container">
+    <p-steps [model]="stepItems" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
+    <form [formGroup]="containerForm" (ngSubmit)="onSubmit()">
+        <div *ngIf="activeIndex === 0">
+            <div class="p-grid" style="width:100%">
+                <div class="p-col-2">
+                    Repository Name*:
+                </div>
+                <div class="p-col-10">
+                    <input id="repository-name" pInputText type="text" formControlName="repositoryName" size="60" placeholder="my-repository">
+                </div>
+            </div>
+        </div>
+        <div *ngIf="activeIndex === 1">
+            <div class="p-grid" style="width:100%">
+                <div class="p-col-12">
+                    Run the following in PowerShell:
+                </div>
+                <div class="p-col-12">
+                    <div class="cli-command">
+                        <span>> Invoke-Expression -Command (Get-ECRLoginCommand -Region eu-central-1).Command</span>
+                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard [cbContent]="'Invoke-Expression -Command (Get-ECRLoginCommand -Region eu-central-1).Command'"></i></span>
+                    </div>
+                </div>
+                <div class="p-col-12">
+                    <div class="cli-command">
+                        <span>> docker build -t stream-analysis/apixu .</span>
+                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard [cbContent]="'docker build -t stream-analysis/apixu .'"></i></span>
+                    </div>
+                </div>
+                <div class="p-col-12">
+                    <div class="cli-command">
+                        <span>> docker tag stream-analysis/apixu:latest 526110916966.dkr.ecr.eu-central-1.amazonaws.com/stream-analysis/apixu:latest</span>
+                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard [cbContent]="'docker tag stream-analysis/apixu:latest 526110916966.dkr.ecr.eu-central-1.amazonaws.com/stream-analysis/apixu:latest'"></i></span>
+                    </div>
+                </div>
+                <div class="p-col-12">
+                    <div class="cli-command">
+                        <span>> docker push 526110916966.dkr.ecr.eu-central-1.amazonaws.com/stream-analysis/apixu:latest</span>
+                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard [cbContent]="'docker push 526110916966.dkr.ecr.eu-central-1.amazonaws.com/stream-analysis/apixu:latest'"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="activeIndex === 2">
+            <div class="p-grid" style="width:100%">
+                <div class="p-col-2">
+                    Configuration Name*:
+                </div>
+                <div class="p-col-10">
+                    <input id="config-name" pInputText type="text" formControlName="configName" size="60" placeholder="config-name">
+                </div>
+                <div class="p-col-2">
+                    Image URI*:
+                </div>
+                <div class="p-col-10">
+                    <input id="image-uri" pInputText type="text" formControlName="imageUri" size="60" placeholder="image-uri">
+                </div>
+                <div class="p-col-2">
+                    Container Name*:
+                </div>
+                <div class="p-col-10">
+                    <input id="container-name" pInputText type="text" formControlName="containerName" size="60" placeholder="container-name">
+                </div>
+                <div class="p-col-12">
+                    <p-checkbox label="Interactive (-i)" binary="true" [formControl]="containerForm.controls['interactive']"></p-checkbox>
+                </div>
+                <div class="p-col-12">
+                    <p-checkbox label="Pseudo Terminal (-t)" binary="true" [formControl]="containerForm.controls['pseudoTerminal']"></p-checkbox>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="activeIndex === 3">
+            <div class="p-grid" style="width:100%">
+                <div class="p-col-12">
+                    <p-radioButton name="runTypeGroup" [value]=false label="Run Immediately" [(ngModel)]="isScheduledRunType" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                </div>
+                <div class="p-col-12">
+                    <p-radioButton name="runTypeGroup" [value]=true label="Schedule" [(ngModel)]="isScheduledRunType" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                </div>
+                <p-accordion *ngIf="isScheduledRunType">
+                    <p-accordionTab header="Time Interval" [selected]="isScheduledRunType" [disabled]="!isScheduledRunType">
+                        <div class="p-col-12">
+                            <div class="p-grid p-justify-center">
+                                <div class="p-col-2">
+                                    <p-radioButton name="scheduleGroup" [value]=false label="Fixed Rate" [(ngModel)]="isCronExpression" [ngModelOptions]="{standalone: true}" (onClick)="onScheduleTypeClick()"></p-radioButton>
+                                </div>
+                                <div class="p-col-3">
+                                    <input id="fixed-rate-value" pInputText type="text" formControlName="fixedRateValue" size="30">
+                                </div>
+                                <div class="p-col-3">
+                                    <p-dropdown id="fixed-rate-measurement" [options]="timeMeasurements" formControlName="fixedRateMeasurement"></p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-col-12">
+                            <div class="p-grid p-justify-center">
+                                <div class="p-col-2">
+                                    <p-radioButton name="scheduleGroup" [value]=true label="Cron Expression" [(ngModel)]="isCronExpression" [ngModelOptions]="{standalone: true}" (onClick)="onScheduleTypeClick()"></p-radioButton>
+                                </div>
+                                <div class="p-col-6">
+                                    <input id="cron-expression" pInputText type="text" formControlName="cronExpression" size="50" placeholder="0/5 * * * ? *">
+                                </div>
+                            </div>
+                        </div>
+                    </p-accordionTab>
+                </p-accordion>
+            </div>
+            <div class="p-grid" style="margin-top:10px">
+                <div class="p-col-12">
+                    <p-button label="Run image" type="submit" [disabled]="!containerForm.valid"></p-button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

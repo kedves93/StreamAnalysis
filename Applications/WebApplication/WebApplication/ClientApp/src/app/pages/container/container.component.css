@@ -1,0 +1,25 @@
+.ui-steps .ui-steps-item {
+    width: 25%;
+}
+
+.ui-steps {
+    margin-bottom: 50px;
+}
+
+p-accordion {
+    width: 100%;
+}
+
+.cli-command {
+    height: 40px;
+    padding: 7px;
+    background-color: black;
+    color: rgba(255,255,255,0.9);
+    width: 100%;
+    margin-top: 10px;
+}
+
+.clipboard-icon {
+    cursor: pointer;
+    float: right;
+}
