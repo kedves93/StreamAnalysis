@@ -2,9 +2,9 @@
 {
     public class ImageConfiguration
     {
-        public string ImageUri { get; set; }
+        public string Name { get; set; }
 
-        public ImageConfigurationName Name { get; set; }
+        public string ImageUri { get; set; }
 
         public string ContainerName { get; set; }
 

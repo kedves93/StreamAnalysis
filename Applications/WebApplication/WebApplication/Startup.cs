@@ -30,6 +30,7 @@ namespace WebApplication
             // adding custom services
             services.AddScoped<IDynamoDBService, DynamoDBService>();
             services.AddScoped<IContainerService, ContainerService>();
+            services.AddScoped<IRedisService, RedisService>(provider => new RedisService(Configuration.GetConnectionString("Redis")));
 
             // redis
             //services.AddDistributedRedisCache(option =>

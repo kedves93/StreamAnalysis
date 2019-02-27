@@ -11,8 +11,8 @@ p-accordion {
 }
 
 .cli-command {
-    height: 40px;
-    padding: 7px;
+    height: 35px;
+    padding: 4px;
     background-color: black;
     color: rgba(255,255,255,0.9);
     width: 100%;
@@ -22,4 +22,12 @@ p-accordion {
 .clipboard-icon {
     cursor: pointer;
     float: right;
+}
+
+#info-icon {
+    position: absolute;
+    font-size: 30px;
+    left: 30px;
+    top: 25px;
+    cursor: pointer;
 }

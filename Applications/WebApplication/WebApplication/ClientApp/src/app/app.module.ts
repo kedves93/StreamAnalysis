@@ -15,6 +15,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { DropdownModule } from 'primeng/dropdown';
 import { ClipboardModule } from 'ngx-clipboard';
+import { SidebarModule } from 'primeng/sidebar';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -25,6 +26,9 @@ import { RegisterFormComponent } from './directives/register-form/register-form.
 import { RegisterComponent } from './pages/register/register.component';
 import { MenuComponent } from './directives/menu/menu.component';
 import { ContainerComponent } from './pages/container/container.component';
+import { ContainerService } from './services/container/container.service';
+import { AuthService } from './services/auth/auth.service';
+import { AuthGuard } from './guards/auth.guard';
 
 
 @NgModule({
@@ -55,17 +59,21 @@ import { ContainerComponent } from './pages/container/container.component';
     RadioButtonModule,
     DropdownModule,
     ClipboardModule,
+    SidebarModule,
     RouterModule.forRoot([
-      { path: 'home', component: HomeComponent },
+      { path: 'home', component: HomeComponent, canActivate: [ AuthGuard ] },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'container', component: ContainerComponent },
-      { path: 'dashboard', component: DashboardComponent },
+      { path: 'dashboard', component: DashboardComponent, canActivate: [ AuthGuard ] },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', redirectTo: 'home', pathMatch: 'full' }
     ])
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    ContainerService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

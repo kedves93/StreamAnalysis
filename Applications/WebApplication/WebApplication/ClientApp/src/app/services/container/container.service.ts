@@ -15,11 +15,23 @@ export class ContainerService {
     this.baseUrl = baseUrl;
   }
 
-  public createTaskDefinition(imageUri: string, taskDefinitionFamily: string,
-    containerName: string, interactive: boolean, pseudoTerminal: boolean): Observable<boolean> {
+  public createRepository(repositoryName: string): Observable<any> {
     const body = JSON.stringify({
+      name: repositoryName
+    });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.post<any>(this.baseUrl + 'api/Container/CreateRepository', body, httpOptions);
+  }
+
+  public createConfiguration(configName: string, imageUri: string,
+    containerName: string, interactive: boolean, pseudoTerminal: boolean): Observable<any> {
+    const body = JSON.stringify({
+      name: configName,
       imageUri: imageUri,
-      taskDefinitionFamily: taskDefinitionFamily,
       containerName: containerName,
       interactive: interactive,
       pseudoTerminal: pseudoTerminal
@@ -29,30 +41,43 @@ export class ContainerService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post<boolean>(this.baseUrl + 'api/Container/CreateTaskDefinition', body, httpOptions).pipe(
-      tap(result => console.log(result)),
-      catchError(this.handleError)
-    );
+    return this.http.post<boolean>(this.baseUrl + 'api/Container/CreateConfiguration', body, httpOptions);
   }
 
-  public runTask(taskDefinitionName: string): Observable<boolean> {
+  public runImage(configName: string): Observable<any> {
+    const body = '"' + configName + '"';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.post<boolean>(this.baseUrl + 'api/Container/RunImage', body, httpOptions);
+  }
+
+  public scheduleImageFixedRate(configName: string, rate: number, time: string): Observable<any> {
     const body = JSON.stringify({
-      taskDefinitionName: taskDefinitionName
+      configName: configName,
+      rate: rate,
+      time: time
     });
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post<boolean>(this.baseUrl + 'api/Container/RunTask', body, httpOptions).pipe(
-      tap(result => console.log(result)),
-      catchError(this.handleError)
-    );
+    return this.http.post<boolean>(this.baseUrl + 'api/Container/ScheduleImageFixedRate', body, httpOptions);
   }
 
-  private handleError(err: HttpErrorResponse) {
-    const errorMessage = `Server returned code: ${err.status}, error message is: ${err.error}`;
-    console.log(errorMessage);
-    return throwError(errorMessage);
+  public scheduleImageCronExp(configName: string, cronExp: string): Observable<any> {
+    const body = JSON.stringify({
+      configName: configName,
+      cronExp: cronExp
+    });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.post<boolean>(this.baseUrl + 'api/Container/ScheduleImageCronExp', body, httpOptions);
   }
 }

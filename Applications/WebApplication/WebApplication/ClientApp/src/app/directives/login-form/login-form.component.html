@@ -1,4 +1,4 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
 
   <div *ngIf="validAuth == false" class="invalid-user-errormessage">Your authentication information is incorrect.</div>
   <div class="login-inputs-container">

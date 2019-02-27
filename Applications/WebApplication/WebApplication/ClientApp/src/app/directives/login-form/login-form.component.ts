@@ -15,7 +15,7 @@ export class LoginFormComponent implements OnInit {
   public loginForm = new FormGroup({
     username: new FormControl(''),
     password: new FormControl(''),
-    rememberMe: new FormControl('')
+    rememberMe: new FormControl(false)
   });
 
   constructor(private auth: AuthService, private router: Router) {}
@@ -24,8 +24,11 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.auth.signInUser(this.loginForm.value.username, this.loginForm.value.password).subscribe(
-      result => {
+    this.auth.signInUser(
+      this.loginForm.value.username,
+      this.loginForm.value.password,
+      this.loginForm.value.rememberMe)
+      .subscribe(result => {
         this.validAuth = result;
         if (this.validAuth === true) {
           this.router.navigate(['/dashboard']);

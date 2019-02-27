@@ -1,7 +1,18 @@
+<p-sidebar [(visible)]="displayInfo" position="top">
+    <div class="p-grid" style="padding-top:10px">
+        <div class="p-col-2">Broker Ip</div>
+        <div class="p-col-10">b-d517d345-559e-4c9c-b84a-8413f5aedbdd-1.mq.eu-central-1.amazonaws.com</div>
+        <div class="p-col-2">Broker Port</div>
+        <div class="p-col-10">61617</div>
+        <div class="p-col-2">Broker Protocol</div>
+        <div class="p-col-10">ssl</div>
+    </div>
+</p-sidebar>
 <div class="container">
+    <div id="info-icon" (click)="displayInfo = true"><i class="pi pi-info-circle"></i></div>
     <p-steps [model]="stepItems" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
-    <form [formGroup]="containerForm" (ngSubmit)="onSubmit()">
-        <div *ngIf="activeIndex === 0">
+    <div *ngIf="activeIndex === 0">
+        <form [formGroup]="repositoryForm" (ngSubmit)="onSubmitRepositoryForm()">
             <div class="p-grid" style="width:100%">
                 <div class="p-col-2">
                     Repository Name*:
@@ -9,71 +20,84 @@
                 <div class="p-col-10">
                     <input id="repository-name" pInputText type="text" formControlName="repositoryName" size="60" placeholder="my-repository">
                 </div>
-            </div>
-        </div>
-        <div *ngIf="activeIndex === 1">
-            <div class="p-grid" style="width:100%">
                 <div class="p-col-12">
-                    Run the following in PowerShell:
-                </div>
-                <div class="p-col-12">
-                    <div class="cli-command">
-                        <span>> Invoke-Expression -Command (Get-ECRLoginCommand -Region eu-central-1).Command</span>
-                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard [cbContent]="'Invoke-Expression -Command (Get-ECRLoginCommand -Region eu-central-1).Command'"></i></span>
-                    </div>
-                </div>
-                <div class="p-col-12">
-                    <div class="cli-command">
-                        <span>> docker build -t stream-analysis/apixu .</span>
-                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard [cbContent]="'docker build -t stream-analysis/apixu .'"></i></span>
-                    </div>
-                </div>
-                <div class="p-col-12">
-                    <div class="cli-command">
-                        <span>> docker tag stream-analysis/apixu:latest 526110916966.dkr.ecr.eu-central-1.amazonaws.com/stream-analysis/apixu:latest</span>
-                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard [cbContent]="'docker tag stream-analysis/apixu:latest 526110916966.dkr.ecr.eu-central-1.amazonaws.com/stream-analysis/apixu:latest'"></i></span>
-                    </div>
-                </div>
-                <div class="p-col-12">
-                    <div class="cli-command">
-                        <span>> docker push 526110916966.dkr.ecr.eu-central-1.amazonaws.com/stream-analysis/apixu:latest</span>
-                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard [cbContent]="'docker push 526110916966.dkr.ecr.eu-central-1.amazonaws.com/stream-analysis/apixu:latest'"></i></span>
-                    </div>
+                    <p-button label="Create Repository" type="submit" [disabled]="!repositoryForm.valid"></p-button>
                 </div>
             </div>
+        </form>
+    </div>
+    <div *ngIf="activeIndex === 1">
+        <div class="p-grid" style="width:100%">
+            <div class="p-col-12">
+                <span>Run the following in PowerShell in order to push the image to the repository:</span>
+            </div>
+            <div class="p-col-12">
+                <div class="cli-command">
+                    <span>> Invoke-Expression -Command (Get-ECRLoginCommand -Region eu-central-1).Command</span>
+                    <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard [cbContent]="'Invoke-Expression -Command (Get-ECRLoginCommand -Region eu-central-1).Command'"></i></span>
+                </div>
+            </div>
+            <div class="p-col-12">
+                <div class="cli-command">
+                    <span>> docker build -t {{repositoryForm.controls['repositoryName'].value}} .</span>
+                    <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard (click)="copyBuildToClipboard()"></i></span>
+                </div>
+            </div>
+            <div class="p-col-12">
+                <div class="cli-command">
+                    <span>> docker tag {{repositoryForm.controls['repositoryName'].value}}:latest 526110916966.dkr.ecr.eu-central-1.amazonaws.com/{{repositoryForm.controls['repositoryName'].value}}:latest</span>
+                    <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard (click)="copyTagToClipboard()"></i></span>
+                </div>
+            </div>
+            <div class="p-col-12">
+                <div class="cli-command">
+                    <span>> docker push 526110916966.dkr.ecr.eu-central-1.amazonaws.com/{{repositoryForm.controls['repositoryName'].value}}:latest</span>
+                    <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard (click)="copyPushToClipboard()"></i></span>
+                </div>
+            </div>
+            <div class="p-col-12">
+                <p-button label="Continue" type="button" (click)="onContinue()"></p-button>
+            </div>
         </div>
-        <div *ngIf="activeIndex === 2">
+    </div>
+    <div *ngIf="activeIndex === 2">
+        <form [formGroup]="configurationForm" (ngSubmit)="onSubmitConfigurationForm()">
             <div class="p-grid" style="width:100%">
                 <div class="p-col-2">
                     Configuration Name*:
                 </div>
                 <div class="p-col-10">
-                    <input id="config-name" pInputText type="text" formControlName="configName" size="60" placeholder="config-name">
+                    <input id="config-name" pInputText type="text" formControlName="configName" size="80" placeholder="config-name">
                 </div>
                 <div class="p-col-2">
                     Image URI*:
                 </div>
                 <div class="p-col-10">
-                    <input id="image-uri" pInputText type="text" formControlName="imageUri" size="60" placeholder="image-uri">
+                    <input id="image-uri" pInputText type="text" formControlName="imageUri" size="80" placeholder="image-uri">
                 </div>
                 <div class="p-col-2">
                     Container Name*:
                 </div>
                 <div class="p-col-10">
-                    <input id="container-name" pInputText type="text" formControlName="containerName" size="60" placeholder="container-name">
+                    <input id="container-name" pInputText type="text" formControlName="containerName" size="80" placeholder="container-name">
                 </div>
                 <div class="p-col-12">
-                    <p-checkbox label="Interactive (-i)" binary="true" [formControl]="containerForm.controls['interactive']"></p-checkbox>
+                    <p-checkbox label="Interactive (-i)" binary="true" [formControl]="configurationForm.controls['interactive']"></p-checkbox>
                 </div>
                 <div class="p-col-12">
-                    <p-checkbox label="Pseudo Terminal (-t)" binary="true" [formControl]="containerForm.controls['pseudoTerminal']"></p-checkbox>
+                    <p-checkbox label="Pseudo Terminal (-t)" binary="true" [formControl]="configurationForm.controls['pseudoTerminal']"></p-checkbox>
+                </div>
+                <div class="p-col-12">
+                    <p-button label="Create Config" type="submit" [disabled]="!configurationForm.valid"></p-button>
                 </div>
             </div>
-        </div>
-        <div *ngIf="activeIndex === 3">
+        </form>
+    </div>
+    <div *ngIf="activeIndex === 3">
+        <form [formGroup]="runImageForm" (ngSubmit)="onSubmitRunImageForm()">
             <div class="p-grid" style="width:100%">
                 <div class="p-col-12">
-                    <p-radioButton name="runTypeGroup" [value]=false label="Run Immediately" [(ngModel)]="isScheduledRunType" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                    <p-radioButton name="runTypeGroup" [value]=false label="Run immediately" [(ngModel)]="isScheduledRunType" [ngModelOptions]="{standalone: true}"></p-radioButton>
                 </div>
                 <div class="p-col-12">
                     <p-radioButton name="runTypeGroup" [value]=true label="Schedule" [(ngModel)]="isScheduledRunType" [ngModelOptions]="{standalone: true}"></p-radioButton>
@@ -108,9 +132,9 @@
             </div>
             <div class="p-grid" style="margin-top:10px">
                 <div class="p-col-12">
-                    <p-button label="Run image" type="submit" [disabled]="!containerForm.valid"></p-button>
+                    <p-button label="Run image" type="submit" [disabled]="!runImageForm.valid"></p-button>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>

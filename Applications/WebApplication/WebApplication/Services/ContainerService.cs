@@ -53,11 +53,11 @@ namespace WebApplication.Services
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task ConfigureImageAsync(ImageConfiguration config)
+        public async System.Threading.Tasks.Task CreateConfiguration(ImageConfiguration config)
         {
             await _ecsClient.RegisterTaskDefinitionAsync(new RegisterTaskDefinitionRequest
             {
-                Family = config.Name.Id,
+                Family = config.Name,
                 ContainerDefinitions = new List<ContainerDefinition>
                 {
                     new ContainerDefinition
@@ -73,9 +73,9 @@ namespace WebApplication.Services
                             LogDriver = LogDriver.Awslogs,
                             Options = new Dictionary<string, string>
                             {
-                                { "awslogs-group", $"/ecs/{config.Name.Id}" },
+                                { "awslogs-group", $"/ecs/container-log-group" },
                                 { "awslogs-region", "eu-central-1" },
-                                { "awslogs-stream-prefix", "ecs" }
+                                { "awslogs-stream-prefix", $"ecs/{config.Name}" }
                             }
                         }
                     }
@@ -88,9 +88,9 @@ namespace WebApplication.Services
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task RunImageAsync(ImageConfigurationName name)
+        public async System.Threading.Tasks.Task RunImageAsync(string configName)
         {
-            if (await validateImageConfigurationAsync(name))
+            if (await validateImageConfigurationAsync(configName))
             {
                 await _ecsClient.RunTaskAsync(new RunTaskRequest
                 {
@@ -98,34 +98,18 @@ namespace WebApplication.Services
                     Count = 1,
                     LaunchType = LaunchType.EC2,
                     // StartedBy =
-                    TaskDefinition = $"{name.Id}"
+                    TaskDefinition = $"{configName}"
                 });
             }
         }
 
-        private async System.Threading.Tasks.Task<bool> validateImageConfigurationAsync(ImageConfigurationName name)
+        private async System.Threading.Tasks.Task<bool> validateImageConfigurationAsync(string configName)
         {
             var response = await _ecsClient.ListTaskDefinitionsAsync(new ListTaskDefinitionsRequest
             {
-                FamilyPrefix = name.Id
+                FamilyPrefix = configName
             });
             return response.TaskDefinitionArns.Any();
         }
-
-        //public async System.Threading.Tasks.Task PushImageAsync(string repositoryName)
-        //{
-        //    var response = await _ecrClient.GetAuthorizationTokenAsync(new GetAuthorizationTokenRequest
-        //    {
-        //        RegistryIds = new List<string> { REGISTRY_ID }
-        //    });
-        //    var authorization = response.AuthorizationData.First();
-        //    await _ecrClient.PutImageAsync(new PutImageRequest
-        //    {
-        //        RepositoryName = repositoryName,
-        //        // ImageManifest = "",
-        //        RegistryId = REGISTRY_ID,
-        //        ImageTag = "tag"
-        //    });
-        //}
     }
 }
