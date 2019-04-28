@@ -1,0 +1,46 @@
+.login-page-container {
+    height: 100%;
+}
+
+.login-centering-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-main-wrapper {
+    height: 400px;
+    width: 350px;
+    padding: 30px;
+    border: 2px solid gray;
+    border-radius: 25px;
+    box-shadow: inset 10px 0 25px #0583CB;
+}
+
+.login-main-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-stream-logo {
+    height: 100px;
+    background-image: url("assets/images/stream-logo.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login-sub-wrapper {
+    height: 100%;
+    background-image: linear-gradient(315deg, #0583CB 0%, white 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+p {
+    font-size: 14px;
+}

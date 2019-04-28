@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   }
 
   public onSignOut(): void {
-    this.auth.signOutUser().subscribe(result => console.log('signed out'));
+    this.auth.signOutUser();
   }
 
 }

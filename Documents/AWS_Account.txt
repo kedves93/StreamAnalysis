@@ -58,8 +58,11 @@
 	- A Task Definition(blueprint) is required to create a Service or a Task or a Scheduled Task.
 		- The -it from "docker run -it <image_name>" is done manually by putting them into the JSON (Configure via JSON)
 			 "interactive": true,
-            		 "pseudoTerminal": true,
+            		 "pseudoTerminal": true
 
+
+8 S3 ### EU (Frankfurt) 
+	- Created a new bucket: stream.analysis.bucket
 
  
 

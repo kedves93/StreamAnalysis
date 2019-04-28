@@ -1,17 +1,98 @@
-<p-sidebar [(visible)]="displayInfo" position="top">
-    <div class="p-grid" style="padding-top:10px">
-        <div class="p-col-2">Broker Ip</div>
-        <div class="p-col-10">b-d517d345-559e-4c9c-b84a-8413f5aedbdd-1.mq.eu-central-1.amazonaws.com</div>
-        <div class="p-col-2">Broker Port</div>
-        <div class="p-col-10">61617</div>
-        <div class="p-col-2">Broker Protocol</div>
-        <div class="p-col-10">ssl</div>
-    </div>
-</p-sidebar>
 <div class="container">
-    <div id="info-icon" (click)="displayInfo = true"><i class="pi pi-info-circle"></i></div>
+    <div class="log-out">
+        <p-button label="Log out" (onClick)="onLogOut()"></p-button>
+    </div>
     <p-steps [model]="stepItems" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
     <div *ngIf="activeIndex === 0">
+        <div class="p-grid">
+            <div class="p-col-12">
+                <p-accordion>
+                    <p-accordionTab header="Broker Connection" [selected]="false">
+                        <div class="p-grid" style="padding-top:10px">
+                            <div class="p-col-2">Broker Ip</div>
+                            <div class="p-col-10">b-d517d345-559e-4c9c-b84a-8413f5aedbdd-1.mq.eu-central-1.amazonaws.com</div>
+                            <div class="p-col-2">Broker Port</div>
+                            <div class="p-col-10">61617</div>
+                            <div class="p-col-2">Broker Protocol</div>
+                            <div class="p-col-10">ssl</div>
+                            <div class="p-col-12"><hr/></div>
+                            <div class="p-col-2">Example</div>
+                            <div class="p-col-10">activemq:ssl://b-d517d345-559e-4c9c-b84a-8413f5aedbdd-1.mq.eu-central-1.amazonaws.com:61617?transport.acceptInvalidBrokerCert=true&wireFormat.maxInactivityDuration=0</div>
+                        </div>
+                    </p-accordionTab>
+                </p-accordion>
+            </div>
+            <div class="p-col-12">
+                <span>Add the topics and/or queues used in the container:</span>
+            </div>
+            <div class="p-col-12">
+                <span style="color:red">IMPORTANT! Topics and Queues must be prefixed with the given GUID followed by a dash!</span>
+            </div>
+            <div class="p-col-12">
+                <form [formGroup]="brokerForm" (ngSubmit)="onSubmitBrokerForm()">
+                    <div class="p-grid" style="width:100%">
+                        <div class="p-col-6">
+                            <div class="p-grid">
+                                <div class="p-col-12">
+                                    <p-button label="Add Topic" type="button" icon="pi pi-plus" (click)="onAddTopic()"></p-button>
+                                </div>
+                                <div class="p-col-12">
+                                    <div formArrayName="topics" *ngFor="let topic of brokerForm.controls['topics'].controls; let i=index">
+                                        <div class="p-grid">
+                                            <div class="p-col-2">
+                                                <span>Topic#{{i + 1}}:</span>
+                                            </div>
+                                            <div class="p-col-6 label-user-id">
+                                                <span>{{currentUserId + '-'}}</span>
+                                            </div>
+                                            <div class="p-col-3 channel-name">
+                                                <input pInputText type="text" [formControlName]="i" size="15" placeholder="myTopic">
+                                            </div>
+                                            <div class="p-col-1">
+                                                <p-button type="button" icon="pi pi-trash" styleClass="ui-button-danger" (click)="onDeleteTopic(i)"></p-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-col-6">
+                            <div class="p-grid">
+                                <div class="p-col-12">
+                                    <p-button label="Add Queue" type="button" icon="pi pi-plus" (click)="onAddQueue()"></p-button>
+                                </div>
+                                <div class="p-col-12">
+                                    <div formArrayName="queues" *ngFor="let queue of brokerForm.controls['queues'].controls; let i=index">
+                                        <div class="p-grid">
+                                            <div class="p-col-2">
+                                                <span>Queue#{{i + 1}}:</span>
+                                            </div>
+                                            <div class="p-col-6 label-user-id">
+                                                {{currentUserId + '-'}}
+                                            </div>
+                                            <div class="p-col-3 channel-name">
+                                                <input pInputText type="text" [formControlName]="i" size="15" placeholder="myQueue">
+                                            </div>
+                                            <div class="p-col-1">
+                                                <p-button type="button" icon="pi pi-trash" styleClass="ui-button-danger" (click)="onDeleteQueue(i)"></p-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-col-12">
+                            <hr/>
+                        </div>
+                        <div class="p-col-12">
+                            <p-button label="Continue" type="submit" [disabled]="!brokerForm.valid"></p-button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="activeIndex === 1">
         <form [formGroup]="repositoryForm" (ngSubmit)="onSubmitRepositoryForm()">
             <div class="p-grid" style="width:100%">
                 <div class="p-col-2">
@@ -21,46 +102,156 @@
                     <input id="repository-name" pInputText type="text" formControlName="repositoryName" size="60" placeholder="my-repository">
                 </div>
                 <div class="p-col-12">
+                    <hr/>
+                </div>
+                <div class="p-col-12">
                     <p-button label="Create Repository" type="submit" [disabled]="!repositoryForm.valid"></p-button>
                 </div>
             </div>
         </form>
     </div>
-    <div *ngIf="activeIndex === 1">
+    <div *ngIf="activeIndex === 2">
         <div class="p-grid" style="width:100%">
             <div class="p-col-12">
-                <span>Run the following in PowerShell in order to push the image to the repository:</span>
+                <p-tabView>
+                    <p-tabPanel header="macOS / Linux">
+                        <div class="p-grid">
+                            <div class="p-col-12">
+                                <span>Run the following in order to push the image to the repository:</span>
+                            </div>
+                            <div class="p-col-12">
+                                <div class="p-grid">
+                                    <div class="p-col-11">
+                                        <p-scrollPanel styleClass="cli-command">
+                                            <div class="cli-command-content">
+                                                <span>> $(aws ecr get-login --no-include-email --region eu-central-1)</span>
+                                            </div>
+                                        </p-scrollPanel>
+                                    </div>
+                                    <div class="p-col-1">
+                                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard [cbContent]="'$(aws ecr get-login --no-include-email --region eu-central-1)'"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-col-12">
+                                <div class="p-grid">
+                                    <div class="p-col-11">
+                                        <p-scrollPanel styleClass="cli-command">
+                                            <div class="cli-command-content">
+                                                <span>> docker build -t {{repositoryName}} .</span>
+                                            </div>
+                                        </p-scrollPanel>
+                                    </div>
+                                    <div class="p-col-1">
+                                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard (click)="copyBuildToClipboard()"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-col-12">
+                                <div class="p-grid">
+                                    <div class="p-col-11">
+                                        <p-scrollPanel styleClass="cli-command">
+                                            <div class="cli-command-content">
+                                                <span>> docker tag {{repositoryName}}:latest 526110916966.dkr.ecr.eu-central-1.amazonaws.com/{{repositoryName}}:latest</span>
+                                            </div>
+                                        </p-scrollPanel>
+                                    </div>
+                                    <div class="p-col-1">
+                                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard (click)="copyTagToClipboard()"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-col-12">
+                                <div class="p-grid">
+                                    <div class="p-col-11">
+                                        <p-scrollPanel styleClass="cli-command">
+                                            <div class="cli-command-content">
+                                                <span>> docker push 526110916966.dkr.ecr.eu-central-1.amazonaws.com/{{repositoryName}}:latest</span>
+                                            </div>
+                                        </p-scrollPanel>  
+                                    </div>
+                                    <div class="p-col-1">
+                                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard (click)="copyPushToClipboard()"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="Windows">
+                        <div class="p-grid">
+                            <div class="p-col-12">
+                                <span>Run the following in PowerShell in order to push the image to the repository:</span>
+                            </div>
+                            <div class="p-col-12">
+                                <div class="p-grid">
+                                    <div class="p-col-11">
+                                        <p-scrollPanel styleClass="cli-command">
+                                            <div class="cli-command-content">
+                                                <span>> Invoke-Expression -Command (Get-ECRLoginCommand -Region eu-central-1).Command</span>
+                                            </div>
+                                        </p-scrollPanel>
+                                    </div>
+                                    <div class="p-col-1">
+                                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard [cbContent]="'Invoke-Expression -Command (Get-ECRLoginCommand -Region eu-central-1).Command'"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-col-12">
+                                <div class="p-grid">
+                                    <div class="p-col-11">
+                                        <p-scrollPanel styleClass="cli-command">
+                                            <div class="cli-command-content">
+                                                <span>> docker build -t {{repositoryName}} .</span>
+                                            </div>
+                                        </p-scrollPanel>
+                                    </div>
+                                    <div class="p-col-1">
+                                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard (click)="copyBuildToClipboard()"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-col-12">
+                                <div class="p-grid">
+                                    <div class="p-col-11">
+                                        <p-scrollPanel styleClass="cli-command">
+                                            <div class="cli-command-content">
+                                                <span>> docker tag {{repositoryName}}:latest 526110916966.dkr.ecr.eu-central-1.amazonaws.com/{{repositoryName}}:latest</span>
+                                            </div>
+                                        </p-scrollPanel>
+                                    </div>
+                                    <div class="p-col-1">
+                                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard (click)="copyTagToClipboard()"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-col-12">
+                                <div class="p-grid">
+                                    <div class="p-col-11">
+                                        <p-scrollPanel styleClass="cli-command">
+                                            <div class="cli-command-content">
+                                                <span>> docker push 526110916966.dkr.ecr.eu-central-1.amazonaws.com/{{repositoryName}}:latest</span>
+                                            </div>
+                                        </p-scrollPanel>  
+                                    </div>
+                                    <div class="p-col-1">
+                                        <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard (click)="copyPushToClipboard()"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+                </p-tabView>
             </div>
             <div class="p-col-12">
-                <div class="cli-command">
-                    <span>> Invoke-Expression -Command (Get-ECRLoginCommand -Region eu-central-1).Command</span>
-                    <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard [cbContent]="'Invoke-Expression -Command (Get-ECRLoginCommand -Region eu-central-1).Command'"></i></span>
-                </div>
+                <hr/>
             </div>
             <div class="p-col-12">
-                <div class="cli-command">
-                    <span>> docker build -t {{repositoryForm.controls['repositoryName'].value}} .</span>
-                    <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard (click)="copyBuildToClipboard()"></i></span>
-                </div>
-            </div>
-            <div class="p-col-12">
-                <div class="cli-command">
-                    <span>> docker tag {{repositoryForm.controls['repositoryName'].value}}:latest 526110916966.dkr.ecr.eu-central-1.amazonaws.com/{{repositoryForm.controls['repositoryName'].value}}:latest</span>
-                    <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard (click)="copyTagToClipboard()"></i></span>
-                </div>
-            </div>
-            <div class="p-col-12">
-                <div class="cli-command">
-                    <span>> docker push 526110916966.dkr.ecr.eu-central-1.amazonaws.com/{{repositoryForm.controls['repositoryName'].value}}:latest</span>
-                    <span class="clipboard-icon"><i class="pi pi-copy" ngxClipboard (click)="copyPushToClipboard()"></i></span>
-                </div>
-            </div>
-            <div class="p-col-12">
-                <p-button label="Continue" type="button" (click)="onContinue()"></p-button>
+                <span><p-button label="Check Image" type="button" (click)="onCheckImage()"></p-button></span>
+                <span><p-button label="Continue" type="button" [disabled]="pushImageContinueButtonDisable" (click)="onContinuePushImage()" style="margin-left:10px"></p-button></span>
             </div>
         </div>
     </div>
-    <div *ngIf="activeIndex === 2">
+    <div *ngIf="activeIndex === 3">
         <form [formGroup]="configurationForm" (ngSubmit)="onSubmitConfigurationForm()">
             <div class="p-grid" style="width:100%">
                 <div class="p-col-2">
@@ -88,12 +279,15 @@
                     <p-checkbox label="Pseudo Terminal (-t)" binary="true" [formControl]="configurationForm.controls['pseudoTerminal']"></p-checkbox>
                 </div>
                 <div class="p-col-12">
+                    <hr/>
+                </div>
+                <div class="p-col-12">
                     <p-button label="Create Config" type="submit" [disabled]="!configurationForm.valid"></p-button>
                 </div>
             </div>
         </form>
     </div>
-    <div *ngIf="activeIndex === 3">
+    <div *ngIf="activeIndex === 4">
         <form [formGroup]="runImageForm" (ngSubmit)="onSubmitRunImageForm()">
             <div class="p-grid" style="width:100%">
                 <div class="p-col-12">
@@ -131,6 +325,9 @@
                 </p-accordion>
             </div>
             <div class="p-grid" style="margin-top:10px">
+                <div class="p-col-12">
+                    <hr/>
+                </div>
                 <div class="p-col-12">
                     <p-button label="Run image" type="submit" [disabled]="!runImageForm.valid"></p-button>
                 </div>

@@ -35,3 +35,6 @@ Applications/Apixu/Apixu/obj/
 Applications/(OBSOLETE)StreamAnalysisWebApp/.vs/
 Applications/StreamAnalysisMQListener/StreamAnalysisMQListener/obj/
 Applications/StreamAnalysisMQListener/StreamAnalysisMQListener/bin/
+Applications/ActiveMQLambda/ActiveMQLambda/bin/
+Applications/ActiveMQLambda/ActiveMQLambda/obj/
+Applications/StreamAnalysisMQListener/StreamAnalysisMQListener/aws_credentials.json

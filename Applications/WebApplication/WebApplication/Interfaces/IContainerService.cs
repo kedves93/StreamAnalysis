@@ -7,7 +7,9 @@ namespace WebApplication.Services
     {
         Task CreateRepositoryAsync(Repository repository);
 
-        Task CreateConfiguration(ImageConfiguration config);
+        Task<bool> CheckImageAsync(Models.Repository repository);
+
+        Task CreateConfigurationAsync(ImageConfiguration config);
 
         Task RunImageAsync(string configName);
     }

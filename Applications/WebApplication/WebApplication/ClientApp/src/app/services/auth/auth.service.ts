@@ -8,21 +8,29 @@ import { catchError, tap } from 'rxjs/operators';
 })
 export class AuthService {
 
+  public loggedInStatus = false;
+
+  public currentUser: string;
+
   private baseUrl: string;
-
-  private _loggedInStatus: boolean;
-
-  public get loggedInStatus(): boolean {
-    return this._loggedInStatus;
-  }
-
-  public set loggedInStatus(value: boolean) {
-    this._loggedInStatus = value;
-  }
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.baseUrl = baseUrl;
-    this.loggedInStatus = false;
+  }
+
+  public getCurrentUserId(username: string): Observable<string> {
+    const body = '"' + username + '"';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.post<string>(this.baseUrl + 'api/Auth/GetCurrentUserId', body, httpOptions).pipe(
+      tap(result => {
+        console.log(result);
+      }),
+      catchError(this.handleError)
+    );
   }
 
   public signInUser(username: string, password: string, rememberMe: boolean): Observable<boolean> {
@@ -39,7 +47,6 @@ export class AuthService {
     return this.http.post<boolean>(this.baseUrl + 'api/Auth/SignIn', body, httpOptions).pipe(
       tap(result => {
         console.log(result);
-        this.loggedInStatus = result;
       }),
       catchError(this.handleError)
     );
@@ -62,32 +69,17 @@ export class AuthService {
     );
   }
 
-  public isUserLoggedIn(): Observable<boolean> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.http.get<boolean>(this.baseUrl + 'api/Auth/IsLoggedIn', httpOptions).pipe(
-      tap(result => {
-        console.log(result);
-      }),
-      catchError(this.handleError)
-    );
+  public isUserLoggedIn(): boolean {
+    if (localStorage.getItem('currentUser') === null) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
-  public signOutUser(): Observable<boolean> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.http.get<boolean>(this.baseUrl + 'api/Auth/SignOut', httpOptions).pipe(
-      tap(result => {
-        console.log(result);
-      }),
-      catchError(this.handleError)
-    );
+  public signOutUser(): void {
+    this.currentUser = null;
+    localStorage.clear();
   }
 
   private handleError(err: HttpErrorResponse) {

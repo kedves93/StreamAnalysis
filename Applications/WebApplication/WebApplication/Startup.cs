@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using Microsoft.Extensions.Logging;
 using WebApplication.Models;
 using WebApplication.Services;
 
@@ -12,12 +12,15 @@ namespace WebApplication
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        private IConfiguration _configuration { get; }
 
-        public IConfiguration Configuration { get; }
+        private ILogger _logger { get; }
+
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
+        {
+            _configuration = configuration;
+            _logger = logger;
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -25,42 +28,26 @@ namespace WebApplication
             #region CustomSettings
 
             // adding AwsDevCredentials from aws_credentials.json
-            services.Configure<AwsDevCredentials>(Configuration.GetSection("AwsDevCredentials"));
+            services.Configure<AwsDevCredentials>(_configuration.GetSection("AwsDevCredentials"));
 
             // adding custom services
             services.AddScoped<IDynamoDBService, DynamoDBService>();
             services.AddScoped<IContainerService, ContainerService>();
-            services.AddScoped<IRedisService, RedisService>(provider => new RedisService(Configuration.GetConnectionString("Redis")));
-
-            // redis
-            //services.AddDistributedRedisCache(option =>
-            //{
-            //    option.Configuration = Configuration.GetConnectionString("Redis");
-            //    option.InstanceName = "redis-cluster";
-            //});
-
-            // session
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.Name = ".Login.Session";
-            });
+            services.AddScoped<ISnsService, SnsService>();
 
             #endregion CustomSettings
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/dist");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            _logger.LogInformation("Enviroment: " + env.EnvironmentName);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -74,13 +61,6 @@ namespace WebApplication
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
-            #region CustomSettings
-
-            // Enable sessions
-            app.UseSession();
-
-            #endregion CustomSettings
 
             app.UseMvc(routes =>
             {

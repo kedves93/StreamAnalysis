@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MenuItem, SelectItem } from 'primeng/api';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { ContainerService } from './../../services/container/container.service';
 import { ClipboardService } from 'ngx-clipboard';
+import { AuthService } from './../../services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-container',
@@ -12,6 +14,8 @@ import { ClipboardService } from 'ngx-clipboard';
 })
 export class ContainerComponent implements OnInit {
 
+  public currentUserId: string;
+
   public stepItems: MenuItem[];
 
   public activeIndex = 0;
@@ -20,9 +24,20 @@ export class ContainerComponent implements OnInit {
 
   public isScheduledRunType: boolean;
 
+  public get repositoryName() {
+    return this.currentUserId + '-' + this.repositoryForm.value.repositoryName;
+  }
+
+  public brokerForm = new FormGroup({
+    topics: new FormArray([]),
+    queues: new FormArray([])
+  });
+
   public repositoryForm = new FormGroup({
     repositoryName: new FormControl('', Validators.required)
   });
+
+  public pushImageContinueButtonDisable = true;
 
   public configurationForm = new FormGroup({
     configName: new FormControl('', Validators.required),
@@ -43,32 +58,42 @@ export class ContainerComponent implements OnInit {
 
   public timeMeasurements: SelectItem[];
 
-  constructor(private containerService: ContainerService, private clipboardService: ClipboardService) { }
+  constructor(
+    private containerService: ContainerService,
+    private auth: AuthService,
+    private router: Router,
+    private clipboardService: ClipboardService) { }
 
   ngOnInit() {
     this.stepItems = [
       {
-        label: 'Repository',
+        label: 'Broker',
         command: (event: any) => {
           this.activeIndex = 0;
         }
       },
       {
-        label: 'Push image',
+        label: 'Repository',
         command: (event: any) => {
           this.activeIndex = 1;
         }
       },
       {
-        label: 'Configure',
+        label: 'Push image',
         command: (event: any) => {
           this.activeIndex = 2;
         }
       },
       {
-        label: 'Run image',
+        label: 'Configure',
         command: (event: any) => {
           this.activeIndex = 3;
+        }
+      },
+      {
+        label: 'Run image',
+        command: (event: any) => {
+          this.activeIndex = 4;
         }
       }
     ];
@@ -82,6 +107,49 @@ export class ContainerComponent implements OnInit {
     this.isScheduledRunType = false;
 
     this.isCronExpression = false;
+
+    this.getCurrentUserId();
+
+    this.getCurrentUserQueues();
+
+    this.getCurrentUserTopics();
+  }
+
+  public onSubmitBrokerForm(): void {
+    this.auth.getCurrentUserId(this.auth.currentUser).subscribe(id => {
+      const t = <FormArray>this.brokerForm.get('topics');
+      const topics = t.value.map(topic => {
+        return id + '-' + topic;
+      });
+      const q = <FormArray>this.brokerForm.get('queues');
+      const queues = q.value.map(queue => {
+        return id + '-' + queue;
+      });
+      this.containerService.updateUserChannels(id, topics, queues).subscribe(result => {
+        console.log(result + ' Updated channels for' + id);
+      });
+    });
+    this.activeIndex = 1;
+  }
+
+  public onAddTopic(): void {
+    const topics = <FormArray>this.brokerForm.get('topics');
+    topics.push(new FormControl('', Validators.required));
+  }
+
+  public onDeleteTopic(index: number): void {
+    const topics = <FormArray>this.brokerForm.get('topics');
+    topics.removeAt(index);
+  }
+
+  public onDeleteQueue(index: number): void {
+    const queues = <FormArray>this.brokerForm.get('queues');
+    queues.removeAt(index);
+  }
+
+  public onAddQueue(): void {
+    const queues = <FormArray>this.brokerForm.get('queues');
+    queues.push(new FormControl('', Validators.required));
   }
 
   public onScheduleTypeClick(): void {
@@ -97,21 +165,34 @@ export class ContainerComponent implements OnInit {
   }
 
   public onSubmitRepositoryForm(): void {
-    this.containerService.createRepository(this.repositoryForm.value.repositoryName)
+    this.containerService.createRepository(this.repositoryName)
     .subscribe(
       result => console.log(result),
       error => console.log(error)
     );
 
-    this.activeIndex = 1;
+    this.activeIndex = 2;
   }
 
-  public onContinue(): void {
-    this.activeIndex = 2;
+  public onCheckImage(): void {
+    const imageUri = '526110916966.dkr.ecr.eu-central-1.amazonaws.com/' + this.repositoryName + ':latest';
 
-    this.configurationForm.patchValue({
-      imageUri: '526110916966.dkr.ecr.eu-central-1.amazonaws.com/' + this.repositoryForm.controls['repositoryName'].value + ':latest'
-    });
+    this.containerService.checkImage(this.repositoryName)
+    .subscribe(
+      result => {
+        if (result === true) {
+          this.pushImageContinueButtonDisable = false;
+          this.configurationForm.patchValue({
+            imageUri: imageUri
+          });
+        }
+      },
+      error => console.log(error)
+    );
+  }
+
+  public onContinuePushImage(): void {
+    this.activeIndex = 3;
   }
 
   public onSubmitConfigurationForm(): void {
@@ -127,10 +208,11 @@ export class ContainerComponent implements OnInit {
       error => console.log(error)
     );
 
-    this.activeIndex = 3;
+    this.activeIndex = 4;
   }
 
   public onSubmitRunImageForm(): void {
+    if (false) {
     if (this.isScheduledRunType) {
       if (this.isCronExpression) {
         this.containerService.scheduleImageCronExp(
@@ -161,20 +243,66 @@ export class ContainerComponent implements OnInit {
         error => console.log(error)
       );
     }
+    }
+    // start flushing the queues
+    if (this.brokerForm.controls['queues'].dirty) {
+      this.containerService.startFlushingQueues(
+        this.currentUserId,
+        this.brokerForm.controls['queues'].value
+      ).subscribe(
+        result => console.log(result),
+        error => console.log(error)
+      );
+    }
   }
 
   public copyBuildToClipboard(): void {
-    this.clipboardService.copyFromContent('docker build -t ' + this.repositoryForm.value.repositoryName + ' .');
+    this.clipboardService.copyFromContent('docker build -t ' + this.repositoryName + ' .');
   }
 
   public copyTagToClipboard(): void {
-    this.clipboardService.copyFromContent('docker tag ' + this.repositoryForm.value.repositoryName +
-      ':latest 526110916966.dkr.ecr.eu-central-1.amazonaws.com/' + this.repositoryForm.value.repositoryName + ':latest');
+    this.clipboardService.copyFromContent('docker tag ' + this.repositoryName +
+      ':latest 526110916966.dkr.ecr.eu-central-1.amazonaws.com/' + this.repositoryName + ':latest');
   }
 
   public copyPushToClipboard(): void {
     this.clipboardService.copyFromContent('docker push 526110916966.dkr.ecr.eu-central-1.amazonaws.com/' +
-      this.repositoryForm.value.repositoryName + ':latest');
+      this.repositoryName + ':latest');
+  }
+
+  public onLogOut(): void {
+    this.auth.signOutUser();
+    this.router.navigate(['/dashboard']);
+  }
+
+  private getCurrentUserId(): void {
+    this.auth.getCurrentUserId(this.auth.currentUser).subscribe(result => {
+      this.currentUserId = result;
+    });
+  }
+
+  private getCurrentUserQueues(): void {
+    this.auth.getCurrentUserId(this.auth.currentUser).subscribe(id => {
+      this.containerService.getUserQueues(id).subscribe(result => {
+        const queues = <FormArray>this.brokerForm.get('queues');
+        result.forEach(q => {
+          const queue = q.split('-')[1];
+          queues.push(new FormControl(queue, Validators.required));
+        });
+      });
+    });
+  }
+
+  private getCurrentUserTopics(): void {
+    this.auth.getCurrentUserId(this.auth.currentUser).subscribe(id => {
+      this.containerService.getUserTopics(id).subscribe(result => {
+        const topics = <FormArray>this.brokerForm.get('topics');
+        result.forEach(t => {
+          const topic = t.split('-')[1];
+          topics.push(new FormControl(topic, Validators.required));
+        });
+      });
+    });
   }
 
 }

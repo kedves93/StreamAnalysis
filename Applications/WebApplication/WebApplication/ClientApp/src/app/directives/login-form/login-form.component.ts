@@ -1,5 +1,5 @@
 import { AuthService } from './../../services/auth/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./login-form.component.css']
 })
 export class LoginFormComponent implements OnInit {
+
+  @Input() userType: string;
 
   public validAuth: boolean;
 
@@ -24,18 +26,37 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.auth.signInUser(
-      this.loginForm.value.username,
-      this.loginForm.value.password,
-      this.loginForm.value.rememberMe)
-      .subscribe(result => {
-        this.validAuth = result;
-        if (this.validAuth === true) {
-          this.router.navigate(['/dashboard']);
-        }
-      },
-      error => console.error(error)
-    );
+    if (this.userType === 'container') {
+      this.auth.signInUser(
+        this.loginForm.value.username,
+        this.loginForm.value.password,
+        this.loginForm.value.rememberMe)
+        .subscribe(result => {
+          this.validAuth = result;
+          if (this.validAuth === true) {
+            localStorage.setItem('currentUser', this.loginForm.value.username);
+            this.router.navigate(['/container/home']);
+          }
+        },
+        error => console.error(error)
+      );
+    }
+
+    if (this.userType === 'normal') {
+      this.auth.signInUser(
+        this.loginForm.value.username,
+        this.loginForm.value.password,
+        this.loginForm.value.rememberMe)
+        .subscribe(result => {
+          this.validAuth = result;
+          if (this.validAuth) {
+            localStorage.setItem('currentUser', this.loginForm.value.username);
+            this.router.navigate(['/home']);
+          }
+        },
+        error => console.error(error)
+      );
+    }
   }
 
 }

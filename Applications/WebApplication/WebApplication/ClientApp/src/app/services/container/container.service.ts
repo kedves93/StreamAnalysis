@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -11,20 +10,37 @@ export class ContainerService {
 
   private baseUrl: string;
 
+  private httpOptions: object;
+
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.baseUrl = baseUrl;
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+  }
+
+  public startFlushingQueues(currentUserId: string, queues: string[]): Observable<any> {
+    const body = JSON.stringify({
+      userId: currentUserId,
+      queues: queues
+    });
+    return this.http.post<any>(this.baseUrl + 'api/Container/StartFlushingQueues', body, this.httpOptions);
   }
 
   public createRepository(repositoryName: string): Observable<any> {
     const body = JSON.stringify({
       name: repositoryName
     });
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.http.post<any>(this.baseUrl + 'api/Container/CreateRepository', body, httpOptions);
+    return this.http.post<any>(this.baseUrl + 'api/Container/CreateRepository', body, this.httpOptions);
+  }
+
+  public checkImage(repositoryName: string): Observable<boolean> {
+    const body = JSON.stringify({
+      name: repositoryName
+    });
+    return this.http.post<any>(this.baseUrl + 'api/Container/CheckImage', body, this.httpOptions);
   }
 
   public createConfiguration(configName: string, imageUri: string,
@@ -36,22 +52,12 @@ export class ContainerService {
       interactive: interactive,
       pseudoTerminal: pseudoTerminal
     });
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.http.post<boolean>(this.baseUrl + 'api/Container/CreateConfiguration', body, httpOptions);
+    return this.http.post<boolean>(this.baseUrl + 'api/Container/CreateConfiguration', body, this.httpOptions);
   }
 
   public runImage(configName: string): Observable<any> {
     const body = '"' + configName + '"';
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.http.post<boolean>(this.baseUrl + 'api/Container/RunImage', body, httpOptions);
+    return this.http.post<boolean>(this.baseUrl + 'api/Container/RunImage', body, this.httpOptions);
   }
 
   public scheduleImageFixedRate(configName: string, rate: number, time: string): Observable<any> {
@@ -60,12 +66,7 @@ export class ContainerService {
       rate: rate,
       time: time
     });
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.http.post<boolean>(this.baseUrl + 'api/Container/ScheduleImageFixedRate', body, httpOptions);
+    return this.http.post<boolean>(this.baseUrl + 'api/Container/ScheduleImageFixedRate', body, this.httpOptions);
   }
 
   public scheduleImageCronExp(configName: string, cronExp: string): Observable<any> {
@@ -73,11 +74,25 @@ export class ContainerService {
       configName: configName,
       cronExp: cronExp
     });
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.http.post<boolean>(this.baseUrl + 'api/Container/ScheduleImageCronExp', body, httpOptions);
+    return this.http.post<boolean>(this.baseUrl + 'api/Container/ScheduleImageCronExp', body, this.httpOptions);
+  }
+
+  public getUserQueues(userId: string): Observable<string[]> {
+    const body = '"' + userId + '"';
+    return this.http.post<string[]>(this.baseUrl + 'api/Container/GetUserQueues', body, this.httpOptions);
+  }
+
+  public getUserTopics(userId: string): Observable<string[]> {
+    const body = '"' + userId + '"';
+    return this.http.post<string[]>(this.baseUrl + 'api/Container/GetUserTopics', body, this.httpOptions);
+  }
+
+  public updateUserChannels(userId: string, topics: string[], queues: string[]): Observable<boolean> {
+    const body = JSON.stringify({
+      userId: userId,
+      topics: topics,
+      queues: queues
+    });
+    return this.http.post<boolean>(this.baseUrl + 'api/Container/UpdateUserChannels', body, this.httpOptions);
   }
 }

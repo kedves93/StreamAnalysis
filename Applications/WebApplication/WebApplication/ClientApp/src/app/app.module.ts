@@ -16,6 +16,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { DropdownModule } from 'primeng/dropdown';
 import { ClipboardModule } from 'ngx-clipboard';
 import { SidebarModule } from 'primeng/sidebar';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { TabViewModule } from 'primeng/tabview';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -29,6 +31,7 @@ import { ContainerComponent } from './pages/container/container.component';
 import { ContainerService } from './services/container/container.service';
 import { AuthService } from './services/auth/auth.service';
 import { AuthGuard } from './guards/auth.guard';
+import { ContainerLoginComponent } from './pages/container-login/container-login.component';
 
 
 @NgModule({
@@ -41,7 +44,8 @@ import { AuthGuard } from './guards/auth.guard';
     RegisterFormComponent,
     RegisterComponent,
     MenuComponent,
-    ContainerComponent
+    ContainerComponent,
+    ContainerLoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -60,11 +64,14 @@ import { AuthGuard } from './guards/auth.guard';
     DropdownModule,
     ClipboardModule,
     SidebarModule,
+    ScrollPanelModule,
+    TabViewModule,
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent, canActivate: [ AuthGuard ] },
       { path: 'login', component: LoginComponent },
+      { path: 'container/login', component: ContainerLoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'container', component: ContainerComponent },
+      { path: 'container/home', component: ContainerComponent },
       { path: 'dashboard', component: DashboardComponent, canActivate: [ AuthGuard ] },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', redirectTo: 'home', pathMatch: 'full' }

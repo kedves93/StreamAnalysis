@@ -9,7 +9,7 @@ namespace Apixu
         {
             var factory = new StreamAnalysisConnectionFactory();
 
-            Console.WriteLine("Started connecting to broker....");
+            Console.WriteLine("Started connecting to broker...");
             try
             {
                 using (IStreamAnalysisConnection connection = factory.CreateConnection())

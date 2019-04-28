@@ -6,13 +6,13 @@ using Amazon.ECS.Model;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Linq;
+using WebApplication.Exceptions;
 using WebApplication.Models;
 
 namespace WebApplication.Services
 {
     public class ContainerService : IContainerService
     {
-        private const string REGISTRY_ID = "526110916966"; // AWS Account number
         private const string CLUSTER = "stream-analysis-ecs-cluster";
 
         private readonly IAmazonECS _ecsClient;
@@ -40,12 +40,46 @@ namespace WebApplication.Services
         /// </summary>
         /// <param name="repository"></param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task CreateRepositoryAsync(WebApplication.Models.Repository repository)
+        public async System.Threading.Tasks.Task CreateRepositoryAsync(Models.Repository repository)
         {
-            await _ecrClient.CreateRepositoryAsync(new CreateRepositoryRequest
+            if (repository.Name.Equals(""))
+                throw new InvalidRepositoryName("Repository name cannot be an empty string.");
+
+            try
             {
-                RepositoryName = repository.Name
-            });
+                await _ecrClient.CreateRepositoryAsync(new CreateRepositoryRequest
+                {
+                    RepositoryName = repository.Name
+                });
+            }
+            catch (RepositoryAlreadyExistsException)
+            {
+                throw;
+            }
+            catch (AmazonECSException)
+            {
+                throw;
+            }
+        }
+
+        public async System.Threading.Tasks.Task<bool> CheckImageAsync(Models.Repository repository)
+        {
+            if (repository.Name.Equals(""))
+                throw new InvalidRepositoryName("Repository name cannot be an empty string.");
+
+            try
+            {
+                var response = await _ecrClient.ListImagesAsync(new ListImagesRequest
+                {
+                    RepositoryName = repository.Name
+                });
+
+                return response.ImageIds.Any();
+            }
+            catch (AmazonECRException)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -53,12 +87,14 @@ namespace WebApplication.Services
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task CreateConfiguration(ImageConfiguration config)
+        public async System.Threading.Tasks.Task CreateConfigurationAsync(ImageConfiguration config)
         {
-            await _ecsClient.RegisterTaskDefinitionAsync(new RegisterTaskDefinitionRequest
+            try
             {
-                Family = config.Name,
-                ContainerDefinitions = new List<ContainerDefinition>
+                await _ecsClient.RegisterTaskDefinitionAsync(new RegisterTaskDefinitionRequest
+                {
+                    Family = config.Name,
+                    ContainerDefinitions = new List<ContainerDefinition>
                 {
                     new ContainerDefinition
                     {
@@ -80,7 +116,12 @@ namespace WebApplication.Services
                         }
                     }
                 }
-            });
+                });
+            }
+            catch (AmazonECSException)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -90,7 +131,16 @@ namespace WebApplication.Services
         /// <returns></returns>
         public async System.Threading.Tasks.Task RunImageAsync(string configName)
         {
-            if (await validateImageConfigurationAsync(configName))
+            var response = await _ecsClient.ListTaskDefinitionsAsync(new ListTaskDefinitionsRequest
+            {
+                FamilyPrefix = configName
+            });
+            if (!response.TaskDefinitionArns.Any())
+            {
+                throw new InexistentTaskDefinition();
+            }
+
+            try
             {
                 await _ecsClient.RunTaskAsync(new RunTaskRequest
                 {
@@ -101,15 +151,10 @@ namespace WebApplication.Services
                     TaskDefinition = $"{configName}"
                 });
             }
-        }
-
-        private async System.Threading.Tasks.Task<bool> validateImageConfigurationAsync(string configName)
-        {
-            var response = await _ecsClient.ListTaskDefinitionsAsync(new ListTaskDefinitionsRequest
+            catch (AmazonECSException)
             {
-                FamilyPrefix = configName
-            });
-            return response.TaskDefinitionArns.Any();
+                throw;
+            }
         }
     }
 }

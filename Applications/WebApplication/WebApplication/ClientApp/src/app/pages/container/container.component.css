@@ -1,5 +1,5 @@
 .ui-steps .ui-steps-item {
-    width: 25%;
+    width: 20%;
 }
 
 .ui-steps {
@@ -19,15 +19,41 @@ p-accordion {
     margin-top: 10px;
 }
 
-.clipboard-icon {
-    cursor: pointer;
-    float: right;
+.cli-command-content {
+    width: 1600px;
 }
 
-#info-icon {
-    position: absolute;
-    font-size: 30px;
-    left: 30px;
-    top: 25px;
+.clipboard-icon {
     cursor: pointer;
+    position: relative;
+    top: 17px;
+    color: cornflowerblue;
+}
+
+.ui-scrollpanel-bar-y {
+    display: none;
+}
+
+.log-out {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.label-user-id {
+    padding: 0px;
+    background-color: #a6a6a6;
+    border: 1px solid #a6a6a6;
+    height: 35px;
+    border-radius: 6px 0px 0px 6px;
+    position: relative;
+    top: 8px;
+    align-items: center;
+    display: flex;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.channel-name {
+    padding: 0px;
+    padding-top: 8px;
 }

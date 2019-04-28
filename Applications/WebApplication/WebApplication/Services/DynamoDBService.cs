@@ -70,5 +70,105 @@ namespace WebApplication.Services
 
             return true;
         }
+
+        public async Task<string> GetUserIdFromUsernameAsync(string username)
+        {
+            // context
+            DynamoDBContext context = new DynamoDBContext(_dynamoDBClient);
+
+            // conditions
+            List<ScanCondition> conditions = new List<ScanCondition>
+            {
+                new ScanCondition("Username", ScanOperator.Equal, username)
+            };
+
+            // scan
+            List<User> foundUsers = await context.ScanAsync<User>(conditions).GetRemainingAsync();
+
+            // dispose context
+            context.Dispose();
+
+            return foundUsers.First().UserId;
+        }
+
+        public async Task<List<string>> GetQueuesFromUserIdAsync(string userId)
+        {
+            // context
+            DynamoDBContext context = new DynamoDBContext(_dynamoDBClient);
+
+            // conditions
+            List<ScanCondition> conditions = new List<ScanCondition>
+            {
+                new ScanCondition("UserId", ScanOperator.Equal, userId)
+            };
+
+            // scan
+            List<UserChannels> foundUserQueues = await context.ScanAsync<UserChannels>(conditions).GetRemainingAsync();
+
+            // dispose context
+            context.Dispose();
+
+            return foundUserQueues.First().Queues;
+        }
+
+        public async Task<List<string>> GetTopicsFromUserIdAsync(string userId)
+        {
+            // context
+            DynamoDBContext context = new DynamoDBContext(_dynamoDBClient);
+
+            // conditions
+            List<ScanCondition> conditions = new List<ScanCondition>
+            {
+                new ScanCondition("UserId", ScanOperator.Equal, userId)
+            };
+
+            // scan
+            List<UserChannels> foundUserQueues = await context.ScanAsync<UserChannels>(conditions).GetRemainingAsync();
+
+            // dispose context
+            context.Dispose();
+
+            return foundUserQueues.First().Topics;
+        }
+
+        public async Task<bool> SaveUserChannelsAsync(UserChannels channels)
+        {
+            // context
+            DynamoDBContext context = new DynamoDBContext(_dynamoDBClient);
+
+            // save
+            await context.SaveAsync(new UserChannels
+            {
+                UserId = channels.UserId,
+                Queues = channels.Queues,
+                Topics = channels.Topics
+            });
+
+            // dispose context
+            context.Dispose();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteChannelsFromUserIdAsync(string userId)
+        {
+            // context
+            DynamoDBContext context = new DynamoDBContext(_dynamoDBClient);
+
+            // creating an UserChannels object just for its UserId
+            // DynamoDb will delete the record matching has this UserId
+            UserChannels userChannels = new UserChannels
+            {
+                UserId = userId
+            };
+
+            // delete
+            await context.DeleteAsync(userChannels);
+
+            // dispose context
+            context.Dispose();
+
+            return true;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 using WebApplication.Models;
 using WebApplication.Services;
@@ -12,18 +13,15 @@ namespace WebApplication.Controllers
     {
         private readonly ILogger _logger;
 
-        private readonly IRedisService _redis;
-
         private readonly IDynamoDBService _dynamoDBService;
 
         /// <summary>
         /// The parameter 'dynamoDBService' is injected, see Startup.cs
         /// </summary>
         /// <param name="dynamoDBService"></param>
-        public AuthController(IDynamoDBService dynamoDBService, IRedisService redis, ILogger<AuthController> logger)
+        public AuthController(IDynamoDBService dynamoDBService, ILogger<AuthController> logger)
         {
             _dynamoDBService = dynamoDBService;
-            _redis = redis;
             _logger = logger;
         }
 
@@ -34,26 +32,6 @@ namespace WebApplication.Controllers
             if (!await _dynamoDBService.ValidateUserAsync(user))
                 return false;
 
-            if (user.RememberMe)
-            {
-                _redis.StoreSession(user.Username);
-            }
-
-            return true;
-        }
-
-        [Route("[action]")]
-        [HttpGet]
-        public async Task<ActionResult<bool>> IsLoggedIn()
-        {
-            return _redis.CheckSession();
-        }
-
-        [Route("[action]")]
-        [HttpGet]
-        public async Task<ActionResult<bool>> SignOut()
-        {
-            _redis.DeleteSession();
             return true;
         }
 
@@ -62,6 +40,14 @@ namespace WebApplication.Controllers
         public async Task<ActionResult<bool>> Register([FromBody] RegisterUserInfo user)
         {
             return await _dynamoDBService.RegisterUserAsync(user);
+        }
+
+        [Route("[action]")]
+        [HttpGet]
+        public async Task<ActionResult<string>> GetCurrentUserId([FromBody] string username)
+        {
+            string id = await _dynamoDBService.GetUserIdFromUsernameAsync(username);
+            return JsonConvert.SerializeObject(id);
         }
     }
 }
