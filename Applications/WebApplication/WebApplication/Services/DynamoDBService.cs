@@ -6,6 +6,8 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using WebApplication.Models;
 
@@ -36,19 +38,33 @@ namespace WebApplication.Services
             DynamoDBContext context = new DynamoDBContext(_dynamoDBClient);
 
             // conditions
+            var hash = GenerateSaltedHash(Encoding.UTF8.GetBytes(user.Password), Encoding.UTF8.GetBytes(user.Username));
+
             List<ScanCondition> conditions = new List<ScanCondition>
             {
                 new ScanCondition("Username", ScanOperator.Equal, user.Username),
-                new ScanCondition("Password", ScanOperator.Equal, user.Password)
+                new ScanCondition("Password", ScanOperator.Equal, Convert.ToBase64String(hash))
             };
 
             // scan
-            List<User> foundUsers = await context.ScanAsync<User>(conditions).GetRemainingAsync();
+            if (user.ContainerUser)
+            {
+                List<ContainerUser> foundContainerUsers = await context.ScanAsync<ContainerUser>(conditions).GetRemainingAsync();
 
-            // dispose context
-            context.Dispose();
+                // dispose context
+                context.Dispose();
 
-            return foundUsers.Any();
+                return foundContainerUsers.Any();
+            }
+            else
+            {
+                List<DashboardUser> foundDashboardUsers = await context.ScanAsync<DashboardUser>(conditions).GetRemainingAsync();
+
+                // dispose context
+                context.Dispose();
+
+                return foundDashboardUsers.Any();
+            }
         }
 
         public async Task<bool> RegisterUserAsync(RegisterUserInfo user)
@@ -57,13 +73,28 @@ namespace WebApplication.Services
             DynamoDBContext context = new DynamoDBContext(_dynamoDBClient);
 
             // save
-            await context.SaveAsync(new User
+            var hash = GenerateSaltedHash(Encoding.UTF8.GetBytes(user.Password), Encoding.UTF8.GetBytes(user.Username));
+
+            if (user.ContainerUser)
             {
-                UserId = Guid.NewGuid().ToString("N"),
-                Email = user.Email,
-                Username = user.Username,
-                Password = user.Password
-            });
+                await context.SaveAsync(new ContainerUser
+                {
+                    UserId = Guid.NewGuid().ToString("N"),
+                    Email = user.Email,
+                    Username = user.Username,
+                    Password = Convert.ToBase64String(hash)
+                });
+            }
+            else
+            {
+                await context.SaveAsync(new DashboardUser
+                {
+                    UserId = Guid.NewGuid().ToString("N"),
+                    Email = user.Email,
+                    Username = user.Username,
+                    Password = Convert.ToBase64String(hash)
+                });
+            }
 
             // dispose context
             context.Dispose();
@@ -83,7 +114,7 @@ namespace WebApplication.Services
             };
 
             // scan
-            List<User> foundUsers = await context.ScanAsync<User>(conditions).GetRemainingAsync();
+            List<ContainerUser> foundUsers = await context.ScanAsync<ContainerUser>(conditions).GetRemainingAsync();
 
             // dispose context
             context.Dispose();
@@ -169,6 +200,23 @@ namespace WebApplication.Services
             context.Dispose();
 
             return true;
+        }
+
+        private byte[] GenerateSaltedHash(byte[] plainText, byte[] salt)
+        {
+            HashAlgorithm algorithm = new SHA256Managed();
+            byte[] plainTextWithSaltBytes = new byte[plainText.Length + salt.Length];
+
+            for (int i = 0; i < plainText.Length; i++)
+            {
+                plainTextWithSaltBytes[i] = plainText[i];
+            }
+            for (int i = 0; i < salt.Length; i++)
+            {
+                plainTextWithSaltBytes[plainText.Length + i] = salt[i];
+            }
+
+            return algorithm.ComputeHash(plainTextWithSaltBytes);
         }
     }
 }

@@ -32,6 +32,7 @@ import { ContainerService } from './services/container/container.service';
 import { AuthService } from './services/auth/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { ContainerLoginComponent } from './pages/container-login/container-login.component';
+import { ContainerRegisterComponent } from './pages/container-register/container-register.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { ContainerLoginComponent } from './pages/container-login/container-login
     RegisterComponent,
     MenuComponent,
     ContainerComponent,
-    ContainerLoginComponent
+    ContainerLoginComponent,
+    ContainerRegisterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -69,9 +71,10 @@ import { ContainerLoginComponent } from './pages/container-login/container-login
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent, canActivate: [ AuthGuard ] },
       { path: 'login', component: LoginComponent },
+      { path: 'container/home', component: ContainerComponent, canActivate: [ AuthGuard ] },
       { path: 'container/login', component: ContainerLoginComponent },
+      { path: 'container/register', component: ContainerRegisterComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'container/home', component: ContainerComponent },
       { path: 'dashboard', component: DashboardComponent, canActivate: [ AuthGuard ] },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', redirectTo: 'home', pathMatch: 'full' }

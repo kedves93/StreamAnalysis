@@ -2,8 +2,8 @@
 
 namespace WebApplication.Models
 {
-    [DynamoDBTable("UsersTable")]
-    public class User
+    [DynamoDBTable("ContainerUsersTable")]
+    public class ContainerUser
     {
         [DynamoDBHashKey]
         public string UserId { get; set; }

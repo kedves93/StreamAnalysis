@@ -30,7 +30,8 @@ export class LoginFormComponent implements OnInit {
       this.auth.signInUser(
         this.loginForm.value.username,
         this.loginForm.value.password,
-        this.loginForm.value.rememberMe)
+        this.loginForm.value.rememberMe,
+        true)
         .subscribe(result => {
           this.validAuth = result;
           if (this.validAuth === true) {
@@ -42,11 +43,12 @@ export class LoginFormComponent implements OnInit {
       );
     }
 
-    if (this.userType === 'normal') {
+    if (this.userType === 'dashboard') {
       this.auth.signInUser(
         this.loginForm.value.username,
         this.loginForm.value.password,
-        this.loginForm.value.rememberMe)
+        this.loginForm.value.rememberMe,
+        false)
         .subscribe(result => {
           this.validAuth = result;
           if (this.validAuth) {

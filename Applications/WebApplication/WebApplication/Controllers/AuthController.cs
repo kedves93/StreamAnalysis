@@ -29,10 +29,7 @@ namespace WebApplication.Controllers
         [HttpPost]
         public async Task<ActionResult<bool>> SignIn([FromBody] SignInUserInfo user)
         {
-            if (!await _dynamoDBService.ValidateUserAsync(user))
-                return false;
-
-            return true;
+            return await _dynamoDBService.ValidateUserAsync(user);
         }
 
         [Route("[action]")]
@@ -43,7 +40,7 @@ namespace WebApplication.Controllers
         }
 
         [Route("[action]")]
-        [HttpGet]
+        [HttpPost]
         public async Task<ActionResult<string>> GetCurrentUserId([FromBody] string username)
         {
             string id = await _dynamoDBService.GetUserIdFromUsernameAsync(username);

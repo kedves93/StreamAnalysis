@@ -284,6 +284,9 @@ export class ContainerComponent implements OnInit {
   private getCurrentUserQueues(): void {
     this.auth.getCurrentUserId(this.auth.currentUser).subscribe(id => {
       this.containerService.getUserQueues(id).subscribe(result => {
+        if (result === null) {
+          return;
+        }
         const queues = <FormArray>this.brokerForm.get('queues');
         result.forEach(q => {
           const queue = q.split('-')[1];
@@ -296,6 +299,9 @@ export class ContainerComponent implements OnInit {
   private getCurrentUserTopics(): void {
     this.auth.getCurrentUserId(this.auth.currentUser).subscribe(id => {
       this.containerService.getUserTopics(id).subscribe(result => {
+        if (result === null) {
+          return;
+        }
         const topics = <FormArray>this.brokerForm.get('topics');
         result.forEach(t => {
           const topic = t.split('-')[1];

@@ -1,5 +1,5 @@
 import { FormGroup, FormControl } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from './../../services/auth/auth.service';
 import { Router } from '@angular/router';
 
@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./register-form.component.css']
 })
 export class RegisterFormComponent implements OnInit {
+
+  @Input() userType: string;
 
   public registerForm = new FormGroup({
     email: new FormControl(''),
@@ -22,10 +24,35 @@ export class RegisterFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.auth.registerUser(this.registerForm.value.email, this.registerForm.value.username, this.registerForm.value.password).subscribe(
-      result => this.router.navigate(['/dashboard']),
-      error => console.error(error)
-    );
+    if (this.userType === 'container') {
+      this.auth.registerUser(
+        this.registerForm.value.email,
+        this.registerForm.value.username,
+        this.registerForm.value.password,
+        true)
+        .subscribe(
+        result => {
+          localStorage.setItem('currentUser', this.registerForm.value.username);
+          this.router.navigate(['/container/home']);
+        },
+        error => console.error(error)
+      );
+    }
+
+    if (this.userType === 'dashboard') {
+      this.auth.registerUser(
+        this.registerForm.value.email,
+        this.registerForm.value.username,
+        this.registerForm.value.password,
+        false)
+        .subscribe(
+        result => {
+          localStorage.setItem('currentUser', this.registerForm.value.username);
+          this.router.navigate(['/home']);
+        },
+        error => console.error(error)
+      );
+    }
   }
 
 }

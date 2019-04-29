@@ -33,11 +33,12 @@ export class AuthService {
     );
   }
 
-  public signInUser(username: string, password: string, rememberMe: boolean): Observable<boolean> {
+  public signInUser(username: string, password: string, rememberMe: boolean, containerUser: boolean): Observable<boolean> {
     const body = JSON.stringify({
       username: username,
       password: password,
-      rememberMe: rememberMe
+      rememberMe: rememberMe,
+      containerUser: containerUser
     });
     const httpOptions = {
       headers: new HttpHeaders({
@@ -52,11 +53,12 @@ export class AuthService {
     );
   }
 
-  public registerUser(email: string, username: string, password: string): Observable<boolean> {
+  public registerUser(email: string, username: string, password: string, containerUser: boolean): Observable<boolean> {
     const body = JSON.stringify({
       email: email,
       username: username,
-      password: password
+      password: password,
+      containerUser: containerUser
     });
     const httpOptions = {
       headers: new HttpHeaders({
