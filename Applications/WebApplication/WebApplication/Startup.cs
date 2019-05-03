@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using WebApplication.Hubs;
 using WebApplication.Models;
 using WebApplication.Services;
 
@@ -35,6 +36,8 @@ namespace WebApplication
             services.AddScoped<IContainerService, ContainerService>();
             services.AddScoped<ISnsService, SnsService>();
 
+            services.AddSignalR();
+
             #endregion CustomSettings
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -57,6 +60,8 @@ namespace WebApplication
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+
+            app.UseSignalR(routes => routes.MapHub<MainHub>("/hub/Dashboard"));
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

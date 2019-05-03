@@ -33,6 +33,8 @@ import { AuthService } from './services/auth/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { ContainerLoginComponent } from './pages/container-login/container-login.component';
 import { ContainerRegisterComponent } from './pages/container-register/container-register.component';
+import { WebsocketService } from './services/websocket/websocket.service';
+import { DashboardService } from './services/dashboard/dashboard.service';
 
 
 @NgModule({
@@ -82,7 +84,9 @@ import { ContainerRegisterComponent } from './pages/container-register/container
   ],
   providers: [
     AuthService,
-    ContainerService
+    ContainerService,
+    WebsocketService,
+    DashboardService
   ],
   bootstrap: [AppComponent]
 })
