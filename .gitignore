@@ -39,3 +39,4 @@ Applications/ActiveMQLambda/ActiveMQLambda/bin/
 Applications/ActiveMQLambda/ActiveMQLambda/obj/
 Applications/StreamAnalysisMQListener/StreamAnalysisMQListener/aws_credentials.json
 Applications/ActiveMQLambda/ActiveMQLambda/Function.cs
+Applications/StreamAnalysisMQListener/.vs/StreamAnalysisMQListener/v15/

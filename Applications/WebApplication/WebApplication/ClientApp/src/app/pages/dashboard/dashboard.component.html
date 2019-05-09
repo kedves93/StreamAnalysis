@@ -1,4 +1,48 @@
 <div class="container-fluid" class="dashboard-page-wrapper">
-    <p-button label="Sign Out" (onClick)="onSignOut()"></p-button>
-    
+    <p-dialog header="Add topic" [(visible)]="addTopicDialogShow" [style]="{width: '300px', height: '200px'}">
+        <p-dropdown [options]="availableTopics" [(ngModel)]="selectedTopic" optionLabel="name" placeholder="Select topic" appendTo="body"></p-dropdown>
+        <p-footer>
+            <button type="button" pButton icon="pi pi-check" (click)="onOkAddTopic()" label="Add"></button>
+            <button type="button" pButton icon="pi pi-close" (click)="addTopicDialogShow=false" label="Cancel" class="ui-button-secondary"></button>
+        </p-footer>
+    </p-dialog>
+    <app-menu></app-menu>
+    <div class="main-page">
+        <p-dataView [value]="topicsData" emptyMessage="No cards." layout="grid">
+            <p-header>
+                <div class="header-fix">
+                    <div class="p-grid">
+                        <div class="p-col-6">
+                            <button pButton type="button" label="Add topic" (click)="onAddTopic()" icon="pi pi-plus"></button>
+                        </div>
+                        <div class="p-col-6 data-view-options">
+                            <p-button id="sign-out-btn" label="Sign Out" icon="fa fa-sign-out" (onClick)="onSignOut()"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </p-header>
+            <ng-template let-topicData pTemplate="gridItem">
+                <div class="p-col-12 p-md-4 p-lg-3 topics-data-grid-row">
+                    <p-card class="small-card">
+                        <p-header>
+                            <div class="card-icon-container">
+                                <div class="card-icon">
+                                    <img *ngIf="topicData.icon && topicData.icon != ''" [src]="topicData.icon" alt="No Icon" width="110">
+                                </div>
+                            </div>
+                            <div class="card-header-content">
+                                <div class="card-header-name">{{topicData.topic | topicName}}</div>
+                                <span class="card-value">{{topicData.value}}</span><span class="card-measurement">{{topicData.measurement}}</span>
+                            </div>
+                        </p-header>
+                        <p-footer>
+                            <hr/>
+                            <span class="footer-icon"><i class="fa fa-clock-o"></i></span><span>{{topicData.lastUpdate}}</span>
+                            <span class="card-delete" (click)="onDeleteDashcard(topicData.topic)"><i class="fa fa-trash-o"></i></span>
+                        </p-footer>
+                    </p-card>
+                </div>
+            </ng-template>
+        </p-dataView>
+    </div>
 </div>

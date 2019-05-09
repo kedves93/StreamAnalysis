@@ -1,3 +1,10 @@
-<div class="menu-wrapper">
-  <p-tabMenu [model]="items"></p-tabMenu>
+<div [@navbarHoverTrigger]="isNavbarHovered" id="navbar">
+    <div>
+        <a routerLink="/dashboard">
+            <div class="navbar-item" [ngClass]="{'active-navbar-item': isActive('dashboard')}" (click)="onNavbarItemClick('dashboard')">
+                <span class="navbar-item-icon"><i class="fa fa-area-chart"></i></span>
+                <span class="navbar-item-text" *ngIf="isNavbarHovered" style="margin-left:24px">Dashboard</span>
+            </div>
+        </a>
+    </div>
 </div>

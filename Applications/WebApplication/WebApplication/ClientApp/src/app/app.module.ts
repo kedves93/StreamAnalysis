@@ -18,6 +18,9 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { SidebarModule } from 'primeng/sidebar';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TabViewModule } from 'primeng/tabview';
+import { CardModule } from 'primeng/card';
+import { DataViewModule } from 'primeng/dataview';
+import { DialogModule } from 'primeng/dialog';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -33,8 +36,9 @@ import { AuthService } from './services/auth/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { ContainerLoginComponent } from './pages/container-login/container-login.component';
 import { ContainerRegisterComponent } from './pages/container-register/container-register.component';
-import { WebsocketService } from './services/websocket/websocket.service';
 import { DashboardService } from './services/dashboard/dashboard.service';
+import { HubService } from './services/hub/hub.service';
+import { TopicNamePipe } from './pipes/topicName/topic-name.pipe';
 
 
 @NgModule({
@@ -49,7 +53,8 @@ import { DashboardService } from './services/dashboard/dashboard.service';
     MenuComponent,
     ContainerComponent,
     ContainerLoginComponent,
-    ContainerRegisterComponent
+    ContainerRegisterComponent,
+    TopicNamePipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -70,6 +75,9 @@ import { DashboardService } from './services/dashboard/dashboard.service';
     SidebarModule,
     ScrollPanelModule,
     TabViewModule,
+    CardModule,
+    DataViewModule,
+    DialogModule,
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent, canActivate: [ AuthGuard ] },
       { path: 'login', component: LoginComponent },
@@ -85,7 +93,7 @@ import { DashboardService } from './services/dashboard/dashboard.service';
   providers: [
     AuthService,
     ContainerService,
-    WebsocketService,
+    HubService,
     DashboardService
   ],
   bootstrap: [AppComponent]

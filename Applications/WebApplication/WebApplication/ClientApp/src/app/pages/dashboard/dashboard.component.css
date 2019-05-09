@@ -1,3 +1,96 @@
 .dashboard-page-wrapper {
     padding: 0px;
 }
+
+.main-page {
+    width: calc(100% - 60px);
+    margin-left: 60px;
+}
+
+#sign-out-btn {
+    float: right;
+}
+
+.topics-data-grid-row {
+    padding: 10px;
+}
+
+.small-card {
+    cursor: pointer;
+}
+
+.small-card hr {
+    margin-bottom: 3px;
+}
+
+.small-card p-card {
+    width: 100%;
+}
+
+.small-card .ui-card-body {
+    padding: 0px 14px 7px 14px;
+}
+
+.small-card .card-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 110px;
+    height: 110px;
+    position: relative;
+    left: -5px;
+    top: -5px;
+    border-radius: 4px;
+    background-image: linear-gradient(#2d8cec,#16b);
+}
+
+.small-card .card-delete {
+    float: right;
+    font-size: 17px;
+}
+
+.small-card .card-delete:hover {
+    color: red;
+    font-size: 18px;
+}
+
+.small-card p-header {
+    display: flex;
+    flex-direction: row;
+}
+
+.small-card .card-header-content {
+    padding-top: 7px;
+    padding-left: 20px;
+}
+
+.small-card .card-header-name {
+    opacity: .7;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.small-card .card-icon {
+    font-size: 60px;
+    color: black;
+}
+
+.small-card .card-value {
+    font-size: 40px;
+    font-weight: 500;
+    margin-right: 6px;
+}
+
+.small-card .card-measurement {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.small-card .ui-card-footer .footer-icon {
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+.small-card .ui-card-footer {
+    padding: 0px;
+}

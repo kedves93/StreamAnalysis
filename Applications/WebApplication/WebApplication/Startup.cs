@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebApplication.Hubs;
+using WebApplication.Interfaces;
 using WebApplication.Models;
 using WebApplication.Services;
 
@@ -35,6 +36,8 @@ namespace WebApplication
             services.AddScoped<IDynamoDBService, DynamoDBService>();
             services.AddScoped<IContainerService, ContainerService>();
             services.AddScoped<ISnsService, SnsService>();
+            services.AddScoped<IS3Service, S3Service>();
+            services.AddSingleton<IActiveMQService, ActiveMQService>();
 
             services.AddSignalR();
 
@@ -61,7 +64,7 @@ namespace WebApplication
                 app.UseHsts();
             }
 
-            app.UseSignalR(routes => routes.MapHub<MainHub>("/hub/Dashboard"));
+            app.UseSignalR(routes => routes.MapHub<TopicsHub>("/hub/RealTimeMessages"));
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

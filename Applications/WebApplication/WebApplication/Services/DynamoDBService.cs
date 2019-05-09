@@ -154,12 +154,29 @@ namespace WebApplication.Services
             };
 
             // scan
-            List<UserChannels> foundUserQueues = await context.ScanAsync<UserChannels>(conditions).GetRemainingAsync();
+            List<UserChannels> foundUserTopics = await context.ScanAsync<UserChannels>(conditions).GetRemainingAsync();
 
             // dispose context
             context.Dispose();
 
-            return foundUserQueues.First().Topics;
+            return foundUserTopics.First().Topics;
+        }
+
+        public async Task<List<string>> GetTopicsAsync()
+        {
+            // context
+            DynamoDBContext context = new DynamoDBContext(_dynamoDBClient);
+
+            // conditions
+            List<ScanCondition> conditions = new List<ScanCondition> { };
+
+            // scan
+            List<UserChannels> foundUserTopics = await context.ScanAsync<UserChannels>(conditions).GetRemainingAsync();
+
+            // dispose context
+            context.Dispose();
+
+            return foundUserTopics.First().Topics;
         }
 
         public async Task<bool> SaveUserChannelsAsync(UserChannels channels)

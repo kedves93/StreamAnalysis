@@ -1,45 +1,39 @@
-import { Injectable } from '@angular/core';
+import { Topic } from './../../models/topic';
+import { Injectable, Inject } from '@angular/core';
 import { Subscription, Observable, timer } from 'rxjs';
-import { WebsocketService } from '../websocket/websocket.service';
 import { take, map, merge } from 'rxjs/operators';
+import { HubService } from '../hub/hub.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
 
-  public messagesUpdate;
+  private baseUrl: string;
 
-  private messagesSubscription: Subscription;
-  private messagesTimerSubscription: Subscription;
+  private httpOptions: object;
 
-  constructor(private websocket: WebsocketService) {
-    this.messagesUpdate = 'No update';
-    this.messagesSubscription = new Subscription();
-    this.messagesTimerSubscription = new Subscription();
-  }
+  public availableTopics: Topic[];
 
-  public startMessages(): void {
-  }
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private hub: HubService) {
+    this.baseUrl = baseUrl;
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
 
-  public stopMessages(): void {
-    this.messagesSubscription.unsubscribe();
-  }
-
-  private updateTimer(): Observable<string> {
-    const seconds = timer(0, 5 * 1000).pipe(take(12)).pipe(map(x => {
-      if (x === 0) {
-        return 'Just updated';
-      } else {
-        return 'updated ' + x * 5 + ' seconds ago';
+    const topicsArr = [];
+    this.getAllTopics().subscribe(topics => {
+      for (let i = 0; i < topics.length; i++) {
+        topicsArr.push(new Topic(topics[i]));
+        this.availableTopics = topicsArr;
       }
-    }));
-    const minutes = timer(60 * 1000, 60 * 1000).pipe(take(59)).pipe(map(x => {
-      return 'updated ' + (x + 1) + ' minutes ago';
-    }));
-    const hours = timer(60 * 60 * 1000, 60 * 60 * 1000).pipe(map(x => {
-      return 'updated ' + (x + 1) + ' hours ago';
-    }));
-    return seconds.pipe(merge(minutes)).pipe(merge(hours));
+    });
+  }
+
+  public getAllTopics(): Observable<string[]> {
+    return this.http.get<string[]>(this.baseUrl + 'api/Dashboard/GetAllTopics', this.httpOptions);
   }
 }

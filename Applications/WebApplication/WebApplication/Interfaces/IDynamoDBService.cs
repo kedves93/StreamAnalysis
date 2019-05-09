@@ -16,6 +16,8 @@ namespace WebApplication.Services
 
         Task<List<string>> GetTopicsFromUserIdAsync(string userId);
 
+        Task<List<string>> GetTopicsAsync();
+
         Task<bool> SaveUserChannelsAsync(UserChannels channels);
 
         Task<bool> DeleteChannelsFromUserIdAsync(string userId);

@@ -2,7 +2,7 @@
 
 namespace WebApplication.Hubs
 {
-    public class MainHub : Hub
+    public class TopicsHub : Hub
     {
     }
 }
