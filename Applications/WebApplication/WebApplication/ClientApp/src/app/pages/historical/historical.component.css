@@ -1,0 +1,8 @@
+.historical-page-wrapper {
+    padding: 0px;
+}
+
+.main-page {
+    width: calc(100% - 60px);
+    margin-left: 60px;
+}

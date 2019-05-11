@@ -39,6 +39,7 @@ import { ContainerRegisterComponent } from './pages/container-register/container
 import { DashboardService } from './services/dashboard/dashboard.service';
 import { HubService } from './services/hub/hub.service';
 import { TopicNamePipe } from './pipes/topicName/topic-name.pipe';
+import { HistoricalComponent } from './pages/historical/historical.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { TopicNamePipe } from './pipes/topicName/topic-name.pipe';
     ContainerComponent,
     ContainerLoginComponent,
     ContainerRegisterComponent,
-    TopicNamePipe
+    TopicNamePipe,
+    HistoricalComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -86,6 +88,7 @@ import { TopicNamePipe } from './pipes/topicName/topic-name.pipe';
       { path: 'container/register', component: ContainerRegisterComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'dashboard', component: DashboardComponent, canActivate: [ AuthGuard ] },
+      { path: 'historical', component: HistoricalComponent, canActivate: [ AuthGuard ] },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', redirectTo: 'home', pathMatch: 'full' }
     ])

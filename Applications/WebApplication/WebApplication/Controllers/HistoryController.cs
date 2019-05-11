@@ -17,9 +17,9 @@ namespace WebApplication.Controllers
 
         [Route("[action]")]
         [HttpPost]
-        public async Task<ActionResult> GetHistoricalData([FromBody] string queue)
+        public async Task<ActionResult<string>> GetHistoricalData([FromBody] string queue)
         {
-            return Ok(new { Message = "Backend sent historical data for queue:" + queue });
+            return await _s3Service.GetFromQueueAsync(queue);
         }
     }
 }
