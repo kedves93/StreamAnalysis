@@ -10,7 +10,11 @@ export class AuthService {
 
   public loggedInStatus = false;
 
+  public containerLoggedInStatus = false;
+
   public currentUser: string;
+
+  public userType: string;
 
   private baseUrl: string;
 
@@ -26,9 +30,6 @@ export class AuthService {
       })
     };
     return this.http.post<string>(this.baseUrl + 'api/Auth/GetCurrentUserId', body, httpOptions).pipe(
-      tap(result => {
-        console.log(result);
-      }),
       catchError(this.handleError)
     );
   }
@@ -47,7 +48,11 @@ export class AuthService {
     };
     return this.http.post<boolean>(this.baseUrl + 'api/Auth/SignIn', body, httpOptions).pipe(
       tap(result => {
-        console.log(result);
+        if (result) {
+          console.log('Valid user');
+        } else {
+          console.log('Invalid user');
+        }
       }),
       catchError(this.handleError)
     );

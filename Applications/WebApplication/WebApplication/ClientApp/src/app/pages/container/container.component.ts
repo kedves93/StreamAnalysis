@@ -58,6 +58,8 @@ export class ContainerComponent implements OnInit {
 
   public timeMeasurements: SelectItem[];
 
+  public runImageDialogShow = false;
+
   constructor(
     private containerService: ContainerService,
     private auth: AuthService,
@@ -212,48 +214,51 @@ export class ContainerComponent implements OnInit {
   }
 
   public onSubmitRunImageForm(): void {
-    if (false) {
-    if (this.isScheduledRunType) {
-      if (this.isCronExpression) {
-        this.containerService.scheduleImageCronExp(
-          this.configurationForm.value.configName,
-          this.runImageForm.value.cronExpression
-        )
-        .subscribe(
-          result => console.log(result),
-          error => console.log(error)
-        );
-      } else {
-        this.containerService.scheduleImageFixedRate(
-          this.configurationForm.value.configName,
-          this.configurationForm.value.fixedRateValue,
-          this.configurationForm.value.fixedRateMeasurement
-        )
-        .subscribe(
-          result => console.log(result),
-          error => console.log(error)
-        );
-      }
-    } else {
-      this.containerService.runImage(
-        this.configurationForm.value.configName
-      )
-      .subscribe(
-        result => console.log(result),
-        error => console.log(error)
-      );
-    }
-    }
-    // start flushing the queues
-    const queues = [];
-    for (let i = 0; i < this.brokerForm.controls['queues'].value.length; i++) {
-      queues[i] = this.currentUserId + '-' + this.brokerForm.controls['queues'].value[i];
-    }
 
-    this.containerService.startFlushingQueues(this.currentUserId, queues).subscribe(
-      result => console.log(result),
-      error => console.log(error)
-    );
+    // if (this.isScheduledRunType) {
+    //   if (this.isCronExpression) {
+    //     this.containerService.scheduleImageCronExp(
+    //       this.configurationForm.value.configName,
+    //       this.runImageForm.value.cronExpression
+    //     )
+    //     .subscribe(
+    //       result => console.log(result),
+    //       error => console.log(error)
+    //     );
+    //   } else {
+    //     this.containerService.scheduleImageFixedRate(
+    //       this.configurationForm.value.configName,
+    //       this.configurationForm.value.fixedRateValue,
+    //       this.configurationForm.value.fixedRateMeasurement
+    //     )
+    //     .subscribe(
+    //       result => console.log(result),
+    //       error => console.log(error)
+    //     );
+    //   }
+    // } else {
+    //   this.containerService.runImage(
+    //     this.configurationForm.value.configName
+    //   )
+    //   .subscribe(
+    //     result => console.log(result),
+    //     error => console.log(error)
+    //   );
+    // }
+
+    // // start flushing the queues
+    // const queues = [];
+    // for (let i = 0; i < this.brokerForm.controls['queues'].value.length; i++) {
+    //   queues[i] = this.currentUserId + '-' + this.brokerForm.controls['queues'].value[i];
+    // }
+
+    // this.containerService.startFlushingQueues(this.currentUserId, queues).subscribe(
+    //   result => console.log(result),
+    //   error => console.log(error)
+    // );
+
+    // notify user
+    this.runImageDialogShow = true;
   }
 
   public copyBuildToClipboard(): void {
@@ -272,7 +277,8 @@ export class ContainerComponent implements OnInit {
 
   public onLogOut(): void {
     this.auth.signOutUser();
-    this.router.navigate(['/dashboard']);
+    this.auth.containerLoggedInStatus = false;
+    this.router.navigate(['/container/login']);
   }
 
   private getCurrentUserId(): void {

@@ -36,6 +36,7 @@ export class LoginFormComponent implements OnInit {
           this.validAuth = result;
           if (this.validAuth === true) {
             localStorage.setItem('currentUser', this.loginForm.value.username);
+            localStorage.setItem('userType', 'container');
             this.router.navigate(['/container/home']);
           }
         },
@@ -53,6 +54,7 @@ export class LoginFormComponent implements OnInit {
           this.validAuth = result;
           if (this.validAuth) {
             localStorage.setItem('currentUser', this.loginForm.value.username);
+            localStorage.setItem('userType', 'dashboard');
             this.router.navigate(['/home']);
           }
         },

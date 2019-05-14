@@ -1,4 +1,10 @@
 <div class="container">
+    <p-dialog header="Confirmation" [(visible)]="runImageDialogShow" [modal]="true" [draggable]="false" [resizable]="false">
+        <div><span class="info-circle"><i class="pi pi-info-circle"></i></span>Image succesfully started running!</div>
+        <p-footer>
+            <button pButton label="Ok" type="button" icon="pi pi-check-circle" (click)="runImageDialogShow=false"></button >
+        </p-footer>
+    </p-dialog>
     <div class="log-out">
         <p-button label="Log out" (onClick)="onLogOut()"></p-button>
     </div>

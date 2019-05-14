@@ -1,3 +1,4 @@
+import { ContainerAuthGuard } from './guards/container-auth.guard';
 import { HistoricalService } from './services/historical/historical.service';
 import { NgModule, Component } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -42,6 +43,7 @@ import { DashboardService } from './services/dashboard/dashboard.service';
 import { HubService } from './services/hub/hub.service';
 import { TopicNamePipe } from './pipes/topicName/topic-name.pipe';
 import { HistoricalComponent } from './pages/historical/historical.component';
+import { QueueNamePipe } from './pipes/queueName/queue-name.pipe';
 
 
 @NgModule({
@@ -58,7 +60,8 @@ import { HistoricalComponent } from './pages/historical/historical.component';
     ContainerLoginComponent,
     ContainerRegisterComponent,
     TopicNamePipe,
-    HistoricalComponent
+    HistoricalComponent,
+    QueueNamePipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -86,7 +89,7 @@ import { HistoricalComponent } from './pages/historical/historical.component';
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent, canActivate: [ AuthGuard ] },
       { path: 'login', component: LoginComponent },
-      { path: 'container/home', component: ContainerComponent, canActivate: [ AuthGuard ] },
+      { path: 'container/home', component: ContainerComponent, canActivate: [ ContainerAuthGuard ] },
       { path: 'container/login', component: ContainerLoginComponent },
       { path: 'container/register', component: ContainerRegisterComponent },
       { path: 'register', component: RegisterComponent },

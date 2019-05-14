@@ -36,7 +36,7 @@
         </p-header>
         <ng-template let-chart pTemplate="gridItem">
             <div class="p-col-12 p-md-4 p-lg-4 queues-data-grid-row">
-                <p-card class="big-card" [header]="chart.queueName" [subheader]="chart.measurement">
+                <p-card class="big-card" [header]="chart.queueName | queueName" [subheader]="chart.measurement">
                     <p-chart type="line" [data]="chart.dataset" [options]="chartOptions"></p-chart>
                 </p-card>
             </div>
