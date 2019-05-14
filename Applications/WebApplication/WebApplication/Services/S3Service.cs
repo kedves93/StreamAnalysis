@@ -56,7 +56,12 @@ namespace WebApplication.Services
                                 var messageLifetime = DateTime.Now - DateTimeOffset.FromUnixTimeSeconds(queueMessage.TimestampEpoch);
 
                                 if (messageLifetime <= TimeSpan.FromHours(historicalData.TimeframeInHours))
+                                {
+                                    queueMessage.LifetimeInMinutes = messageLifetime.TotalMinutes;
+                                    queueMessage.LifetimeInHours = messageLifetime.TotalHours;
+                                    queueMessage.LifetimeInDays = messageLifetime.TotalDays;
                                     messages.Add(queueMessage);
+                                }
                             }
                         }
 

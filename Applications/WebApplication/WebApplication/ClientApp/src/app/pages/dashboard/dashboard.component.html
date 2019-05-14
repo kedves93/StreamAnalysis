@@ -1,6 +1,13 @@
 <div class="container-fluid" class="dashboard-page-wrapper">
-    <p-dialog header="Add topic" [(visible)]="addTopicDialogShow" [style]="{width: '300px', height: '200px'}">
-        <p-dropdown [options]="availableTopics" [(ngModel)]="selectedTopic" optionLabel="name" placeholder="Select topic" appendTo="body"></p-dropdown>
+    <p-dialog id="add-topic-dialog" header="Add topic" [(visible)]="addTopicDialogShow" [modal]="true" [draggable]="false" [resizable]="false">
+        <div class="p-grid">
+            <div class="p-col-2" style="padding-top: 12px;">
+                Topic
+            </div>
+            <div class="p-col-10">
+                <p-dropdown [options]="availableTopics" [(ngModel)]="selectedTopic" optionLabel="name" placeholder="Select one" appendTo="body"></p-dropdown>
+            </div>
+        </div>
         <p-footer>
             <button type="button" pButton icon="pi pi-check" (click)="onOkAddTopic()" label="Add"></button>
             <button type="button" pButton icon="pi pi-close" (click)="addTopicDialogShow=false" label="Cancel" class="ui-button-secondary"></button>

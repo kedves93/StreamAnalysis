@@ -5,7 +5,7 @@ namespace Apixu
 {
     public class StreamAnalysisSession : IStreamAnalysisSession
     {
-        private const string DESTINATION = "queue://b3e4cf74252c495f93f48f02d98aa16b-queue33";
+        public string DestinationString { get; set; }
 
         internal ISession Session { get; set; }
 
@@ -13,12 +13,13 @@ namespace Apixu
 
         internal IMessageProducer Producer { get; set; }
 
-        internal StreamAnalysisSession(ISession session)
+        internal StreamAnalysisSession(string destination, ISession session)
         {
+            DestinationString = destination;
             Session = session;
             try
             {
-                Destination = Session.GetDestination(DESTINATION);
+                Destination = Session.GetDestination(DestinationString);
                 Producer = Session.CreateProducer(Destination);
             }
             catch (Exception ex)

@@ -40,12 +40,12 @@ namespace Apixu
         /// Creates a new session in order to start streaming data to Stream Analysis.
         /// </summary>
         /// <returns></returns>
-        public IStreamAnalysisSession CreateStreamingSession()
+        public IStreamAnalysisSession CreateStreamingSession(string destination)
         {
             try
             {
                 ISession session = Connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
-                return new StreamAnalysisSession(session);
+                return new StreamAnalysisSession(destination, session);
             }
             catch (Exception ex)
             {

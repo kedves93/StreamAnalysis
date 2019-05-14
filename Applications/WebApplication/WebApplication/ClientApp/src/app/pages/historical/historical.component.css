@@ -10,3 +10,7 @@
 #sign-out-btn {
     float: right;
 }
+
+.queue-data-grid-row {
+    padding: 10px;
+}

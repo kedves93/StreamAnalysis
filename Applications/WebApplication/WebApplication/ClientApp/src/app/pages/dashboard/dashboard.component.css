@@ -11,6 +11,11 @@
     float: right;
 }
 
+#add-topic-dialog .ui-dialog {
+    min-width: 500px !important;
+    width: 500px !important;
+}
+
 .topics-data-grid-row {
     padding: 10px;
 }

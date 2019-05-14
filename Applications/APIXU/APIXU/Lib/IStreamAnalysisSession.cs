@@ -4,6 +4,8 @@ namespace Apixu
 {
     public interface IStreamAnalysisSession : IDisposable
     {
+        string DestinationString { get; set; }
+
         /// <summary>
         /// Sends data to Stream Analysis. The object must be serializable to XML.
         /// </summary>

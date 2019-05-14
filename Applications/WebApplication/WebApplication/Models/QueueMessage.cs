@@ -14,10 +14,13 @@ namespace WebApplication.Models
         [XmlElement("Measurement")]
         public string Measurement { get; set; }
 
-        [XmlElement("Icon")]
-        public string Icon { get; set; }
-
         [XmlElement("TimestampEpoch")]
         public long TimestampEpoch { get; set; }
+
+        public double LifetimeInMinutes { get; set; }
+
+        public double LifetimeInHours { get; set; }
+
+        public double LifetimeInDays { get; set; }
     }
 }

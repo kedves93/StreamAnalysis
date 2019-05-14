@@ -22,6 +22,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { CardModule } from 'primeng/card';
 import { DataViewModule } from 'primeng/dataview';
 import { DialogModule } from 'primeng/dialog';
+import { ChartModule } from 'primeng/chart';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -81,6 +82,7 @@ import { HistoricalComponent } from './pages/historical/historical.component';
     CardModule,
     DataViewModule,
     DialogModule,
+    ChartModule,
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent, canActivate: [ AuthGuard ] },
       { path: 'login', component: LoginComponent },
