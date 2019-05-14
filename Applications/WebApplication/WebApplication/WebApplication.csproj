@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Apache.NMS.ActiveMQ" Version="1.7.2" />
+    <PackageReference Include="AWSSDK.CloudWatchEvents" Version="3.3.100.18" />
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.17.12" />
     <PackageReference Include="AWSSDK.ECR" Version="3.3.5.9" />
     <PackageReference Include="AWSSDK.ECS" Version="3.3.24" />

@@ -72,9 +72,14 @@ export class ContainerService {
   public scheduleImageCronExp(configName: string, cronExp: string): Observable<any> {
     const body = JSON.stringify({
       configName: configName,
-      cronExp: cronExp
+      cronExpression: cronExp
     });
     return this.http.post<boolean>(this.baseUrl + 'api/Container/ScheduleImageCronExp', body, this.httpOptions);
+  }
+
+  public stopScheduledImage(configName: string): Observable<any> {
+    const body = '"' + configName + '"';
+    return this.http.post<boolean>(this.baseUrl + 'api/Container/StopScheduledImage', body, this.httpOptions);
   }
 
   public getUserQueues(userId: string): Observable<string[]> {

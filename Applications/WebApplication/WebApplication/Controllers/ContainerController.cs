@@ -1,10 +1,10 @@
-﻿using Amazon.ECR;
+﻿using Amazon.CloudWatchEvents;
+using Amazon.ECR;
 using Amazon.ECR.Model;
 using Amazon.ECS;
 using Amazon.SimpleNotificationService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -20,25 +20,21 @@ namespace WebApplication.Controllers
     [ApiController]
     public class ContainerController : ControllerBase
     {
-        private readonly ILogger _logger;
-
-        private readonly IContainerService _containerService;
-
         private readonly ISnsService _snsService;
 
         private readonly IDynamoDBService _dynamoDBService;
+
+        private readonly IContainerService _containerService;
 
         /// <summary>
         /// The parameter 'containerService' is injected, see Startup.cs
         /// </summary>
         /// <param name="containerService"></param>
-        /// <param name="logger"></param>
-        public ContainerController(IContainerService containerService, ISnsService snsService, IDynamoDBService dynamoDBService, ILogger<ContainerController> logger)
+        public ContainerController(IContainerService containerService, ISnsService snsService, IDynamoDBService dynamoDBService)
         {
             _containerService = containerService;
             _snsService = snsService;
             _dynamoDBService = dynamoDBService;
-            _logger = logger;
         }
 
         [Route("[action]")]
@@ -76,9 +72,9 @@ namespace WebApplication.Controllers
             {
                 return BadRequest($"Repository already exists: {repository.Name}");
             }
-            catch (AmazonECSException ex)
+            catch (AmazonECRException ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -106,11 +102,64 @@ namespace WebApplication.Controllers
                 await _containerService.RunImageAsync(configName);
                 return Ok(JsonConvert.SerializeObject("Started image successfully"));
             }
-            catch (InexistentTaskDefinition)
+            catch (InexistentTaskDefinition ex)
             {
-                return BadRequest($"Configuration does not exists: {configName}");
+                return BadRequest(ex.Message);
             }
             catch (AmazonECSException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<ActionResult> ScheduleImageFixedRate([FromBody] ScheduledImageFixedRate scheduledImageFixedRate)
+        {
+            try
+            {
+                await _containerService.RunScheduledImageAsync(scheduledImageFixedRate);
+                return Ok(JsonConvert.SerializeObject("Started image schedule successfully"));
+            }
+            catch (InexistentTaskDefinition ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (AmazonCloudWatchEventsException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<ActionResult> ScheduleImageCronExp([FromBody] ScheduledImageCronExpression scheduledImageCronExpression)
+        {
+            try
+            {
+                await _containerService.RunScheduledImageAsync(scheduledImageCronExpression);
+                return Ok(JsonConvert.SerializeObject("Started image schedule successfully"));
+            }
+            catch (InexistentTaskDefinition ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (AmazonCloudWatchEventsException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<ActionResult> StopScheduledImage([FromBody] string configName)
+        {
+            try
+            {
+                await _containerService.StopScheduledImageAsync(configName);
+                return Ok(JsonConvert.SerializeObject("Cancelled image schedule successfully"));
+            }
+            catch (AmazonCloudWatchEventsException ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }

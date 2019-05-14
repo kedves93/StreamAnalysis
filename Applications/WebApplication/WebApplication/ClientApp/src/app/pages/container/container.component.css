@@ -63,3 +63,8 @@ p-accordion {
     position: relative;
     top: 5px;
 }
+
+.regular-expression {
+    font-size: 13px;
+    color: gray;
+}

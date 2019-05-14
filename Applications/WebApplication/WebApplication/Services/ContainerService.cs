@@ -1,12 +1,16 @@
 ﻿using Amazon;
+using Amazon.CloudWatchEvents;
 using Amazon.ECR;
 using Amazon.ECR.Model;
 using Amazon.ECS;
 using Amazon.ECS.Model;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebApplication.Exceptions;
+using WebApplication.Interfaces;
 using WebApplication.Models;
 
 namespace WebApplication.Services
@@ -19,20 +23,22 @@ namespace WebApplication.Services
 
         private readonly IAmazonECR _ecrClient;
 
-        public ContainerService()
-        {
-        }
+        private readonly ICloudWatchService _cloudWatchService;
+
+        private readonly ILogger _logger;
 
         /// <summary>
         /// The parameter 'credentials' is injected, see Startup.cs
         /// </summary>
         /// <param name="credentials"></param>
-        public ContainerService(IOptions<AwsDevCredentials> credentials)
+        public ContainerService(ICloudWatchService cloudWatchService, IOptions<AwsDevCredentials> credentials, ILogger<ContainerService> logger)
         {
             string accessKey = credentials.Value.AwsAccessKeyId;
             string secretKey = credentials.Value.AwsSecretAccessKey;
             _ecsClient = new AmazonECSClient(accessKey, secretKey, RegionEndpoint.EUCentral1);
             _ecrClient = new AmazonECRClient(accessKey, secretKey, RegionEndpoint.EUCentral1);
+            _cloudWatchService = cloudWatchService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -56,7 +62,7 @@ namespace WebApplication.Services
             {
                 throw;
             }
-            catch (AmazonECSException)
+            catch (AmazonECRException)
             {
                 throw;
             }
@@ -137,7 +143,7 @@ namespace WebApplication.Services
             });
             if (!response.TaskDefinitionArns.Any())
             {
-                throw new InexistentTaskDefinition();
+                throw new InexistentTaskDefinition($"Configuration does not exists: {configName}");
             }
 
             try
@@ -146,13 +152,108 @@ namespace WebApplication.Services
                 {
                     Cluster = CLUSTER,
                     Count = 1,
-                    LaunchType = LaunchType.EC2,
+                    LaunchType = Amazon.ECS.LaunchType.EC2,
                     // StartedBy =
                     TaskDefinition = $"{configName}"
                 });
             }
             catch (AmazonECSException)
             {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Schedules the image to run at fixed interval
+        /// </summary>
+        /// <param name="scheduledImageFixedRate"></param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task RunScheduledImageAsync(ScheduledImageFixedRate scheduledImageFixedRate)
+        {
+            // get latest revision task definition ARN
+            var response = await _ecsClient.ListTaskDefinitionsAsync(new ListTaskDefinitionsRequest
+            {
+                FamilyPrefix = scheduledImageFixedRate.ConfigName,
+                Sort = SortOrder.DESC
+            });
+            string taskDefinitionArn;
+            try
+            {
+                taskDefinitionArn = response.TaskDefinitionArns.First();
+            }
+            catch (Exception)
+            {
+                throw new InexistentTaskDefinition($"Configuration does not exists: {scheduledImageFixedRate.ConfigName}");
+            }
+
+            try
+            {
+                // create event rule
+                await _cloudWatchService.CreateSchedulerRuleAsync(scheduledImageFixedRate.ConfigName, scheduledImageFixedRate.ToString());
+
+                // create target for rule
+                await _cloudWatchService.CreateTargetForRuleAsync(taskDefinitionArn);
+            }
+            catch (AmazonCloudWatchEventsException ex)
+            {
+                _logger.LogError(ex.Message);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Schedules the image to run based on a cron expression
+        /// </summary>
+        /// <param name="scheduledImageCronExpression"></param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task RunScheduledImageAsync(ScheduledImageCronExpression scheduledImageCronExpression)
+        {
+            // get latest revision task definition ARN
+            var response = await _ecsClient.ListTaskDefinitionsAsync(new ListTaskDefinitionsRequest
+            {
+                FamilyPrefix = scheduledImageCronExpression.ConfigName,
+                Sort = SortOrder.DESC
+            });
+            string taskDefinitionArn;
+            try
+            {
+                taskDefinitionArn = response.TaskDefinitionArns.First();
+            }
+            catch (Exception)
+            {
+                throw new InexistentTaskDefinition($"Configuration does not exists: {scheduledImageCronExpression.ConfigName}");
+            }
+
+            try
+            {
+                // create event rule
+                await _cloudWatchService.CreateSchedulerRuleAsync(scheduledImageCronExpression.ConfigName, scheduledImageCronExpression.ToString());
+
+                // create target for rule
+                await _cloudWatchService.CreateTargetForRuleAsync(taskDefinitionArn);
+            }
+            catch (AmazonCloudWatchEventsException ex)
+            {
+                _logger.LogError(ex.Message);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Stoppes the scheduled image
+        /// </summary>
+        /// <param name="configName"></param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task StopScheduledImageAsync(string configName)
+        {
+            try
+            {
+                // delete event rule
+                await _cloudWatchService.DeleteSchedulerRuleAsync(configName);
+            }
+            catch (AmazonCloudWatchEventsException ex)
+            {
+                _logger.LogError(ex.Message);
                 throw;
             }
         }

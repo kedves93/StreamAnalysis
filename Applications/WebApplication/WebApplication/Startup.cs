@@ -35,6 +35,7 @@ namespace WebApplication
             // adding custom services
             services.AddScoped<IDynamoDBService, DynamoDBService>();
             services.AddScoped<IContainerService, ContainerService>();
+            services.AddScoped<ICloudWatchService, CloudWatchService>();
             services.AddScoped<ISnsService, SnsService>();
             services.AddScoped<IS3Service, S3Service>();
             services.AddSingleton<IActiveMQService, ActiveMQService>();

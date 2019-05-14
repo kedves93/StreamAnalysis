@@ -12,5 +12,11 @@ namespace WebApplication.Services
         Task CreateConfigurationAsync(ImageConfiguration config);
 
         Task RunImageAsync(string configName);
+
+        Task RunScheduledImageAsync(ScheduledImageFixedRate scheduledImageFixedRate);
+
+        Task RunScheduledImageAsync(ScheduledImageCronExpression scheduledImageCronExpression);
+
+        Task StopScheduledImageAsync(string configName);
     }
 }

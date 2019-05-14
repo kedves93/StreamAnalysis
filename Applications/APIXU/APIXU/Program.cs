@@ -7,10 +7,10 @@ namespace Apixu
     {
         private static void Main(string[] args)
         {
-            string queue33 = "queue://b3e4cf74252c495f93f48f02d98aa16b-queue33";
-            string queue2 = "queue://b3e4cf74252c495f93f48f02d98aa16b-queue2";
-            string topic1 = "b3e4cf74252c495f93f48f02d98aa16b-topic1";
-            string topic2 = "b3e4cf74252c495f93f48f02d98aa16b-topic2";
+            const string queue1 = "queue://b3e4cf74252c495f93f48f02d98aa16b-queue1";
+            const string queue2 = "queue://b3e4cf74252c495f93f48f02d98aa16b-queue2";
+            const string topic1 = "topic://b3e4cf74252c495f93f48f02d98aa16b-topic1";
+            const string topic2 = "topic://b3e4cf74252c495f93f48f02d98aa16b-topic2";
 
             var factory = new StreamAnalysisConnectionFactory();
 
@@ -23,16 +23,16 @@ namespace Apixu
                     if (connection.IsStarted)
                         Console.WriteLine("Connection established succesfully.");
 
-                    // queue33
-                    using (IStreamAnalysisSession session = connection.CreateStreamingSession(queue33))
+                    // queue1
+                    using (IStreamAnalysisSession session = connection.CreateStreamingSession(queue1))
                     {
-                        Console.WriteLine("Sending data to " + queue33);
+                        Console.WriteLine("Sending data to " + queue1);
                         var queueMessage = Observable.Interval(TimeSpan.FromSeconds(8)).Select(x =>
                         {
                             var weather = ApixuService.GetWeatherDataByAutoIP();
                             return new QueueMessage()
                             {
-                                Queue = queue33,
+                                Queue = queue1,
                                 Value = weather.current.temp_c.ToString(),
                                 Measurement = "°C",
                                 TimestampEpoch = weather.current.last_updated_epoch

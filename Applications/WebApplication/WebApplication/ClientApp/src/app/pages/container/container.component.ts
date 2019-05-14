@@ -101,9 +101,9 @@ export class ContainerComponent implements OnInit {
     ];
 
     this.timeMeasurements = [
-      {label: 'Minutes', value: 'Minutes'},
-      {label: 'Hours', value: 'Hours'},
-      {label: 'Days', value: 'Days'}
+      {label: 'Minutes', value: 'minutes'},
+      {label: 'Hours', value: 'hours'},
+      {label: 'Days', value: 'days'}
     ];
 
     this.isScheduledRunType = false;
@@ -169,11 +169,12 @@ export class ContainerComponent implements OnInit {
   public onSubmitRepositoryForm(): void {
     this.containerService.createRepository(this.repositoryName)
     .subscribe(
-      result => console.log(result),
+      result => {
+        console.log(result);
+        this.activeIndex = 2;
+      },
       error => console.log(error)
     );
-
-    this.activeIndex = 2;
   }
 
   public onCheckImage(): void {
@@ -215,47 +216,49 @@ export class ContainerComponent implements OnInit {
 
   public onSubmitRunImageForm(): void {
 
-    // if (this.isScheduledRunType) {
-    //   if (this.isCronExpression) {
-    //     this.containerService.scheduleImageCronExp(
-    //       this.configurationForm.value.configName,
-    //       this.runImageForm.value.cronExpression
-    //     )
-    //     .subscribe(
-    //       result => console.log(result),
-    //       error => console.log(error)
-    //     );
-    //   } else {
-    //     this.containerService.scheduleImageFixedRate(
-    //       this.configurationForm.value.configName,
-    //       this.configurationForm.value.fixedRateValue,
-    //       this.configurationForm.value.fixedRateMeasurement
-    //     )
-    //     .subscribe(
-    //       result => console.log(result),
-    //       error => console.log(error)
-    //     );
-    //   }
-    // } else {
-    //   this.containerService.runImage(
-    //     this.configurationForm.value.configName
-    //   )
-    //   .subscribe(
-    //     result => console.log(result),
-    //     error => console.log(error)
-    //   );
-    // }
+    if (this.isScheduledRunType) {
+      if (this.isCronExpression) {
+        this.containerService.scheduleImageCronExp(
+          this.configurationForm.value.configName,
+          this.runImageForm.value.cronExpression
+        )
+        .subscribe(
+          result => console.log(result),
+          error => console.log(error)
+        );
+      } else {
+        this.containerService.scheduleImageFixedRate(
+          this.configurationForm.value.configName,
+          this.configurationForm.value.fixedRateValue,
+          this.configurationForm.value.fixedRateMeasurement
+        )
+        .subscribe(
+          result => console.log(result),
+          error => console.log(error)
+        );
+      }
+    } else {
+      this.containerService.runImage(
+        this.configurationForm.value.configName
+      )
+      .subscribe(
+        result => console.log(result),
+        error => console.log(error)
+      );
+    }
 
-    // // start flushing the queues
-    // const queues = [];
-    // for (let i = 0; i < this.brokerForm.controls['queues'].value.length; i++) {
-    //   queues[i] = this.currentUserId + '-' + this.brokerForm.controls['queues'].value[i];
-    // }
+    // start flushing the queues
+    if (this.brokerForm.controls['queues'].value.length > 0) {
+      const queues = [];
+      for (let i = 0; i < this.brokerForm.controls['queues'].value.length; i++) {
+        queues[i] = this.currentUserId + '-' + this.brokerForm.controls['queues'].value[i];
+      }
 
-    // this.containerService.startFlushingQueues(this.currentUserId, queues).subscribe(
-    //   result => console.log(result),
-    //   error => console.log(error)
-    // );
+      this.containerService.startFlushingQueues(this.currentUserId, queues).subscribe(
+        result => console.log(result),
+        error => console.log(error)
+      );
+    }
 
     // notify user
     this.runImageDialogShow = true;
