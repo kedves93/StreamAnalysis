@@ -61,7 +61,7 @@ namespace WebApplication.Services
 
         public async Task StopListeningOnTopicAsync(string topicName)
         {
-            await Task.Run(() => _sessions[topicName]);
+            await Task.Run(() => _sessions[topicName].Dispose());
         }
 
         public class OnMessageEventArgs : EventArgs

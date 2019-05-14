@@ -44,11 +44,12 @@ export class HubService {
       .then(() => {
         // on message
         this.connection.on(topic, (data) => {
-          this.topicsData.find(t => t.topic === topic).value = data.value;
-          this.topicsData.find(t => t.topic === topic).measurement = data.measurement;
-          this.topicsData.find(t => t.topic === topic).icon = data.icon;
-          this.topicsData.find(t => t.topic === topic).lastUpdateSubscription.unsubscribe();
-          this.topicsData.find(t => t.topic === topic).lastUpdateSubscription = this.updateTimer().subscribe(x => {
+          const matchedTopic = this.topicsData.find(t => t.topic === topic);
+          matchedTopic.value = data.value;
+          matchedTopic.measurement = data.measurement;
+          matchedTopic.icon = data.icon;
+          matchedTopic.lastUpdateSubscription.unsubscribe();
+          matchedTopic.lastUpdateSubscription = this.updateTimer().subscribe(x => {
             this.topicsData.find(t => t.topic === topic).lastUpdate = x;
           });
         });

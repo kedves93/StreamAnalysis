@@ -7,10 +7,10 @@ namespace Apixu
     {
         private static void Main(string[] args)
         {
-            const string queue1 = "queue://b3e4cf74252c495f93f48f02d98aa16b-queue1";
-            const string queue2 = "queue://b3e4cf74252c495f93f48f02d98aa16b-queue2";
-            const string topic1 = "topic://b3e4cf74252c495f93f48f02d98aa16b-topic1";
-            const string topic2 = "topic://b3e4cf74252c495f93f48f02d98aa16b-topic2";
+            const string queue1 = "queue://b3e4cf74252c495f93f48f02d98aa16b-temperatureQueue";
+            const string queue2 = "queue://b3e4cf74252c495f93f48f02d98aa16b-windQueue";
+            const string topic1 = "topic://b3e4cf74252c495f93f48f02d98aa16b-temperatureTopic";
+            const string topic2 = "topic://b3e4cf74252c495f93f48f02d98aa16b-windTopic";
 
             var factory = new StreamAnalysisConnectionFactory();
 
@@ -32,7 +32,7 @@ namespace Apixu
                             var weather = ApixuService.GetWeatherDataByAutoIP();
                             return new QueueMessage()
                             {
-                                Queue = queue1,
+                                Queue = queue1.Split("://")[1],
                                 Value = weather.current.temp_c.ToString(),
                                 Measurement = "°C",
                                 TimestampEpoch = weather.current.last_updated_epoch
@@ -50,7 +50,7 @@ namespace Apixu
                             var weather = ApixuService.GetWeatherDataByAutoIP();
                             return new QueueMessage()
                             {
-                                Queue = queue2,
+                                Queue = queue2.Split("://")[1],
                                 Value = weather.current.wind_kph.ToString(),
                                 Measurement = "km/h",
                                 TimestampEpoch = weather.current.last_updated_epoch
@@ -68,7 +68,7 @@ namespace Apixu
                             var weather = ApixuService.GetWeatherDataByAutoIP();
                             return new TopicMessage()
                             {
-                                Topic = topic1,
+                                Topic = topic1.Split("://")[1],
                                 Value = weather.current.temp_c.ToString(),
                                 Measurement = "°C",
                                 Icon = weather.current.condition.icon
@@ -86,7 +86,7 @@ namespace Apixu
                             var weather = ApixuService.GetWeatherDataByAutoIP();
                             return new TopicMessage()
                             {
-                                Topic = topic2,
+                                Topic = topic2.Split("://")[1],
                                 Value = weather.current.wind_kph.ToString(),
                                 Measurement = "km/h",
                                 Icon = weather.current.condition.icon

@@ -45,8 +45,6 @@ export class ContainerComponent implements OnInit {
     containerName: new FormControl('', Validators.required),
     interactive: new FormControl(''),
     pseudoTerminal: new FormControl(''),
-    fixedRateValue: new FormControl('5'),
-    fixedRateMeasurement: new FormControl(''),
     cronExpression: new FormControl({value: '', disabled: true})
   });
 
@@ -229,8 +227,8 @@ export class ContainerComponent implements OnInit {
       } else {
         this.containerService.scheduleImageFixedRate(
           this.configurationForm.value.configName,
-          this.configurationForm.value.fixedRateValue,
-          this.configurationForm.value.fixedRateMeasurement
+          this.runImageForm.value.fixedRateValue,
+          this.runImageForm.value.fixedRateMeasurement
         )
         .subscribe(
           result => console.log(result),

@@ -55,13 +55,13 @@ export class HistoricalService {
 
       switch (chart.timeframe) {
         case 1: {
-          for (let i = 0; i < 12; i++) {
-            labels.push((i + 1) * 5  + 'm ago');
+          for (let i = 0; i < 60; i++) {
+            labels.push((i + 1)  + 'm ago');
             dataset.push(0);
           }
           for (let i = 0; i < queueData.length; i++) {
             for (let j = 0; j < dataset.length; j++) {
-              if ((j * 5) === +queueData[i].lifetimeInMinutes.toFixed()) {
+              if (j === +queueData[i].lifetimeInMinutes.toFixed()) {
                 dataset[j] = queueData[i].value;
               }
             }
@@ -84,7 +84,7 @@ export class HistoricalService {
         }
         case 168: {
           for (let i = 0; i < 7; i++) {
-            labels.push(i + 'days ago');
+            labels.push((i + 1) + 'days ago');
             dataset.push(0);
           }
           for (let i = 0; i < queueData.length; i++) {

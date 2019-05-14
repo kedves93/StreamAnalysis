@@ -17,8 +17,6 @@ namespace WebApplication.Services
 {
     public class ContainerService : IContainerService
     {
-        private const string CLUSTER = "stream-analysis-ecs-cluster";
-
         private readonly IAmazonECS _ecsClient;
 
         private readonly IAmazonECR _ecrClient;
@@ -101,27 +99,27 @@ namespace WebApplication.Services
                 {
                     Family = config.Name,
                     ContainerDefinitions = new List<ContainerDefinition>
-                {
-                    new ContainerDefinition
                     {
-                        Name = config.ContainerName,
-                        Memory = 128,
-                        Essential = true,
-                        Image = config.ImageUri,
-                        Interactive = config.Interactive,
-                        PseudoTerminal = config.PseudoTerminal,
-                        LogConfiguration = new LogConfiguration
+                        new ContainerDefinition
                         {
-                            LogDriver = LogDriver.Awslogs,
-                            Options = new Dictionary<string, string>
+                            Name = config.ContainerName,
+                            Memory = 128,
+                            Essential = true,
+                            Image = config.ImageUri,
+                            Interactive = config.Interactive,
+                            PseudoTerminal = config.PseudoTerminal,
+                            LogConfiguration = new LogConfiguration
                             {
-                                { "awslogs-group", $"/ecs/container-log-group" },
-                                { "awslogs-region", "eu-central-1" },
-                                { "awslogs-stream-prefix", $"ecs/{config.Name}" }
+                                LogDriver = LogDriver.Awslogs,
+                                Options = new Dictionary<string, string>
+                                {
+                                    { "awslogs-group", $"/ecs/container-log-group" },
+                                    { "awslogs-region", "eu-central-1" },
+                                    { "awslogs-stream-prefix", $"ecs/{config.Name}" }
+                                }
                             }
                         }
                     }
-                }
                 });
             }
             catch (AmazonECSException)
@@ -137,20 +135,31 @@ namespace WebApplication.Services
         /// <returns></returns>
         public async System.Threading.Tasks.Task RunImageAsync(string configName)
         {
-            var response = await _ecsClient.ListTaskDefinitionsAsync(new ListTaskDefinitionsRequest
+            var taskDefinitionsResponse = await _ecsClient.ListTaskDefinitionsAsync(new ListTaskDefinitionsRequest
             {
                 FamilyPrefix = configName
             });
-            if (!response.TaskDefinitionArns.Any())
+            if (!taskDefinitionsResponse.TaskDefinitionArns.Any())
             {
                 throw new InexistentTaskDefinition($"Configuration does not exists: {configName}");
+            }
+
+            var clustersResponse = await _ecsClient.ListClustersAsync(new ListClustersRequest());
+            string clusterArn;
+            try
+            {
+                clusterArn = clustersResponse.ClusterArns.First();
+            }
+            catch (Exception)
+            {
+                throw new InexistentCluster("No ECS clusters have been found");
             }
 
             try
             {
                 await _ecsClient.RunTaskAsync(new RunTaskRequest
                 {
-                    Cluster = CLUSTER,
+                    Cluster = clusterArn,
                     Count = 1,
                     LaunchType = Amazon.ECS.LaunchType.EC2,
                     // StartedBy =
@@ -171,7 +180,7 @@ namespace WebApplication.Services
         public async System.Threading.Tasks.Task RunScheduledImageAsync(ScheduledImageFixedRate scheduledImageFixedRate)
         {
             // get latest revision task definition ARN
-            var response = await _ecsClient.ListTaskDefinitionsAsync(new ListTaskDefinitionsRequest
+            var taskDefinitionsResponse = await _ecsClient.ListTaskDefinitionsAsync(new ListTaskDefinitionsRequest
             {
                 FamilyPrefix = scheduledImageFixedRate.ConfigName,
                 Sort = SortOrder.DESC
@@ -179,11 +188,23 @@ namespace WebApplication.Services
             string taskDefinitionArn;
             try
             {
-                taskDefinitionArn = response.TaskDefinitionArns.First();
+                taskDefinitionArn = taskDefinitionsResponse.TaskDefinitionArns.First();
             }
             catch (Exception)
             {
                 throw new InexistentTaskDefinition($"Configuration does not exists: {scheduledImageFixedRate.ConfigName}");
+            }
+
+            // get ESC cluster ARN
+            var clustersResponse = await _ecsClient.ListClustersAsync(new ListClustersRequest());
+            string clusterArn;
+            try
+            {
+                clusterArn = clustersResponse.ClusterArns.First();
+            }
+            catch (Exception)
+            {
+                throw new InexistentCluster("No ECS clusters have been found");
             }
 
             try
@@ -192,7 +213,7 @@ namespace WebApplication.Services
                 await _cloudWatchService.CreateSchedulerRuleAsync(scheduledImageFixedRate.ConfigName, scheduledImageFixedRate.ToString());
 
                 // create target for rule
-                await _cloudWatchService.CreateTargetForRuleAsync(taskDefinitionArn);
+                await _cloudWatchService.CreateTargetForRuleAsync(scheduledImageFixedRate.ConfigName, clusterArn, taskDefinitionArn);
             }
             catch (AmazonCloudWatchEventsException ex)
             {
@@ -224,13 +245,25 @@ namespace WebApplication.Services
                 throw new InexistentTaskDefinition($"Configuration does not exists: {scheduledImageCronExpression.ConfigName}");
             }
 
+            // get ESC cluster ARN
+            var clustersResponse = await _ecsClient.ListClustersAsync(new ListClustersRequest());
+            string clusterArn;
+            try
+            {
+                clusterArn = clustersResponse.ClusterArns.First();
+            }
+            catch (Exception)
+            {
+                throw new InexistentCluster("No ECS clusters have been found");
+            }
+
             try
             {
                 // create event rule
                 await _cloudWatchService.CreateSchedulerRuleAsync(scheduledImageCronExpression.ConfigName, scheduledImageCronExpression.ToString());
 
                 // create target for rule
-                await _cloudWatchService.CreateTargetForRuleAsync(taskDefinitionArn);
+                await _cloudWatchService.CreateTargetForRuleAsync(scheduledImageCronExpression.ConfigName, clusterArn, taskDefinitionArn);
             }
             catch (AmazonCloudWatchEventsException ex)
             {

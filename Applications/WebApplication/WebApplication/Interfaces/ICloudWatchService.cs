@@ -6,7 +6,7 @@ namespace WebApplication.Interfaces
     {
         Task CreateSchedulerRuleAsync(string ruleName, string expression);
 
-        Task CreateTargetForRuleAsync(string taskDefinitionArn);
+        Task CreateTargetForRuleAsync(string ruleName, string clusterArn, string taskDefinitionArn);
 
         Task DeleteSchedulerRuleAsync(string ruleName);
     }

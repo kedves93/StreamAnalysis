@@ -1,6 +1,6 @@
 <div class="container">
     <p-dialog header="Confirmation" [(visible)]="runImageDialogShow" [modal]="true" [draggable]="false" [resizable]="false">
-        <div><span class="info-circle"><i class="pi pi-info-circle"></i></span>Image succesfully started running!</div>
+        <div><span class="info-circle"><i class="pi pi-info-circle"></i></span>Done! Image is about the spin up a container.</div>
         <p-footer>
             <button pButton label="Ok" type="button" icon="pi pi-check-circle" (click)="runImageDialogShow=false"></button >
         </p-footer>
@@ -316,7 +316,7 @@
                                     <input id="fixed-rate-value" pInputText type="text" formControlName="fixedRateValue" size="30">
                                 </div>
                                 <div class="p-col-3">
-                                    <p-dropdown id="fixed-rate-measurement" [options]="timeMeasurements" formControlName="fixedRateMeasurement"></p-dropdown>
+                                    <p-dropdown id="fixed-rate-measurement" [options]="timeMeasurements" formControlName="fixedRateMeasurement" placeholder="Select One"></p-dropdown>
                                 </div>
                             </div>
                         </div>
