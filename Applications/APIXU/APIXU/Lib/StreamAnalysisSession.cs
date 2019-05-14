@@ -5,7 +5,7 @@ namespace Apixu
 {
     public class StreamAnalysisSession : IStreamAnalysisSession
     {
-        private const string DESTINATION = "topic://b3e4cf74252c495f93f48f02d98aa16b-topic1";
+        private const string DESTINATION = "queue://b3e4cf74252c495f93f48f02d98aa16b-queue33";
 
         internal ISession Session { get; set; }
 

@@ -29,7 +29,16 @@ namespace WebApplication.Services
 
             Uri brokerUri = new Uri(configuration.GetConnectionString("ActiveMQ"));
             IConnectionFactory factory = new ConnectionFactory(brokerUri);
-            _connection = factory.CreateConnection(configuration.GetSection("ActiveMQ").GetSection("Username").Value, configuration.GetSection("ActiveMQ").GetSection("Password").Value);
+            try
+            {
+                _connection = factory.CreateConnection(configuration.GetSection("ActiveMQ").GetSection("Username").Value, configuration.GetSection("ActiveMQ").GetSection("Password").Value);
+            }
+            catch (NMSConnectionException ex)
+            {
+                _logger.LogError(ex.Message);
+                return;
+            }
+
             _connection.ExceptionListener += exception => _logger.LogError(exception.Message);
             _connection.Start();
             if (_connection.IsStarted)

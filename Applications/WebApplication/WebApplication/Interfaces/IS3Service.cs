@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using WebApplication.Models;
 
 namespace WebApplication.Interfaces
 {
     public interface IS3Service
     {
-        Task<string> GetFromQueueAsync(string queueName);
+        Task<List<QueueMessage>> GetDataFromQueueAsync(HistoricalData historicalData);
     }
 }

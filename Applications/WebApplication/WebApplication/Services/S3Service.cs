@@ -4,8 +4,11 @@ using Amazon.S3.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using WebApplication.Interfaces;
 using WebApplication.Models;
 
@@ -28,21 +31,36 @@ namespace WebApplication.Services
             _bucket = configuration.GetSection("Buckets").GetSection("StreamAnalysisBucket").Value;
         }
 
-        public async Task<string> GetFromQueueAsync(string queueName)
+        public async Task<List<QueueMessage>> GetDataFromQueueAsync(HistoricalData historicalData)
         {
-            string userId = queueName.Split("-")[1];
+            string userId = historicalData.QueueName.Split("-")[0];
+            List<QueueMessage> messages = new List<QueueMessage>();
 
             try
             {
                 using (GetObjectResponse response = await _s3Client.GetObjectAsync(new GetObjectRequest()
                 {
                     BucketName = _bucket,
-                    Key = userId + "/" + queueName
+                    Key = userId + "/" + historicalData.QueueName
                 }))
                 {
-                    using (StreamReader reader = new StreamReader(response.ResponseStream))
+                    XmlSerializer serializer = new XmlSerializer(typeof(QueueMessage));
+                    using (StreamReader streamReader = new StreamReader(response.ResponseStream))
                     {
-                        return reader.ReadToEnd();
+                        while (streamReader.Peek() >= 0)
+                        {
+                            var line = await streamReader.ReadLineAsync();
+                            using (TextReader textReader = new StringReader(line))
+                            {
+                                var queueMessage = serializer.Deserialize(textReader) as QueueMessage;
+                                var messageLifetime = DateTime.Now - DateTimeOffset.FromUnixTimeSeconds(queueMessage.TimestampEpoch);
+
+                                if (messageLifetime <= TimeSpan.FromHours(historicalData.TimeframeInHours))
+                                    messages.Add(queueMessage);
+                            }
+                        }
+
+                        return messages;
                     }
                 }
             }

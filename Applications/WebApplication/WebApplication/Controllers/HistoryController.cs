@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApplication.Interfaces;
+using WebApplication.Models;
+using WebApplication.Services;
 
 namespace WebApplication.Controllers
 {
@@ -10,16 +13,26 @@ namespace WebApplication.Controllers
     {
         private readonly IS3Service _s3Service;
 
-        public HistoryController(IS3Service s3Service)
+        private readonly IDynamoDBService _dynamoDBService;
+
+        public HistoryController(IS3Service s3Service, IDynamoDBService dynamoDBService)
         {
             _s3Service = s3Service;
+            _dynamoDBService = dynamoDBService;
+        }
+
+        [Route("[action]")]
+        [HttpGet]
+        public async Task<ActionResult<List<string>>> GetAllQueues()
+        {
+            return await _dynamoDBService.GetQueuesAsync();
         }
 
         [Route("[action]")]
         [HttpPost]
-        public async Task<ActionResult<string>> GetHistoricalData([FromBody] string queue)
+        public async Task<ActionResult<List<QueueMessage>>> GetHistoricalData([FromBody] HistoricalData historicalData)
         {
-            return await _s3Service.GetFromQueueAsync(queue);
+            return await _s3Service.GetDataFromQueueAsync(historicalData);
         }
     }
 }

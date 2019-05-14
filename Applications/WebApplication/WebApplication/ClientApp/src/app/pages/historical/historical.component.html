@@ -1,6 +1,33 @@
 <div class="container-fluid" class="historical-page-wrapper">
+  <p-dialog header="Add queue" [(visible)]="addQueueDialogShow" [style]="{width: '300px', height: '200px'}">
+    <div class="p-grid">
+        <div class="p-col">
+            <p-dropdown [options]="availableQueues" [(ngModel)]="selectedQueue" optionLabel="name" placeholder="Select queue" appendTo="body"></p-dropdown>
+        </div>
+        <div class="p-col">
+            <p-dropdown [options]="timeframeOptions" [(ngModel)]="selectedTimeframe" placeholder="Select timeframe" appendTo="body"></p-dropdown>
+        </div>
+    </div>
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="onOkAddQueue()" label="Add"></button>
+        <button type="button" pButton icon="pi pi-close" (click)="addQueueDialogShow=false" label="Cancel" class="ui-button-secondary"></button>
+    </p-footer>
+  </p-dialog>
   <app-menu></app-menu>
   <div class="main-page">
-    
+    <p-dataView [value]="queuesData" emptyMessage="No cards." layout="grid">
+      <p-header>
+          <div class="header-fix">
+              <div class="p-grid">
+                  <div class="p-col-6">
+                      <button pButton type="button" label="Add queue" (click)="onAddQueue()" icon="pi pi-plus"></button>
+                  </div>
+                  <div class="p-col-6 data-view-options">
+                      <p-button id="sign-out-btn" label="Sign Out" icon="fa fa-sign-out" (onClick)="onSignOut()"></p-button>
+                  </div>
+              </div>
+          </div>
+      </p-header>
+    </p-dataView>
   </div>
 </div>

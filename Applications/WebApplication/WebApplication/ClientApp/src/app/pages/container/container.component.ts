@@ -245,15 +245,15 @@ export class ContainerComponent implements OnInit {
     }
     }
     // start flushing the queues
-    if (this.brokerForm.controls['queues'].dirty) {
-      this.containerService.startFlushingQueues(
-        this.currentUserId,
-        this.brokerForm.controls['queues'].value
-      ).subscribe(
-        result => console.log(result),
-        error => console.log(error)
-      );
+    const queues = [];
+    for (let i = 0; i < this.brokerForm.controls['queues'].value.length; i++) {
+      queues[i] = this.currentUserId + '-' + this.brokerForm.controls['queues'].value[i];
     }
+
+    this.containerService.startFlushingQueues(this.currentUserId, queues).subscribe(
+      result => console.log(result),
+      error => console.log(error)
+    );
   }
 
   public copyBuildToClipboard(): void {

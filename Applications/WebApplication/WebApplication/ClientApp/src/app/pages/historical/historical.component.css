@@ -6,3 +6,7 @@
     width: calc(100% - 60px);
     margin-left: 60px;
 }
+
+#sign-out-btn {
+    float: right;
+}

@@ -1,3 +1,4 @@
+import { HistoricalService } from './services/historical/historical.service';
 import { NgModule, Component } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -97,7 +98,8 @@ import { HistoricalComponent } from './pages/historical/historical.component';
     AuthService,
     ContainerService,
     HubService,
-    DashboardService
+    DashboardService,
+    HistoricalService
   ],
   bootstrap: [AppComponent]
 })
