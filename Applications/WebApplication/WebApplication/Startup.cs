@@ -38,6 +38,7 @@ namespace WebApplication
             services.AddScoped<ICloudWatchService, CloudWatchService>();
             services.AddScoped<ISnsService, SnsService>();
             services.AddScoped<IS3Service, S3Service>();
+            services.AddScoped<IIamService, IamService>();
             services.AddSingleton<IActiveMQService, ActiveMQService>();
 
             services.AddSignalR();

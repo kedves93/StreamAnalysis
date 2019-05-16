@@ -24,6 +24,10 @@ import { CardModule } from 'primeng/card';
 import { DataViewModule } from 'primeng/dataview';
 import { DialogModule } from 'primeng/dialog';
 import { ChartModule } from 'primeng/chart';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TableModule } from 'primeng/table';
+import { ContextMenuModule } from 'primeng/contextmenu';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -44,6 +48,8 @@ import { HubService } from './services/hub/hub.service';
 import { TopicNamePipe } from './pipes/topicName/topic-name.pipe';
 import { HistoricalComponent } from './pages/historical/historical.component';
 import { QueueNamePipe } from './pipes/queueName/queue-name.pipe';
+import { ContainerHomeComponent } from './pages/container-home/container-home.component';
+import { ScheduleRuleIdPipe } from './pipes/scheduleRuleName/schedule-rule-id.pipe';
 
 
 @NgModule({
@@ -61,7 +67,9 @@ import { QueueNamePipe } from './pipes/queueName/queue-name.pipe';
     ContainerRegisterComponent,
     TopicNamePipe,
     HistoricalComponent,
-    QueueNamePipe
+    QueueNamePipe,
+    ContainerHomeComponent,
+    ScheduleRuleIdPipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -86,10 +94,14 @@ import { QueueNamePipe } from './pipes/queueName/queue-name.pipe';
     DataViewModule,
     DialogModule,
     ChartModule,
+    ConfirmDialogModule,
+    TableModule,
+    ContextMenuModule,
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent, canActivate: [ AuthGuard ] },
       { path: 'login', component: LoginComponent },
-      { path: 'container/home', component: ContainerComponent, canActivate: [ ContainerAuthGuard ] },
+      { path: 'container/home', component: ContainerHomeComponent, canActivate: [ ContainerAuthGuard ] },
+      { path: 'container/create', component: ContainerComponent, canActivate: [ ContainerAuthGuard ] },
       { path: 'container/login', component: ContainerLoginComponent },
       { path: 'container/register', component: ContainerRegisterComponent },
       { path: 'register', component: RegisterComponent },
@@ -104,7 +116,8 @@ import { QueueNamePipe } from './pipes/queueName/queue-name.pipe';
     ContainerService,
     HubService,
     DashboardService,
-    HistoricalService
+    HistoricalService,
+    ConfirmationService
   ],
   bootstrap: [AppComponent]
 })

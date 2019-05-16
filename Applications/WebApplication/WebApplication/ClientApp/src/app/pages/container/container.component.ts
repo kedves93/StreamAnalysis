@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { MenuItem, SelectItem } from 'primeng/api';
+import { MenuItem, SelectItem, ConfirmationService } from 'primeng/api';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { ContainerService } from './../../services/container/container.service';
 import { ClipboardService } from 'ngx-clipboard';
@@ -49,6 +49,7 @@ export class ContainerComponent implements OnInit {
   });
 
   public runImageForm = new FormGroup({
+    ruleName: new FormControl(''),
     fixedRateValue: new FormControl('5'),
     fixedRateMeasurement: new FormControl(''),
     cronExpression: new FormControl({value: '', disabled: true})
@@ -56,13 +57,12 @@ export class ContainerComponent implements OnInit {
 
   public timeMeasurements: SelectItem[];
 
-  public runImageDialogShow = false;
-
   constructor(
     private containerService: ContainerService,
     private auth: AuthService,
     private router: Router,
-    private clipboardService: ClipboardService) { }
+    private clipboardService: ClipboardService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.stepItems = [
@@ -214,52 +214,63 @@ export class ContainerComponent implements OnInit {
 
   public onSubmitRunImageForm(): void {
 
-    if (this.isScheduledRunType) {
-      if (this.isCronExpression) {
-        this.containerService.scheduleImageCronExp(
-          this.configurationForm.value.configName,
-          this.runImageForm.value.cronExpression
-        )
-        .subscribe(
-          result => console.log(result),
-          error => console.log(error)
-        );
-      } else {
-        this.containerService.scheduleImageFixedRate(
-          this.configurationForm.value.configName,
-          this.runImageForm.value.fixedRateValue,
-          this.runImageForm.value.fixedRateMeasurement
-        )
-        .subscribe(
-          result => console.log(result),
-          error => console.log(error)
-        );
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to run the image?',
+      accept: () => {
+        this.auth.getCurrentUserId(this.auth.currentUser).subscribe(userId => {
+          if (this.isScheduledRunType) {
+            if (this.isCronExpression) {
+              this.containerService.scheduleImageCronExp(
+                userId,
+                this.configurationForm.value.configName,
+                userId + '.' + this.runImageForm.value.ruleName,
+                this.runImageForm.value.cronExpression
+              )
+              .subscribe(
+                result => console.log(result),
+                error => console.log(error)
+              );
+            } else {
+              this.containerService.scheduleImageFixedRate(
+                userId,
+                this.configurationForm.value.configName,
+                userId + '.' + this.runImageForm.value.ruleName,
+                this.runImageForm.value.fixedRateValue,
+                this.runImageForm.value.fixedRateMeasurement
+              )
+              .subscribe(
+                result => console.log(result),
+                error => console.log(error)
+              );
+            }
+          } else {
+            this.containerService.runImage(
+              userId,
+              this.configurationForm.value.configName
+            )
+            .subscribe(
+              result => console.log(result),
+              error => console.log(error)
+            );
+          }
+
+          // start flushing the queues
+          if (this.brokerForm.controls['queues'].value.length > 0) {
+            const queues = [];
+            for (let i = 0; i < this.brokerForm.controls['queues'].value.length; i++) {
+              queues[i] = this.currentUserId + '-' + this.brokerForm.controls['queues'].value[i];
+            }
+
+            this.containerService.startFlushingQueues(this.currentUserId, queues).subscribe(
+              result => console.log(result),
+              error => console.log(error)
+            );
+          }
+
+          this.router.navigate(['/container/home']);
+        });
       }
-    } else {
-      this.containerService.runImage(
-        this.configurationForm.value.configName
-      )
-      .subscribe(
-        result => console.log(result),
-        error => console.log(error)
-      );
-    }
-
-    // start flushing the queues
-    if (this.brokerForm.controls['queues'].value.length > 0) {
-      const queues = [];
-      for (let i = 0; i < this.brokerForm.controls['queues'].value.length; i++) {
-        queues[i] = this.currentUserId + '-' + this.brokerForm.controls['queues'].value[i];
-      }
-
-      this.containerService.startFlushingQueues(this.currentUserId, queues).subscribe(
-        result => console.log(result),
-        error => console.log(error)
-      );
-    }
-
-    // notify user
-    this.runImageDialogShow = true;
+    });
   }
 
   public copyBuildToClipboard(): void {
@@ -274,12 +285,6 @@ export class ContainerComponent implements OnInit {
   public copyPushToClipboard(): void {
     this.clipboardService.copyFromContent('docker push 526110916966.dkr.ecr.eu-central-1.amazonaws.com/' +
       this.repositoryName + ':latest');
-  }
-
-  public onLogOut(): void {
-    this.auth.signOutUser();
-    this.auth.containerLoggedInStatus = false;
-    this.router.navigate(['/container/login']);
   }
 
   private getCurrentUserId(): void {

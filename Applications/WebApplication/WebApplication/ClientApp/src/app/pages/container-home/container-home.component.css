@@ -1,0 +1,53 @@
+/* Disabling anchor properties */
+p-contextmenu a, p-contextmenu a:visited, p-contextmenu a:hover, p-contextmenu a:active {
+    color: inherit !important;
+    text-decoration: inherit !important;
+}
+
+.log-out {
+    position: absolute;
+    right: 0px;
+    top: 35px;
+    border-radius: 12px 0px 0px 12px;
+    padding-left: 11px;
+    padding-top: 3px;
+    width: 90px;
+    height: 32px;
+    background-color: #007ad9;
+    color: white;
+    font-size: 14px;
+    border: 1px solid #007ad9;
+    font-family: "Open Sans", "Helvetica Neue", sans-serif;
+    cursor: pointer;
+}
+
+.log-out .icon {
+    margin-right: 2px;
+}
+
+.container-home-title {
+    font-size: 40px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.container-home-paragraph {
+    margin-bottom: 20px;
+}
+
+.container-pending {
+    color: orange;
+}
+
+.container-running {
+    color: limegreen;
+}
+
+.scheduler-rule-disabled {
+    color: orange;
+}
+
+.scheduler-rule-enabled {
+    color: limegreen;
+}

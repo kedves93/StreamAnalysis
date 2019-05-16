@@ -34,11 +34,10 @@ export class AuthService {
     );
   }
 
-  public signInUser(username: string, password: string, rememberMe: boolean, containerUser: boolean): Observable<boolean> {
+  public signInUser(username: string, password: string, containerUser: boolean): Observable<boolean> {
     const body = JSON.stringify({
       username: username,
       password: password,
-      rememberMe: rememberMe,
       containerUser: containerUser
     });
     const httpOptions = {
@@ -76,11 +75,19 @@ export class AuthService {
     );
   }
 
-  public isUserLoggedIn(): boolean {
-    if (localStorage.getItem('currentUser') === null) {
-      return false;
-    } else {
+  public isContainerUserLoggedIn(): boolean {
+    if (localStorage.getItem('currentUser') !== null && localStorage.getItem('userType') === 'container') {
       return true;
+    } else {
+      return false;
+    }
+  }
+
+  public isDashboardUserLoggedIn(): boolean {
+    if (localStorage.getItem('currentUser') !== null && localStorage.getItem('userType') === 'dashboard') {
+      return true;
+    } else {
+      return false;
     }
   }
 

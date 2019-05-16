@@ -30,13 +30,14 @@ export class LoginFormComponent implements OnInit {
       this.auth.signInUser(
         this.loginForm.value.username,
         this.loginForm.value.password,
-        this.loginForm.value.rememberMe,
         true)
         .subscribe(result => {
           this.validAuth = result;
           if (this.validAuth === true) {
-            localStorage.setItem('currentUser', this.loginForm.value.username);
-            localStorage.setItem('userType', 'container');
+            if (this.loginForm.value.rememberMe) {
+              localStorage.setItem('currentUser', this.loginForm.value.username);
+              localStorage.setItem('userType', 'container');
+            }
             this.router.navigate(['/container/home']);
           }
         },
@@ -48,13 +49,14 @@ export class LoginFormComponent implements OnInit {
       this.auth.signInUser(
         this.loginForm.value.username,
         this.loginForm.value.password,
-        this.loginForm.value.rememberMe,
         false)
         .subscribe(result => {
           this.validAuth = result;
           if (this.validAuth) {
-            localStorage.setItem('currentUser', this.loginForm.value.username);
-            localStorage.setItem('userType', 'dashboard');
+            if (this.loginForm.value.rememberMe) {
+              localStorage.setItem('currentUser', this.loginForm.value.username);
+              localStorage.setItem('userType', 'dashboard');
+            }
             this.router.navigate(['/home']);
           }
         },

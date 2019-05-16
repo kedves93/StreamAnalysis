@@ -4,10 +4,13 @@ using Amazon.ECR;
 using Amazon.ECR.Model;
 using Amazon.ECS;
 using Amazon.ECS.Model;
+using Amazon.IdentityManagement;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using WebApplication.Exceptions;
 using WebApplication.Interfaces;
@@ -23,19 +26,25 @@ namespace WebApplication.Services
 
         private readonly ICloudWatchService _cloudWatchService;
 
+        private readonly IIamService _iamService;
+
         private readonly ILogger _logger;
+
+        private readonly string _ecsRole;
 
         /// <summary>
         /// The parameter 'credentials' is injected, see Startup.cs
         /// </summary>
         /// <param name="credentials"></param>
-        public ContainerService(ICloudWatchService cloudWatchService, IOptions<AwsDevCredentials> credentials, ILogger<ContainerService> logger)
+        public ContainerService(ICloudWatchService cloudWatchService, IIamService iamService, IOptions<AwsDevCredentials> credentials, IConfiguration configuration, ILogger<ContainerService> logger)
         {
             string accessKey = credentials.Value.AwsAccessKeyId;
             string secretKey = credentials.Value.AwsSecretAccessKey;
             _ecsClient = new AmazonECSClient(accessKey, secretKey, RegionEndpoint.EUCentral1);
             _ecrClient = new AmazonECRClient(accessKey, secretKey, RegionEndpoint.EUCentral1);
+            _ecsRole = configuration.GetSection("IamRoles").GetSection("EcsEventsRole").Value;
             _cloudWatchService = cloudWatchService;
+            _iamService = iamService;
             _logger = logger;
         }
 
@@ -133,15 +142,15 @@ namespace WebApplication.Services
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public async System.Threading.Tasks.Task RunImageAsync(string configName)
+        public async System.Threading.Tasks.Task RunImageAsync(RunImageConfiguration runImageConfig)
         {
             var taskDefinitionsResponse = await _ecsClient.ListTaskDefinitionsAsync(new ListTaskDefinitionsRequest
             {
-                FamilyPrefix = configName
+                FamilyPrefix = runImageConfig.ConfigName
             });
             if (!taskDefinitionsResponse.TaskDefinitionArns.Any())
             {
-                throw new InexistentTaskDefinition($"Configuration does not exists: {configName}");
+                throw new InexistentTaskDefinition($"Configuration does not exists: {runImageConfig.ConfigName}");
             }
 
             var clustersResponse = await _ecsClient.ListClustersAsync(new ListClustersRequest());
@@ -160,10 +169,44 @@ namespace WebApplication.Services
                 await _ecsClient.RunTaskAsync(new RunTaskRequest
                 {
                     Cluster = clusterArn,
+                    Group = runImageConfig.TaskGroupName,
+                    StartedBy = "StreamAnalysis User",
                     Count = 1,
                     LaunchType = Amazon.ECS.LaunchType.EC2,
-                    // StartedBy =
-                    TaskDefinition = $"{configName}"
+                    TaskDefinition = $"{runImageConfig.ConfigName}"
+                });
+            }
+            catch (AmazonECSException)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Stops a task based on its ARN
+        /// </summary>
+        /// <param name="taskArn"></param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task StopTaskAsync(string taskArn)
+        {
+            // get ECS cluster ARN
+            var clustersResponse = await _ecsClient.ListClustersAsync(new ListClustersRequest());
+            string clusterArn;
+            try
+            {
+                clusterArn = clustersResponse.ClusterArns.First();
+            }
+            catch (Exception)
+            {
+                throw new InexistentCluster("No ECS clusters have been found");
+            }
+
+            try
+            {
+                await _ecsClient.StopTaskAsync(new StopTaskRequest()
+                {
+                    Cluster = clusterArn,
+                    Task = taskArn
                 });
             }
             catch (AmazonECSException)
@@ -195,7 +238,7 @@ namespace WebApplication.Services
                 throw new InexistentTaskDefinition($"Configuration does not exists: {scheduledImageFixedRate.ConfigName}");
             }
 
-            // get ESC cluster ARN
+            // get ECS cluster ARN
             var clustersResponse = await _ecsClient.ListClustersAsync(new ListClustersRequest());
             string clusterArn;
             try
@@ -207,13 +250,25 @@ namespace WebApplication.Services
                 throw new InexistentCluster("No ECS clusters have been found");
             }
 
+            // get target role ARN
+            string targetRoleArn;
+            try
+            {
+                targetRoleArn = await _iamService.GetRoleArnFromNameAsync(_ecsRole);
+            }
+            catch (AmazonIdentityManagementServiceException)
+            {
+                throw;
+            }
+
             try
             {
                 // create event rule
-                await _cloudWatchService.CreateSchedulerRuleAsync(scheduledImageFixedRate.ConfigName, scheduledImageFixedRate.ToString());
+                // rule name basically will be userId + ruleName
+                await _cloudWatchService.CreateSchedulerRuleAsync(scheduledImageFixedRate.RuleName, scheduledImageFixedRate.ToString());
 
                 // create target for rule
-                await _cloudWatchService.CreateTargetForRuleAsync(scheduledImageFixedRate.ConfigName, clusterArn, taskDefinitionArn);
+                await _cloudWatchService.CreateTargetForRuleAsync(scheduledImageFixedRate.RuleName, targetRoleArn, clusterArn, taskDefinitionArn, scheduledImageFixedRate.TasksGroupName);
             }
             catch (AmazonCloudWatchEventsException ex)
             {
@@ -257,13 +312,25 @@ namespace WebApplication.Services
                 throw new InexistentCluster("No ECS clusters have been found");
             }
 
+            // get target role ARN
+            string targetRoleArn;
+            try
+            {
+                targetRoleArn = await _iamService.GetRoleArnFromNameAsync(_ecsRole);
+            }
+            catch (AmazonIdentityManagementServiceException)
+            {
+                throw;
+            }
+
             try
             {
                 // create event rule
-                await _cloudWatchService.CreateSchedulerRuleAsync(scheduledImageCronExpression.ConfigName, scheduledImageCronExpression.ToString());
+                // rule name basically will be userId + ruleName
+                await _cloudWatchService.CreateSchedulerRuleAsync(scheduledImageCronExpression.RuleName, scheduledImageCronExpression.ToString());
 
                 // create target for rule
-                await _cloudWatchService.CreateTargetForRuleAsync(scheduledImageCronExpression.ConfigName, clusterArn, taskDefinitionArn);
+                await _cloudWatchService.CreateTargetForRuleAsync(scheduledImageCronExpression.RuleName, targetRoleArn, clusterArn, taskDefinitionArn, scheduledImageCronExpression.TasksGroupName);
             }
             catch (AmazonCloudWatchEventsException ex)
             {
@@ -287,6 +354,70 @@ namespace WebApplication.Services
             catch (AmazonCloudWatchEventsException ex)
             {
                 _logger.LogError(ex.Message);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Lists tasks based on their group name
+        /// </summary>
+        /// <param name="tasksGroupName"></param>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task<List<Models.Container>> ListTasksFromGroupAsync(string tasksGroupName)
+        {
+            // get ECS cluster ARN
+            var clustersResponse = await _ecsClient.ListClustersAsync(new ListClustersRequest());
+            string clusterArn;
+            try
+            {
+                clusterArn = clustersResponse.ClusterArns.First();
+            }
+            catch (Exception)
+            {
+                throw new InexistentCluster("No ECS clusters have been found");
+            }
+
+            // list tasks based on cluster
+            var taskArns = new List<string>();
+            try
+            {
+                var listTasksResponse = await _ecsClient.ListTasksAsync(new ListTasksRequest()
+                {
+                    Cluster = clusterArn
+                });
+                taskArns = listTasksResponse.TaskArns;
+            }
+            catch (AmazonECSException)
+            {
+                throw;
+            }
+            if (!taskArns.Any())
+                return new List<WebApplication.Models.Container>();
+
+            // describe tasks
+            try
+            {
+                var describeTasksResponse = await _ecsClient.DescribeTasksAsync(new DescribeTasksRequest()
+                {
+                    Cluster = clusterArn,
+                    Tasks = taskArns
+                });
+
+                var foundContainers = from task in describeTasksResponse.Tasks
+                                      where task.Group.Equals(tasksGroupName)
+                                      select new WebApplication.Models.Container()
+                                      {
+                                          Id = task.Containers.First().Name,
+                                          TaskId = task.TaskArn,
+                                          Status = task.LastStatus,
+                                          StartedAt = task.StartedAt.Equals(DateTime.MinValue) ? "" :
+                                            task.StartedAt.ToString("F", CultureInfo.CreateSpecificCulture("en-US"))
+                                      };
+
+                return foundContainers.ToList();
+            }
+            catch (AmazonECSException)
+            {
                 throw;
             }
         }

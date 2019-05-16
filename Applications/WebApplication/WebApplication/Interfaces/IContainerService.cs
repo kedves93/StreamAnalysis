@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebApplication.Models;
 
 namespace WebApplication.Services
@@ -11,12 +12,16 @@ namespace WebApplication.Services
 
         Task CreateConfigurationAsync(ImageConfiguration config);
 
-        Task RunImageAsync(string configName);
+        Task RunImageAsync(RunImageConfiguration runImageConfig);
+
+        Task StopTaskAsync(string taskArn);
 
         Task RunScheduledImageAsync(ScheduledImageFixedRate scheduledImageFixedRate);
 
         Task RunScheduledImageAsync(ScheduledImageCronExpression scheduledImageCronExpression);
 
         Task StopScheduledImageAsync(string configName);
+
+        Task<List<Container>> ListTasksFromGroupAsync(string tasksGroupName);
     }
 }

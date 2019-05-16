@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using WebApplication.Models;
 
 namespace WebApplication.Interfaces
 {
@@ -6,8 +8,14 @@ namespace WebApplication.Interfaces
     {
         Task CreateSchedulerRuleAsync(string ruleName, string expression);
 
-        Task CreateTargetForRuleAsync(string ruleName, string clusterArn, string taskDefinitionArn);
+        Task<List<SchedulerRule>> ListSchedulerRulesAsync(string ruleNamePrefix);
 
         Task DeleteSchedulerRuleAsync(string ruleName);
+
+        Task EnableSchedulerRuleAsync(string ruleName);
+
+        Task DisableSchedulerRuleAsync(string ruleName);
+
+        Task CreateTargetForRuleAsync(string ruleName, string targetRoleArn, string clusterArn, string taskDefinitionArn, string tasksGroupName);
     }
 }

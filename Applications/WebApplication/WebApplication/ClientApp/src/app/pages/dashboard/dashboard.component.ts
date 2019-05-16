@@ -66,6 +66,7 @@ export class DashboardComponent implements OnInit {
 
   public onSignOut(): void {
     this.auth.signOutUser();
+    this.auth.loggedInStatus = false;
     this.router.navigate(['/login']);
   }
 

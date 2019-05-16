@@ -101,6 +101,10 @@ namespace Apixu
                 Console.WriteLine(ex.Message);
             }
 
+            var timer = new System.Timers.Timer(TimeSpan.FromMinutes(2).TotalMilliseconds);
+            timer.Elapsed += (source, e) => Environment.Exit(0);
+            timer.Enabled = true;
+
             Console.ReadLine();
         }
     }

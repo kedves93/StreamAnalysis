@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using WebApplication.Interfaces;
 using WebApplication.Models;
@@ -13,8 +14,6 @@ namespace WebApplication.Services
 {
     public class CloudWatchService : ICloudWatchService
     {
-        private const string CLOUDWATCH_EVENTS_ROLE_ARN = "arn:aws:iam::526110916966:role/ecsEventsRole";
-
         private readonly IAmazonCloudWatchEvents _cloudWatchClient;
 
         public CloudWatchService(IOptions<AwsDevCredentials> credentials)
@@ -41,7 +40,107 @@ namespace WebApplication.Services
             }
         }
 
-        public async Task CreateTargetForRuleAsync(string ruleName, string clusterArn, string taskDefinitionArn)
+        public async Task<List<SchedulerRule>> ListSchedulerRulesAsync(string ruleNamePrefix)
+        {
+            try
+            {
+                var response = await _cloudWatchClient.ListRulesAsync(new ListRulesRequest()
+                {
+                    NamePrefix = ruleNamePrefix
+                });
+
+                var foundRules = from rule in response.Rules
+                                 select new SchedulerRule() { Id = rule.Name, State = rule.State };
+
+                return foundRules.ToList();
+            }
+            catch (AmazonCloudWatchEventsException)
+            {
+                throw;
+            }
+        }
+
+        public async Task DeleteSchedulerRuleAsync(string ruleName)
+        {
+            // list targets by rule name
+            List<string> targetIds = new List<string>();
+            try
+            {
+                var response = await _cloudWatchClient.ListTargetsByRuleAsync(new ListTargetsByRuleRequest()
+                {
+                    Rule = ruleName
+                });
+                var foundTargetIds = from target in response.Targets
+                                     select target.Id;
+
+                targetIds = foundTargetIds.ToList();
+            }
+            catch (AmazonCloudWatchEventsException)
+            {
+                throw;
+            }
+
+            // remove targets from rule
+            try
+            {
+                await _cloudWatchClient.RemoveTargetsAsync(new RemoveTargetsRequest()
+                {
+                    Rule = ruleName,
+                    Ids = targetIds,
+                    Force = true
+                });
+            }
+            catch (AmazonCloudWatchEventsException)
+            {
+                throw;
+            }
+
+            // finally delete rule
+            try
+            {
+                await _cloudWatchClient.DeleteRuleAsync(new DeleteRuleRequest()
+                {
+                    Name = ruleName,
+                    Force = true
+                });
+            }
+            catch (AmazonCloudWatchEventsException)
+            {
+                throw;
+            }
+        }
+
+        public async Task EnableSchedulerRuleAsync(string ruleName)
+        {
+            try
+            {
+                await _cloudWatchClient.EnableRuleAsync(new EnableRuleRequest()
+                {
+                    Name = ruleName
+                });
+            }
+            catch (AmazonCloudWatchEventsException)
+            {
+                throw;
+            }
+        }
+
+        public async Task DisableSchedulerRuleAsync(string ruleName)
+        {
+            try
+            {
+                await _cloudWatchClient.DisableRuleAsync(new DisableRuleRequest()
+                {
+                    Name = ruleName
+                });
+            }
+            catch (AmazonCloudWatchEventsException)
+            {
+                throw;
+            }
+        }
+
+        public async Task CreateTargetForRuleAsync(string ruleName, string targetRoleArn, string clusterArn, string taskDefinitionArn, string tasksGroupName)
         {
             try
             {
@@ -53,31 +152,17 @@ namespace WebApplication.Services
                         new Target()
                         {
                             Arn = clusterArn,
-                            RoleArn = CLOUDWATCH_EVENTS_ROLE_ARN,
+                            RoleArn = targetRoleArn,
                             Id = "targetId_" + ruleName,
                             EcsParameters = new EcsParameters()
                             {
+                                Group = tasksGroupName,
                                 LaunchType = LaunchType.EC2,
                                 TaskCount = 1,
                                 TaskDefinitionArn = taskDefinitionArn
                             }
                         }
                     }
-                });
-            }
-            catch (AmazonCloudWatchEventsException)
-            {
-                throw;
-            }
-        }
-
-        public async Task DeleteSchedulerRuleAsync(string ruleName)
-        {
-            try
-            {
-                await _cloudWatchClient.DeleteRuleAsync(new DeleteRuleRequest()
-                {
-                    Name = ruleName
                 });
             }
             catch (AmazonCloudWatchEventsException)

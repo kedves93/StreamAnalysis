@@ -1,7 +1,9 @@
 ﻿namespace WebApplication.Models
 {
-    public class ImageConfigurationName
+    public class SchedulerRule
     {
         public string Id { get; set; }
+
+        public string State { get; set; }
     }
 }

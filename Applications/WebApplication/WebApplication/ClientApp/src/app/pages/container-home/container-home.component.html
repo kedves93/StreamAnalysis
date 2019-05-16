@@ -1,0 +1,64 @@
+<div class="container">
+  <p-contextMenu #containersContextMenu [model]="containerContextMenuItems"></p-contextMenu>
+  <p-contextMenu #schedulerRulesContextMenu [model]="schedulerRulesContextMenuItems"></p-contextMenu>
+  <div class="log-out">
+    <div (click)="onLogOut()"><span class="icon"><i class="fa fa-sign-out"></i></span>Log out</div>
+  </div>
+  <div class="container-home-title">Welcome to Stream Analysis Containers</div>
+  <div class="container-home-paragraph">
+    <span style="margin-right: 20px;">Add or schedule containers:</span>
+    <span><p-button label="Add containers" icon="pi pi-plus" (onClick)="onAddContainers()"></p-button></span>
+  </div>
+  <p-tabView>
+      <p-tabPanel header="Containers">
+        <div class="container-home-paragraph" style="margin-top: 15px;">Below are listed your containers. You can <b>stop</b> them by right click on them.</div>
+        <div class="container-home-paragraph">
+          <span style="margin-right: 20px;">Refresh containers list:</span>
+          <span><p-button icon="pi pi-refresh" (onClick)="onRefreshContainers()"></p-button></span>
+        </div>
+        <p-table [columns]="containerTableCols" [value]="containers" [(contextMenuSelection)]="selectedContainer" [contextMenu]="containersContextMenu">
+          <ng-template pTemplate="header" let-columns>
+              <tr>
+                  <th *ngFor="let col of columns">
+                      {{col.header}}
+                  </th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr [pContextMenuRow]="rowData" >
+                  <td *ngFor="let col of columns" [ngClass]="{
+                    'container-running':rowData[col.field] === 'RUNNING',
+                    'container-pending':rowData[col.field] === 'PENDING'
+                    }">{{rowData[col.field]}}
+                  </td>
+              </tr>
+          </ng-template>
+        </p-table>
+      </p-tabPanel>
+      <p-tabPanel header="Schedule Rules">
+        <div class="container-home-paragraph" style="margin-top: 15px;">Below are listed your scheduler rules. You can change their state them by right click on them.</div>
+        <div class="container-home-paragraph">
+            <span style="margin-right: 20px;">Refresh rules list:</span>
+            <span><p-button icon="pi pi-refresh" (onClick)="onRefreshSchedulerRules()"></p-button></span>
+        </div>
+        <p-table [columns]="schedulerRuleTableCols" [value]="schedulerRules" [(contextMenuSelection)]="selectedSchedulerRule" [contextMenu]="schedulerRulesContextMenu">
+          <ng-template pTemplate="header" let-columns>
+              <tr>
+                  <th *ngFor="let col of columns">
+                      {{col.header}}
+                  </th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr [pContextMenuRow]="rowData" >
+                  <td *ngFor="let col of columns" [ngClass]="{
+                    'scheduler-rule-enabled':rowData[col.field] === 'ENABLED',
+                    'scheduler-rule-disabled':rowData[col.field] === 'DISABLED'
+                    }">{{rowData[col.field] | scheduleRuleId}}
+                  </td>
+              </tr>
+          </ng-template>
+        </p-table>
+      </p-tabPanel>
+  </p-tabView>
+</div>

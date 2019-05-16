@@ -4,6 +4,10 @@
     {
         public string ConfigName { get; set; }
 
+        public string RuleName { get; set; }
+
+        public string TasksGroupName { get; set; }
+
         public int Rate { get; set; }
 
         public string Time { get; set; }

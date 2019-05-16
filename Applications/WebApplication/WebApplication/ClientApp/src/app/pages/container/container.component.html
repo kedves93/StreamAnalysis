@@ -1,13 +1,5 @@
 <div class="container">
-    <p-dialog header="Confirmation" [(visible)]="runImageDialogShow" [modal]="true" [draggable]="false" [resizable]="false">
-        <div><span class="info-circle"><i class="pi pi-info-circle"></i></span>Done! Image is about the spin up a container.</div>
-        <p-footer>
-            <button pButton label="Ok" type="button" icon="pi pi-check-circle" (click)="runImageDialogShow=false"></button >
-        </p-footer>
-    </p-dialog>
-    <div class="log-out">
-        <p-button label="Log out" (onClick)="onLogOut()"></p-button>
-    </div>
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
     <p-steps [model]="stepItems" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
     <div *ngIf="activeIndex === 0">
         <div class="p-grid">
@@ -306,7 +298,20 @@
                     <p-radioButton name="runTypeGroup" [value]=true label="Schedule" [(ngModel)]="isScheduledRunType" [ngModelOptions]="{standalone: true}"></p-radioButton>
                 </div>
                 <p-accordion *ngIf="isScheduledRunType">
-                    <p-accordionTab header="Time Interval" [selected]="isScheduledRunType" [disabled]="!isScheduledRunType">
+                    <p-accordionTab header="Scheduling Rule" [selected]="isScheduledRunType" [disabled]="!isScheduledRunType">
+                        <div class="p-col-12">
+                            <div class="p-grid p-justify-center">
+                                <div class="p-col-2">
+                                    Rule name*:
+                                </div>
+                                <div class="p-col-6">
+                                    <input id="schedule-rule-name" pInputText type="text" formControlName="ruleName" size="50" placeholder="rule-name">
+                                </div>
+                                <div class="p-offset-2 p-col-6" style="padding-left:10px; padding-top: 0px;">
+                                    <div class="regular-expression">Must satisfy regular expression '[\.\-_A-Za-z0-9]+'</div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="p-col-12">
                             <div class="p-grid p-justify-center">
                                 <div class="p-col-2">
@@ -338,7 +343,7 @@
                     <hr/>
                 </div>
                 <div class="p-col-12">
-                    <p-button label="Run image" type="submit" [disabled]="!runImageForm.valid"></p-button>
+                    <p-button label="Run Image" type="submit" [disabled]="!runImageForm.valid"></p-button>
                 </div>
             </div>
         </form>

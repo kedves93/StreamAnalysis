@@ -1,3 +1,5 @@
+import { SchedulerRule } from './../../models/scheduler-rule';
+import { Container } from './../../models/container';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -55,26 +57,63 @@ export class ContainerService {
     return this.http.post<boolean>(this.baseUrl + 'api/Container/CreateConfiguration', body, this.httpOptions);
   }
 
-  public runImage(configName: string): Observable<any> {
-    const body = '"' + configName + '"';
+  public runImage(userId: string, configName: string): Observable<any> {
+    const body = JSON.stringify({
+      configName: configName,
+      taskGroupName: userId
+    });
     return this.http.post<boolean>(this.baseUrl + 'api/Container/RunImage', body, this.httpOptions);
   }
 
-  public scheduleImageFixedRate(configName: string, rate: number, time: string): Observable<any> {
+  public stopTask(taskId: string): Observable<any> {
+    const body = '"' + taskId + '"';
+    return this.http.post<boolean>(this.baseUrl + 'api/Container/StopTask', body, this.httpOptions);
+  }
+
+  public scheduleImageFixedRate(userId: string, configName: string, ruleName: string, rate: number, time: string): Observable<any> {
     const body = JSON.stringify({
       configName: configName,
+      ruleName: ruleName,
+      tasksGroupName: userId,
       rate: rate,
       time: time
     });
     return this.http.post<boolean>(this.baseUrl + 'api/Container/ScheduleImageFixedRate', body, this.httpOptions);
   }
 
-  public scheduleImageCronExp(configName: string, cronExp: string): Observable<any> {
+  public scheduleImageCronExp(userId: string, configName: string, ruleName: string, cronExp: string): Observable<any> {
     const body = JSON.stringify({
       configName: configName,
+      ruleName: ruleName,
+      tasksGroupName: userId,
       cronExpression: cronExp
     });
     return this.http.post<boolean>(this.baseUrl + 'api/Container/ScheduleImageCronExp', body, this.httpOptions);
+  }
+
+  public listSchedulerRules(userId: string): Observable<SchedulerRule[]> {
+    const body = '"' + userId + '"';
+    return this.http.post<SchedulerRule[]>(this.baseUrl + 'api/Container/ListSchedulerRules', body, this.httpOptions);
+  }
+
+  public listContainers(userId: string): Observable<Container[]> {
+    const body = '"' + userId + '"';
+    return this.http.post<Container[]>(this.baseUrl + 'api/Container/ListContainers', body, this.httpOptions);
+  }
+
+  public enableSchedulerRule(ruleName: string): Observable<any> {
+    const body = '"' + ruleName + '"';
+    return this.http.post<any>(this.baseUrl + 'api/Container/EnableSchedulerRule', body, this.httpOptions);
+  }
+
+  public disableSchedulerRule(ruleName: string): Observable<any> {
+    const body = '"' + ruleName + '"';
+    return this.http.post<any>(this.baseUrl + 'api/Container/DisableSchedulerRule', body, this.httpOptions);
+  }
+
+  public deleteSchedulerRule(ruleName: string): Observable<any> {
+    const body = '"' + ruleName + '"';
+    return this.http.post<any>(this.baseUrl + 'api/Container/DeleteSchedulerRule', body, this.httpOptions);
   }
 
   public stopScheduledImage(configName: string): Observable<any> {

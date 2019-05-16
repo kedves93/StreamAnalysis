@@ -16,7 +16,7 @@ export class ContainerAuthGuard implements CanActivate {
       if (this.authService.containerLoggedInStatus) {
         return true;
       }
-      if (this.authService.isUserLoggedIn()) {
+      if (this.authService.isContainerUserLoggedIn()) {
         this.authService.containerLoggedInStatus = true;
         this.authService.currentUser = localStorage.getItem('currentUser');
         this.authService.userType = localStorage.getItem('userType');

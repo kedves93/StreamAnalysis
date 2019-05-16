@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
       if (this.authService.loggedInStatus) {
         return true;
       }
-      if (this.authService.isUserLoggedIn()) {
+      if (this.authService.isDashboardUserLoggedIn()) {
         this.authService.loggedInStatus = true;
         this.authService.currentUser = localStorage.getItem('currentUser');
         this.authService.userType = localStorage.getItem('userType');

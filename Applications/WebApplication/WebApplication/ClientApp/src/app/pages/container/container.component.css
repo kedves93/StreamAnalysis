@@ -34,12 +34,6 @@ p-accordion {
     display: none;
 }
 
-.log-out {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-}
-
 .label-user-id {
     padding: 0px;
     background-color: #a6a6a6;
