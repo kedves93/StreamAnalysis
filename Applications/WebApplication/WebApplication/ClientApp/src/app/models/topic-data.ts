@@ -1,19 +1,13 @@
-import { Subscription } from 'rxjs';
+import { Subscription, Observable, Subject } from 'rxjs';
 
 export class TopicData {
     topic: string;
-    value: string;
+    stream: Subject<string>;
     measurement: string;
-    icon: string;
-    lastUpdate: string;
-    lastUpdateSubscription: Subscription;
 
-    constructor(topic: string, value: string = 'N/A', measurement: string = 'N/A', icon: string = '', lastUpdate: string = 'No update') {
+    constructor(topic: string, stream: Subject<string> = new Subject<string>(), measurement: string = 'N/A') {
         this.topic = topic;
-        this.value = value;
+        this.stream = stream;
         this.measurement = measurement;
-        this.icon = icon;
-        this.lastUpdate = lastUpdate;
-        this.lastUpdateSubscription = new Subscription();
     }
 }

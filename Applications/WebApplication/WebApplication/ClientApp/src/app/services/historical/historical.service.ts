@@ -1,4 +1,4 @@
-import { Chart } from './../../models/chart';
+import { HistoricalData } from './../../models/historical-data';
 import { QueueData } from './../../models/queue-data';
 import { Queue } from './../../models/queue';
 import { Injectable, Inject } from '@angular/core';
@@ -17,7 +17,7 @@ export class HistoricalService {
 
   public availableQueues: Queue[];
 
-  public charts: Chart[] = [];
+  public historicalDataList: HistoricalData[] = [];
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.baseUrl = baseUrl;
@@ -36,94 +36,43 @@ export class HistoricalService {
     });
   }
 
-  public addChart(chart: Chart): void {
-    this.getQueueData(chart.queueName, chart.timeframe).pipe(map(queueData => {
-      if (queueData.length === 0) {
-        return {
-          datasets: [
-            {
-              label: chart.queueName
-            }
-          ]
-        };
+  public addHistoricalData(queue: Queue): void {
+    this.getQueueData(queue.name).subscribe(queueData => {
+      // new historicalData
+      const newHistoricalData = new HistoricalData();
+      newHistoricalData.queue = queueData[0].queue;
+      newHistoricalData.measurement = queueData[0].measurement;
+      newHistoricalData.values = [];
+      for (let i = 0; i < queueData.length; i++) {
+        const d = new Date(0);
+        newHistoricalData.values.push({
+          value: queueData[i].value,
+          date: d.setSeconds(queueData[i].timestampEpoch)
+        });
       }
 
-      chart.measurement = queueData[0].measurement;
-
-      const labels = [];
-      const dataset = [];
-
-      switch (chart.timeframe) {
-        case 1: {
-          for (let i = 0; i < 60; i++) {
-            labels.push((i + 1)  + 'm ago');
-            dataset.push(0);
-          }
-          for (let i = 0; i < queueData.length; i++) {
-            for (let j = 0; j < dataset.length; j++) {
-              if (j === +queueData[i].lifetimeInMinutes.toFixed()) {
-                dataset[j] = queueData[i].value;
-              }
-            }
-          }
-          break;
-        }
-        case 24: {
-          for (let i = 0; i < 24; i++) {
-            labels.push((i + 1) + 'h ago');
-            dataset.push(0);
-          }
-          for (let i = 0; i < queueData.length; i++) {
-            for (let j = 0; j < dataset.length; j++) {
-              if (j === +queueData[i].lifetimeInHours.toFixed()) {
-                dataset[j] = queueData[i].value;
-              }
-            }
-          }
-          break;
-        }
-        case 168: {
-          for (let i = 0; i < 7; i++) {
-            labels.push((i + 1) + 'days ago');
-            dataset.push(0);
-          }
-          for (let i = 0; i < queueData.length; i++) {
-            for (let j = 0; j < dataset.length; j++) {
-              if (j === +queueData[i].lifetimeInDays.toFixed()) {
-                dataset[j] = queueData[i].value;
-              }
-            }
-          }
-          break;
-        }
+      // update historicalDataList
+      const aux = this.historicalDataList;
+      this.historicalDataList = [];
+      for (let i = 0; i < aux.length; i++) {
+        this.historicalDataList.push(aux[i]);
       }
+      this.historicalDataList.push(newHistoricalData);
 
-      return {
-        labels: labels,
-        datasets: [
-          {
-            label: chart.queueName,
-            backgroundColor: 'rgb(17,102,187,0.4)',
-            borderColor: 'rgb(17,102,187)',
-            data: dataset
-          }
-        ]
-      };
-    })).subscribe(chartData => {
-      chart.dataset = chartData;
-      this.charts.push(chart);
     });
+  }
+
+  public deleteHistoricalData(queue: string): void {
+    const index = this.historicalDataList.findIndex(h => h.queue === queue);
+    this.historicalDataList.splice(index, 1);
   }
 
   public getAllQueues(): Observable<string[]> {
     return this.http.get<string[]>(this.baseUrl + 'api/History/GetAllQueues', this.httpOptions);
   }
 
-  public getQueueData(queueName: string, timeframe: number): Observable<QueueData[]> {
-    const body = JSON.stringify({
-      queueName: queueName,
-      timeframeInHours: timeframe
-    });
+  public getQueueData(queue: string): Observable<QueueData[]> {
+    const body = '"' + queue + '"';
     return this.http.post<QueueData[]>(this.baseUrl + 'api/History/GetHistoricalData', body, this.httpOptions);
   }
 }

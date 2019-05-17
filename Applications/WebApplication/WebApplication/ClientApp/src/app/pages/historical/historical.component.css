@@ -14,3 +14,8 @@
 .queue-data-grid-row {
     padding: 10px;
 }
+
+#add-queue-dialog .ui-dialog {
+    min-width: 550px !important;
+    width: 550px !important;
+}

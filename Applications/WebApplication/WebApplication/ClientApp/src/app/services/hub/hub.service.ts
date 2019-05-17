@@ -32,7 +32,6 @@ export class HubService {
     // stop messages
     this.stopRealTimeMessagesFromTopic(topic);
 
-    this.topicsData.find(t => t.topic === topic).lastUpdateSubscription.unsubscribe();
     const index = this.topicsData.findIndex(t => t.topic === topic);
     this.topicsData.splice(index, 1);
   }
@@ -44,14 +43,10 @@ export class HubService {
       .then(() => {
         // on message
         this.connection.on(topic, (data) => {
-          const matchedTopic = this.topicsData.find(t => t.topic === topic);
-          matchedTopic.value = data.value;
-          matchedTopic.measurement = data.measurement;
-          matchedTopic.icon = data.icon;
-          matchedTopic.lastUpdateSubscription.unsubscribe();
-          matchedTopic.lastUpdateSubscription = this.updateTimer().subscribe(x => {
-            this.topicsData.find(t => t.topic === topic).lastUpdate = x;
-          });
+          if (this.topicsData.find(t => t.topic === topic) !== undefined) {
+            this.topicsData.find(t => t.topic === topic).stream.next(data.value);
+            this.topicsData.find(t => t.topic === topic).measurement = data.measurement;
+          }
         });
 
         // initiate messaging
@@ -83,22 +78,5 @@ export class HubService {
       .subscribe(res => {
         console.log(res);
       });
-  }
-
-  private updateTimer(): Observable<string> {
-    const seconds = timer(0, 5 * 1000).pipe(take(12)).pipe(map(x => {
-      if (x === 0) {
-        return 'Just updated';
-      } else {
-        return 'updated ' + x * 5 + ' seconds ago';
-      }
-    }));
-    const minutes = timer(60 * 1000, 60 * 1000).pipe(take(59)).pipe(map(x => {
-      return 'updated ' + (x + 1) + ' minutes ago';
-    }));
-    const hours = timer(60 * 60 * 1000, 60 * 60 * 1000).pipe(map(x => {
-      return 'updated ' + (x + 1) + ' hours ago';
-    }));
-    return seconds.pipe(merge(minutes)).pipe(merge(hours));
   }
 }

@@ -7,7 +7,5 @@
         public string Value { get; set; }
 
         public string Measurement { get; set; }
-
-        public string Icon { get; set; }
     }
 }

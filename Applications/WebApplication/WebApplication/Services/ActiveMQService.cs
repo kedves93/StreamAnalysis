@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using WebApplication.Interfaces;
@@ -18,14 +19,14 @@ namespace WebApplication.Services
 
         private readonly ILogger _logger;
 
-        private readonly Dictionary<string, ISession> _sessions;
-
         public event EventHandler<OnMessageEventArgs> OnTopicMessage;
+
+        public Dictionary<string, CancellationTokenSource> _topicCancellationTokens;
 
         public ActiveMQService(IConfiguration configuration, ILogger<ActiveMQService> logger)
         {
             _logger = logger;
-            _sessions = new Dictionary<string, ISession>();
+            _topicCancellationTokens = new Dictionary<string, CancellationTokenSource>();
 
             Uri brokerUri = new Uri(configuration.GetConnectionString("ActiveMQ"));
             IConnectionFactory factory = new ConnectionFactory(brokerUri);
@@ -49,19 +50,35 @@ namespace WebApplication.Services
 
         public async Task StartListeningOnTopicAsync(string topicName)
         {
+            _topicCancellationTokens[topicName] = new CancellationTokenSource();
+            var token = _topicCancellationTokens[topicName].Token;
+
             await Task.Run(() =>
             {
-                ISession session = _connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
-                _sessions[topicName] = session;
-                ITopic topic = session.GetTopic(topicName);
-                IMessageConsumer consumer = session.CreateConsumer(topic);
-                consumer.Listener += new MessageListener(ConsumeMessages);
-            });
+                using (ISession session = _connection.CreateSession(AcknowledgementMode.AutoAcknowledge))
+                {
+                    using (ITopic topic = session.GetTopic(topicName))
+                    {
+                        using (IMessageConsumer consumer = session.CreateConsumer(topic))
+                        {
+                            while (!token.IsCancellationRequested)
+                            {
+                                IMessage message = consumer.Receive();
+                                ConsumeMessages(message);
+                            }
+                        }
+                    }
+                }
+            }, token);
         }
 
         public async Task StopListeningOnTopicAsync(string topicName)
         {
-            await Task.Run(() => _sessions[topicName].Dispose());
+            await Task.Run(() =>
+            {
+                _topicCancellationTokens[topicName].Cancel();
+                _topicCancellationTokens[topicName].Dispose();
+            });
         }
 
         public class OnMessageEventArgs : EventArgs

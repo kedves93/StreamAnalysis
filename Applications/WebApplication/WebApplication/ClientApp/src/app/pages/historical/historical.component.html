@@ -1,17 +1,11 @@
 <div class="container-fluid" class="historical-page-wrapper">
-  <p-dialog header="Add queue" [(visible)]="addQueueDialogShow" [modal]="true" [draggable]="false" [resizable]="false">
+  <p-dialog id="add-queue-dialog" header="Add queue" [(visible)]="addQueueDialogShow" [modal]="true" [draggable]="false" [resizable]="false">
     <div class="p-grid">
         <div class="p-col-2" style="padding-top: 12px;">
             Queue
         </div>
         <div class="p-col-10">
             <p-dropdown [options]="availableQueues" [(ngModel)]="selectedQueue" optionLabel="name" placeholder="Select one" appendTo="body"></p-dropdown>
-        </div>
-        <div class="p-col-2" style="padding-top: 12px;">
-            Timeframe
-        </div>
-        <div class="p-col-10">
-            <p-dropdown [options]="timeframeOptions" [(ngModel)]="selectedTimeframe" placeholder="Select one" appendTo="body"></p-dropdown>
         </div>
     </div>
     <p-footer>
@@ -21,7 +15,7 @@
   </p-dialog>
   <app-menu></app-menu>
   <div class="main-page">
-    <p-dataView [value]="charts" emptyMessage="No cards." layout="grid">
+    <p-dataView [value]="historicalDataList" emptyMessage="No cards." layout="grid">
         <p-header>
             <div class="header-fix">
                 <div class="p-grid">
@@ -34,11 +28,9 @@
                 </div>
             </div>
         </p-header>
-        <ng-template let-chart pTemplate="gridItem">
-            <div class="p-col-12 p-md-4 p-lg-4 queues-data-grid-row">
-                <p-card class="big-card" [header]="chart.queueName | queueName" [subheader]="chart.measurement">
-                    <p-chart type="line" [data]="chart.dataset" [options]="chartOptions"></p-chart>
-                </p-card>
+        <ng-template let-historicalData pTemplate="gridItem">
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 queues-data-grid-row">
+                <app-zoom-chart [id]="historicalData.queue" [data]="historicalData.values" [header]="historicalData.queue | queueName" [measurement]="historicalData.measurement" (delete)="onDeleteZoomChart($event)"></app-zoom-chart>
             </div>
         </ng-template>
     </p-dataView>

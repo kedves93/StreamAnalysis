@@ -1,0 +1,18 @@
+.live-chart-delete {
+    float: right;
+}
+
+.live-chart-delete:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.live-chart-title {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+}
+
+.chart {
+    height:400px;
+}

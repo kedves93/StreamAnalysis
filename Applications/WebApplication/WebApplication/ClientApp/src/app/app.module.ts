@@ -23,7 +23,6 @@ import { TabViewModule } from 'primeng/tabview';
 import { CardModule } from 'primeng/card';
 import { DataViewModule } from 'primeng/dataview';
 import { DialogModule } from 'primeng/dialog';
-import { ChartModule } from 'primeng/chart';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule } from 'primeng/table';
@@ -50,6 +49,8 @@ import { HistoricalComponent } from './pages/historical/historical.component';
 import { QueueNamePipe } from './pipes/queueName/queue-name.pipe';
 import { ContainerHomeComponent } from './pages/container-home/container-home.component';
 import { ScheduleRuleIdPipe } from './pipes/scheduleRuleName/schedule-rule-id.pipe';
+import { LiveChartComponent } from './directives/live-chart/live-chart.component';
+import { ZoomChartComponent } from './directives/zoom-chart/zoom-chart.component';
 
 
 @NgModule({
@@ -69,7 +70,9 @@ import { ScheduleRuleIdPipe } from './pipes/scheduleRuleName/schedule-rule-id.pi
     HistoricalComponent,
     QueueNamePipe,
     ContainerHomeComponent,
-    ScheduleRuleIdPipe
+    ScheduleRuleIdPipe,
+    LiveChartComponent,
+    ZoomChartComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -93,7 +96,6 @@ import { ScheduleRuleIdPipe } from './pipes/scheduleRuleName/schedule-rule-id.pi
     CardModule,
     DataViewModule,
     DialogModule,
-    ChartModule,
     ConfirmDialogModule,
     TableModule,
     ContextMenuModule,

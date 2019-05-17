@@ -6,6 +6,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Topic } from './../../models/topic';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -74,7 +75,7 @@ export class DashboardComponent implements OnInit {
     this.addTopicDialogShow = true;
   }
 
-  public onDeleteDashcard(topic: string): void {
+  public onDeleteLiveChart(topic: string): void {
     this.hubService.deleteTopicData(topic);
 
     // add topic to available list

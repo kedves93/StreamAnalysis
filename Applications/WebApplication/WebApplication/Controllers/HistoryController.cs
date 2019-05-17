@@ -30,9 +30,9 @@ namespace WebApplication.Controllers
 
         [Route("[action]")]
         [HttpPost]
-        public async Task<ActionResult<List<QueueMessage>>> GetHistoricalData([FromBody] HistoricalData historicalData)
+        public async Task<ActionResult<List<QueueMessage>>> GetHistoricalData([FromBody] string queue)
         {
-            return await _s3Service.GetDataFromQueueAsync(historicalData);
+            return await _s3Service.GetDataFromQueueAsync(queue);
         }
     }
 }

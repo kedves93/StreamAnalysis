@@ -6,6 +6,6 @@ namespace WebApplication.Interfaces
 {
     public interface IS3Service
     {
-        Task<List<QueueMessage>> GetDataFromQueueAsync(HistoricalData historicalData);
+        Task<List<QueueMessage>> GetDataFromQueueAsync(string queue);
     }
 }

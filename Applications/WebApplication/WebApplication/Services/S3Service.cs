@@ -4,7 +4,6 @@ using Amazon.S3.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -31,9 +30,9 @@ namespace WebApplication.Services
             _bucket = configuration.GetSection("Buckets").GetSection("StreamAnalysisBucket").Value;
         }
 
-        public async Task<List<QueueMessage>> GetDataFromQueueAsync(HistoricalData historicalData)
+        public async Task<List<QueueMessage>> GetDataFromQueueAsync(string queue)
         {
-            string userId = historicalData.QueueName.Split("-")[0];
+            string userId = queue.Split("-")[0];
             List<QueueMessage> messages = new List<QueueMessage>();
 
             try
@@ -41,7 +40,7 @@ namespace WebApplication.Services
                 using (GetObjectResponse response = await _s3Client.GetObjectAsync(new GetObjectRequest()
                 {
                     BucketName = _bucket,
-                    Key = userId + "/" + historicalData.QueueName
+                    Key = userId + "/" + queue
                 }))
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(QueueMessage));
@@ -52,16 +51,7 @@ namespace WebApplication.Services
                             var line = await streamReader.ReadLineAsync();
                             using (TextReader textReader = new StringReader(line))
                             {
-                                var queueMessage = serializer.Deserialize(textReader) as QueueMessage;
-                                var messageLifetime = DateTime.Now - DateTimeOffset.FromUnixTimeSeconds(queueMessage.TimestampEpoch);
-
-                                if (messageLifetime <= TimeSpan.FromHours(historicalData.TimeframeInHours))
-                                {
-                                    queueMessage.LifetimeInMinutes = messageLifetime.TotalMinutes;
-                                    queueMessage.LifetimeInHours = messageLifetime.TotalHours;
-                                    queueMessage.LifetimeInDays = messageLifetime.TotalDays;
-                                    messages.Add(queueMessage);
-                                }
+                                messages.Add(serializer.Deserialize(textReader) as QueueMessage);
                             }
                         }
 

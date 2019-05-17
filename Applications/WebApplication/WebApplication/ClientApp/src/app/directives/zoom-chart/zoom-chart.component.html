@@ -1,0 +1,9 @@
+<p-card>
+    <p-header>
+      <div class="ui-card-title zoom-chart-title">
+        <span>{{header}} ({{measurement}})</span>
+        <span class="zoom-chart-delete" (click)="onDelete()"><i class="fa fa-trash-o"></i></span>
+      </div>
+    </p-header>
+    <div id="{{id}}" class="chart"></div>
+  </p-card>
