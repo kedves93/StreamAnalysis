@@ -11,26 +11,6 @@
 	- Created a VPC with IP CIDR block: 10.0.0.0/16 (65531 IP addesses available); named: stream-analysis-vpc
 	- Created inside the VPC a subnet with 10.0.0.0/24 (251 IP addresses available); availabilty zone: eu-central-1a; named: stream-analysis-subnet-a
 	- Edited the Routing table inside the VPC to let outgoing traffic to reach the outside world (internet). Destination: 0.0.0.0/0 - Target - the precreated Internet Gateway
-	
-4. EC2 ### EU (Frankfurt)
-	- https://bytescout.com/blog/2016/06/blog201606blog201605setting-webserver-asp-net-mvc-application-aws-ec2-html-html.html
-	- Creating an EC2 instance for hosting the Web App
-		- AMI: Microsoft Windows Server 2019 Base - ami-0656e8790d1df60b5
-		- Type: t2.micro (Variable ECUs, 1 vCPUs, 2.5 GHz, Intel Xeon Family, 1 GiB memory, EBS only)
-		- VPC: stream-analysis-vpc
-		- Subnet: stream-analysis-subnet-a
-		- EBS - 30GB
-		- Tag: Key: Name; Value: WebServer IIS EC2;
-		- Created a sg named WebServer IIS SG, with inbound rules:
-			- RDP - Private access to a certain IP
-			- TCP port 8172 - (Used to publish the app) Private access to a certain IP
-			- HTTP - Public access for the web site
-	- Server Manager + Local Server + IE Enhanced Security Configuration Off
-	- An ASP.NET Framework app would work, but since we want an ASP.NET Core with Angular the following must be done:
-		- Install .NET Core SDK
-		- Install .NET Hosting Bundle - https://dotnet.microsoft.com/download/thank-you/dotnet-runtime-2.1.6-windows-hosting-bundle-installer
-	- The Default Web Server may be stopped, and cannot be started. It means the port 80 is in use.
-		- https://stackoverflow.com/questions/14411090/cant-start-site-in-iis-use-by-another-process
 
 	
 5. Amazon MQ ### EU (Frankfurt)
@@ -38,7 +18,7 @@
 		- TCP port 61617 - Public access to Broker Open Wire
 		- TCP port 8162 - Public access to ActiveMQ Web Interface
 	- Creating a broker named: StreamAnalysisBroker
-		- Type: mq.t2.micro (1 vCPU, 1Gb RAM, Low Network)
+		- Type: mq.t2.micro
 		- Broker engine: Apache ActiveMQ
 		- Username: admin
 		- Password: adminPassword
@@ -52,17 +32,44 @@
 7. ECS ### EU (Frankfurt)
 	- Created a new subnet: stream-analysis-subnet-b
 	- Created a cluster: EC2 Windows + Networking
+	- https://bytescout.com/blog/2016/06/blog201606blog201605setting-webserver-asp-net-mvc-application-aws-ec2-html-html.html
+	- EC2 instance: for hosting the Web App and running containers
+		- AMI: Windows_Server-2016-English-Full-ECS_Optimized-2018.10.23 - ami-0cd14231d2781b2d4
+		- Type: t2.micro
+		- VPC: stream-analysis-vpc
+		- Subnet: stream-analysis-subnet-a
+		- EBS - 50GB
+		- Tag: Key: Name; Value: ECS;
+		- Created a sg named WebServer IIS SG, with inbound rules:
+			- RDP - Private access to a certain IP
+			- TCP port 8172 - (Used to publish the app) Private access to a certain IP
+			- HTTP - Public access for the web site
+	- Server Manager + Local Server + IE Enhanced Security Configuration Off
+	- An ASP.NET Framework app would work, but since we want an ASP.NET Core with Angular the following must be done:
+		- Install .NET Core SDK
+		- Install .NET Hosting Bundle - https://dotnet.microsoft.com/download/thank-you/dotnet-runtime-2.1.6-windows-hosting-bundle-installer
+	- The Default Web Server may be stopped, and cannot be started. It means the port 80 is in use.
+		- https://stackoverflow.com/questions/14411090/cant-start-site-in-iis-use-by-another-process
+
 	- The cluster recognizes the instace because the ECS AMI has a pre-installed agent
 	- AWS with the cluster also creates an Auto Scaling Group and a Launch Configuration, but because of the ASG the instance cannot be stopped only terminated
 	- The solution is to detach the instance from the ASG and then delete the ASC and LC.
-	- A Task Definition(blueprint) is required to create a Service or a Task or a Scheduled Task.
-		- The -it from "docker run -it <image_name>" is done manually by putting them into the JSON (Configure via JSON)
-			 "interactive": true,
-            		 "pseudoTerminal": true
 
 
 8 S3 ### EU (Frankfurt) 
 	- Created a new bucket: stream.analysis.bucket
+
+9. CloudWatch ### EU (Frankfurt)
+	- Created a dashboard with relevant information: StreamAnalysisDashboard
+
+10. SNS ### EU (Frankfurt)
+	- Created a topic to notify when to flush from S3: stream-analysis-notification
+
+11. Lambda ### EU (Frankfurt)
+	- Created an AWS Lambda: ActiveMQFlushLambda
+		- Runtime: .NET Core 2.1 (C#/PowerShell)
+		- Memory: 256MB
+
 
  
 

@@ -1,0 +1,55 @@
+\chapter{Requirements}
+\label{chap:02}
+In this chapter the basic user requirements are presented.
+
+\section{Nonfunctional requirements}
+\label{chap:02:01}
+
+\subsection{Access}
+\label{chap:02:01:01}
+The Stream Analysis web application is not open-source and its usage is not free. However it is accessible from all around the world as long as the user has internet connection.\\
+
+The application is targeting two types of users:
+\begin{itemize}
+	\item Advanced software engineers - that push data into the application. They need to register with an account and they are charged based on time.
+	\item Normal users - that can read and interpret that data from charts in a dashboard. They also need to register with an account and they are charged based on the value of the data they visualize.
+\end{itemize}
+
+\subsection{Performance}
+\label{chap:02:01:02}
+The application itself was intended to be very fast and responsive to user interactions. However it has no scaling policies set up so there is a limit of users that can use the web application simultaneously. The limit is around 500 req/second.
+
+\subsection{Guide}
+\label{chap:02:01:03}
+It has no stand alone public documentation that users can access, but this paper will softly guide users through its features in further chapters.
+
+
+\section{Functional requirements}
+\label{chap:02:02}
+
+\subsection{Application overview}
+\label{chap:02:02:01}
+Stream Analysis is a web application hosted in the cloud which offers two services:
+\begin{itemize}
+	\item Push data into cloud - users have to create their own Docker image that streams any type of data into an ActiveMQ broker. The broker supports 5 types of protocols ([TODO]more information in chapter ...). Data is organized into topics and queues:
+	\begin{itemize}
+		\item Topics - are used to handle real time messages
+		\item Queues - are used for historical data. Messages are stored and later retrieved
+	\end{itemize}
+	Once the image is ready, the user can proceed with the step by step image upload. 
+	\begin{enumerate}
+		\item Define topics and queues used in the container
+		\item Create a repository for the image
+		\item Push image to repository
+		\item Add configuration for the container
+		\item Run image
+		\begin{enumerate}
+			\item Immediately
+			\item Create a scheduling rule to run the image multiple times over time
+		\end{enumerate}
+	\end{enumerate}
+	Once containers are being created the web application subscribes to the topics inserted by the user at step 1. The same happens with queues but in this case the stream of data is dequeued into files so that they can later be retrieved. 
+	Stream Analysis also offers the user a dashboard to keep track of his created containers and scheduling rules.
+	\item Visualize data from the cloud - since data is split into topics and queues, the web application takes advantage of this and shows real time plots for topic streams and static time based plots for queue data.
+\end{itemize}
+
