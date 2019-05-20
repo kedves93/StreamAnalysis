@@ -8,8 +8,6 @@
 
         public string Measurement { get; set; }
 
-        public string Icon { get; set; }
-
         public int TimestampEpoch { get; set; }
     }
 }
