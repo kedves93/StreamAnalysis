@@ -14,16 +14,20 @@ a, a:visited, a:hover, a:active {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    background-color: #282E34;
 }
 
 .home-page-container #bg-img-1 {
     height: 100%;
     background-image: url("assets/images/digital.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
     background-size: cover;
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
+}
+
+.home-page-container #bg-img-2 {
+    height: 500px;
+    width: 100%;
+    background-size: contain;
+    background-image: url("assets/images/secure.jpg");
 }
 
 .home-page-container .enter-btn-wrapper {
@@ -51,4 +55,17 @@ a, a:visited, a:hover, a:active {
 .home-page-container .enter-btn-wrapper .enter-btn:hover {
     font-weight: bold;
     text-shadow: 1px 1px 2px black, 0 0 25px black, 0 0 5px black;
+}
+
+.home-page-container .paragraph {
+    color: #ddd;
+    background-color: #282E34;
+    padding: 50px 80px;
+}
+
+.home-page-container .paragraph-title {
+    margin-bottom: 40px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
 }
