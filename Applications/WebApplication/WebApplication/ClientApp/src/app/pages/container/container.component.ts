@@ -115,6 +115,10 @@ export class ContainerComponent implements OnInit {
     this.getCurrentUserTopics();
   }
 
+  public onHome(): void {
+    this.router.navigate(['/container/home']);
+  }
+
   public onSubmitBrokerForm(): void {
     this.auth.getCurrentUserId(this.auth.currentUser).subscribe(id => {
       const t = <FormArray>this.brokerForm.get('topics');
@@ -322,5 +326,4 @@ export class ContainerComponent implements OnInit {
       });
     });
   }
-
 }

@@ -84,8 +84,13 @@ export class ZoomChartComponent implements OnInit, AfterViewInit {
     series.fillOpacity = 0.3;
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.lineY.opacity = 0;
-    chart.scrollbarX = new am4charts.XYChartScrollbar();
-    chart.scrollbarX.series.push(series);
+
+    //
+    // ScrollBar
+    //
+    const scrollBar = new am4charts.XYChartScrollbar();
+    scrollBar.series.push(series);
+    chart.scrollbarX = scrollBar;
 
     return chart;
   }

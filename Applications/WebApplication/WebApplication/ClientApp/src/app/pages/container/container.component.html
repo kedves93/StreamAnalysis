@@ -1,6 +1,9 @@
 <div class="container">
     <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
-    <p-steps [model]="stepItems" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
+    <div class="home-btn">
+        <div (click)="onHome()"><span class="icon"><i class="fa fa-home"></i></span>Home</div>
+    </div>
+    <p-steps [model]="stepItems" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
     <div *ngIf="activeIndex === 0">
         <div class="p-grid">
             <div class="p-col-12">
@@ -16,6 +19,21 @@
                             <div class="p-col-12"><hr/></div>
                             <div class="p-col-2">Example</div>
                             <div class="p-col-10">activemq:ssl://b-d517d345-559e-4c9c-b84a-8413f5aedbdd-1.mq.eu-central-1.amazonaws.com:61617?transport.acceptInvalidBrokerCert=true&wireFormat.maxInactivityDuration=0</div>
+                        </div>
+                    </p-accordionTab>
+                    <p-accordionTab header="Topics Message Model" [selected]="false">
+                        <div class="p-grid" style="padding-top:10px">
+                            <div class="p-col-12">Topic - string</div>
+                            <div class="p-col-12">Value - string</div>
+                            <div class="p-col-12">Measurement - string</div>
+                        </div>
+                    </p-accordionTab>
+                    <p-accordionTab header="Queue Message Model" [selected]="false">
+                        <div class="p-grid" style="padding-top:10px">
+                            <div class="p-col-12">Queue - string</div>
+                            <div class="p-col-12">Value - string</div>
+                            <div class="p-col-12">Measurement - string</div>
+                            <div class="p-col-12">TimestampEpoch - integer</div>
                         </div>
                     </p-accordionTab>
                 </p-accordion>

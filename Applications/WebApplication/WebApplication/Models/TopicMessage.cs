@@ -13,8 +13,5 @@ namespace WebApplication.Models
 
         [XmlElement("Measurement")]
         public string Measurement { get; set; }
-
-        [XmlElement("Icon")]
-        public string Icon { get; set; }
     }
 }
