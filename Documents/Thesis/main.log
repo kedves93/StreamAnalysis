@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (MiKTeX 2.9.7000 64-bit) (preloaded format=xelatex 2019.5.19)  19 MAY 2019 19:52
+This is XeTeX, Version 3.14159265-2.6-0.999991 (MiKTeX 2.9.7000 64-bit) (preloaded format=xelatex 2019.5.19)  22 MAY 2019 00:43
 entering extended mode
 **./main.tex
 (main.tex
@@ -851,7 +851,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <12> on input line 17.
 
-Overfull \hbox (38.61188pt too wide) in paragraph at lines 17--21
+Overfull \hbox (33.98813pt too wide) in paragraph at lines 17--21
  [][] 
  []
 
@@ -869,7 +869,7 @@ File: se-ascii-print.def 2016/05/16 v1.11 stringenc: Printable ASCII characters
 File: ./images/Logo-UT-MI-SPOT-EN.pdf Graphic file (type pdf)
 <use ./images/Logo-UT-MI-SPOT-EN.pdf>
 
-Overfull \hbox (53.27625pt too wide) in paragraph at lines 22--26
+Overfull \hbox (48.6525pt too wide) in paragraph at lines 22--26
  [][] 
  []
 
@@ -901,21 +901,21 @@ Chapter 1.
 
  (TeX_files/chapter02.tex
 Chapter 2.
-
-Underfull \hbox (badness 10000) in paragraph at lines 10--11
-
- []
-
 [3
 
 
 
-]) [4]
+]
+Underfull \hbox (badness 10000) in paragraph at lines 41--42
+
+ []
+
+[4]) [5]
 \openout2 = `./TeX_files/chapter03.aux'.
 
  (TeX_files/chapter03.tex
 Chapter 3.
-) [5
+) [6
 
 
 
@@ -924,7 +924,7 @@ Chapter 3.
 
  (TeX_files/chapter04.tex
 Chapter 4.
-) [6
+) [7
 
 
 
@@ -936,7 +936,7 @@ ri(0)/m/sc/12 url\TU/Calibri(0)/m/n/12 : []$[][][][][] [] [] [] [][] [] [][][][
  []
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 31.
-[7
+[8
 
 
 ]
@@ -947,7 +947,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 31.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 31.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 31.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 8A7C5812B950C010DB448B744C561E67.
+(rerunfilecheck)             Checksum: 5D1C63DF56D12C656BA56F4FF0471B0D.
 
 
 LaTeX Warning: There were multiply-defined labels.
@@ -958,12 +958,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 31.
  ) 
 Here is how much of TeX's memory you used:
- 27238 strings out of 427669
- 517488 string characters out of 3149215
- 832978 words of memory out of 3000000
- 31085 multiletter control sequences out of 15000+200000
+ 27240 strings out of 427669
+ 517518 string characters out of 3149215
+ 833978 words of memory out of 3000000
+ 31087 multiletter control sequences out of 15000+200000
  536564 words of font info for 64 fonts, out of 3000000 for 9000
  1348 hyphenation exceptions out of 8191
  43i,6n,79p,965b,5309s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on main.pdf (9 pages).
+Output written on main.pdf (10 pages).
