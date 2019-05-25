@@ -12,18 +12,18 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.1.1}Application overview}{3}{subsection.2.1.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.2}Nonfunctional requirements}{4}{section.2.2}% 
+\contentsline {subsection}{\numberline {2.1.2}Access}{4}{subsection.2.1.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2.1}Access}{4}{subsection.2.2.1}% 
+\contentsline {section}{\numberline {2.2}Nonfunctional requirements}{5}{section.2.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2.2}Diversity}{5}{subsection.2.2.2}% 
+\contentsline {subsection}{\numberline {2.2.1}Diversity}{5}{subsection.2.2.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2.3}Performance}{5}{subsection.2.2.3}% 
+\contentsline {subsection}{\numberline {2.2.2}Performance}{5}{subsection.2.2.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2.4}Security}{5}{subsection.2.2.4}% 
+\contentsline {subsection}{\numberline {2.2.3}Security}{5}{subsection.2.2.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2.5}Guide}{5}{subsection.2.2.5}% 
+\contentsline {subsection}{\numberline {2.2.4}User's Guide}{5}{subsection.2.2.4}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {3}Titlu capitol}{6}{chapter.3}% 
+\contentsline {chapter}{\numberline {3}Framework architecture}{6}{chapter.3}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {4}Titlu capitol}{7}{chapter.4}% 
