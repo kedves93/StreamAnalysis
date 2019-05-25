@@ -1,3 +1,0 @@
-Public DNS	ec2-3-122-51-101.eu-central-1.compute.amazonaws.com
-User name	Administrator
-Password	?9Hcc*3JcFw.sVI%IgBG.TxOWHz3M(u5
