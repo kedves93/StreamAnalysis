@@ -4,26 +4,30 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {1}Introduction}{2}{chapter.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1.1}Problem statement and motivation}{2}{section.1.1}% 
+\contentsline {section}{\numberline {1.1}Problem statement}{2}{section.1.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {2}Requirements}{3}{chapter.2}% 
+\contentsline {section}{\numberline {1.2}Motivation}{2}{section.1.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.1}Functional requirements}{3}{section.2.1}% 
+\contentsline {section}{\numberline {1.3}Thesis structure}{3}{section.1.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.1.1}Application overview}{3}{subsection.2.1.1}% 
+\contentsline {chapter}{\numberline {2}Requirements}{4}{chapter.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.1.2}Access}{4}{subsection.2.1.2}% 
+\contentsline {section}{\numberline {2.1}Functional requirements}{4}{section.2.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.2}Nonfunctional requirements}{5}{section.2.2}% 
+\contentsline {subsection}{\numberline {2.1.1}Application overview}{4}{subsection.2.1.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2.1}Diversity}{5}{subsection.2.2.1}% 
+\contentsline {subsection}{\numberline {2.1.2}Access}{5}{subsection.2.1.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2.2}Performance}{5}{subsection.2.2.2}% 
+\contentsline {section}{\numberline {2.2}Nonfunctional requirements}{6}{section.2.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2.3}Security}{5}{subsection.2.2.3}% 
+\contentsline {subsection}{\numberline {2.2.1}Diversity}{6}{subsection.2.2.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2.4}User's Guide}{5}{subsection.2.2.4}% 
+\contentsline {subsection}{\numberline {2.2.2}Performance}{6}{subsection.2.2.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {3}Framework architecture}{6}{chapter.3}% 
+\contentsline {subsection}{\numberline {2.2.3}Security}{6}{subsection.2.2.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Titlu capitol}{7}{chapter.4}% 
+\contentsline {subsection}{\numberline {2.2.4}User's Guide}{6}{subsection.2.2.4}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {3}Framework architecture}{7}{chapter.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {4}Titlu capitol}{9}{chapter.4}% 

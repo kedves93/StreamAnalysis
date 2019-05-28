@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (MiKTeX 2.9.7000 64-bit) (preloaded format=xelatex 2019.5.19)  25 MAY 2019 17:01
+This is XeTeX, Version 3.14159265-2.6-0.999991 (MiKTeX 2.9.7000 64-bit) (preloaded format=xelatex 2019.5.19)  27 MAY 2019 15:05
 entering extended mode
 **./main.tex
 (main.tex
@@ -721,12 +721,12 @@ Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 \@quotelevel=\count399
 \@quotereset=\count400
 (main.aux (TeX_files/cover.aux) (TeX_files/innercover.aux)
-(TeX_files/chapter01.aux) (TeX_files/chapter02.aux) (TeX_files/chapter03.aux)
-(TeX_files/chapter04.aux
+(TeX_files/chapter01.aux
 
-LaTeX Warning: Label `chap:03' multiply defined.
+LaTeX Warning: Label `chap:01:03' multiply defined.
 
-))
+) (TeX_files/chapter02.aux) (TeX_files/chapter03.aux) (TeX_files/chapter04.aux)
+)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
@@ -893,15 +893,15 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
  (TeX_files/chapter01.tex
 Chapter 1.
-) [2
+[2
 
 
-]
+]) [3]
 \openout2 = `./TeX_files/chapter02.aux'.
 
  (TeX_files/chapter02.tex
 Chapter 2.
-[3
+[4
 
 
 
@@ -910,7 +910,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 38--39
 
  []
 
-[4]) [5]
+[5]) [6]
 \openout2 = `./TeX_files/chapter03.aux'.
 
  (TeX_files/chapter03.tex
@@ -921,16 +921,23 @@ Overfull \hbox (0.98828pt too wide) in paragraph at lines 4--5
 o perspective as shown
  []
 
-) [6
+File: ./images/architecture/highest_lvl.png Graphic file (type bmp)
+<./images/architecture/highest_lvl.png>
+File: ./images/architecture/framework.png Graphic file (type bmp)
+<./images/architecture/framework.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[7
 
 
 
-]
+]) [8]
 \openout2 = `./TeX_files/chapter04.aux'.
 
  (TeX_files/chapter04.tex
 Chapter 4.
-) [7
+) [9
 
 
 
@@ -942,7 +949,7 @@ ri(0)/m/sc/12 url\TU/Calibri(0)/m/n/12 : []$[][][][][] [] [] [] [][] [] [][][][
  []
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 31.
-[8
+[10
 
 
 ]
@@ -953,7 +960,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 31.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 31.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 31.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: D6480FCD9C5EF4EB97B6E045DB9F5D0F.
+(rerunfilecheck)             Checksum: 312E6E6CC3B6D982265B341845B95D1B.
 
 
 LaTeX Warning: There were multiply-defined labels.
@@ -964,12 +971,12 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 31.
  ) 
 Here is how much of TeX's memory you used:
- 27240 strings out of 427669
- 517518 string characters out of 3149215
- 833978 words of memory out of 3000000
- 31087 multiletter control sequences out of 15000+200000
+ 27260 strings out of 427669
+ 517945 string characters out of 3149215
+ 833992 words of memory out of 3000000
+ 31103 multiletter control sequences out of 15000+200000
  536564 words of font info for 64 fonts, out of 3000000 for 9000
  1348 hyphenation exceptions out of 8191
  43i,6n,79p,965b,5309s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on main.pdf (10 pages).
+Output written on main.pdf (12 pages).
