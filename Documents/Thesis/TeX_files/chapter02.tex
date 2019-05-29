@@ -13,12 +13,12 @@ The hosting environment is responsible for user related sensitive information st
 
 The workflow is predefined which makes it organized and coherent. Data is fetched or produced and packed by a custom application provided by an external user and funneled in through well defined channels. The stream of data arrives in a secure place where it waits to be queried. This place is located in the cloud so even if one can create the data on-premise, one still needs constant access to the internet. Based on the user's choice the packed information is then retrieved in a real-time fashion or stored. Both ways the data is then accessed and charted. 2D plots are shown with the values at the Y axis, where the X axis holds the timestamps.
 
-It offers two services:
+The web application offers two services:
 \begin{itemize}
 	\item Push data into cloud - users have to create their own packed software application that streams any type of data into a broker. The broker supports 5 types of protocols ([TODO]more information in chapter ...). Data is organized into topics and queues:
 	\begin{itemize}
 		\item Topics - are used to handle real time messages
-		\item Queues - are used for historical data. Messages are stored and later retrieved
+		\item Queues - are used for historical data. Messages are stored and retrieved later
 	\end{itemize}
 	Once the image is ready, the user can proceed with the step by step image upload and use it to create containers. 
 	\begin{enumerate}
@@ -39,8 +39,8 @@ The Stream Analysis web application is accessible from all around the world as l
 
 The application is targeting two types of users:
 \begin{itemize}
-	\item Advanced software engineers - that push data into the application. They need to register with an account and they are charged based on time.
-	\item Normal users - that can read and interpret that data from charts in a dashboard. They also need to register with an account and they are charged based on the network traffic they generate during data visualization.
+	\item Advanced software engineers - they push data into the application. They need to register with an account and they are charged based on time.
+	\item Normal users - they can read and interpret that data from charts in a dashboard. They also need to register with an account and they are charged based on the network traffic they generate during data visualization.
 \end{itemize}
 
 \section{Nonfunctional requirements}
