@@ -12,4 +12,10 @@
 \BOOKMARK [2][-]{subsection.2.2.3}{Security}{section.2.2}% 12
 \BOOKMARK [2][-]{subsection.2.2.4}{User's\040Guide}{section.2.2}% 13
 \BOOKMARK [0][-]{chapter.3}{Framework\040architecture}{}% 14
-\BOOKMARK [0][-]{chapter.4}{Titlu\040capitol}{}% 15
+\BOOKMARK [0][-]{chapter.4}{The\040Stream\040Analysis\040Web\040Application}{}% 15
+\BOOKMARK [1][-]{section.4.1}{Front-end}{chapter.4}% 16
+\BOOKMARK [2][-]{subsection.4.1.1}{Angular}{section.4.1}% 17
+\BOOKMARK [2][-]{subsection.4.1.2}{File\040structure}{section.4.1}% 18
+\BOOKMARK [1][-]{section.4.2}{Back-end}{chapter.4}% 19
+\BOOKMARK [1][-]{section.4.3}{Cloud\040environment}{chapter.4}% 20
+\BOOKMARK [1][-]{section.4.4}{Containerized\040application}{chapter.4}% 21

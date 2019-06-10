@@ -1,2 +1,59 @@
-\chapter{sdfgdfg}
+\chapter{The Stream Analysis Web Application}
 \label{chap:04}
+In this chapter the making of the web application is presented in details. The level of description should encourage other developers in using the technologies that were used in this application.
+
+\section{Front-end}
+\label{chap:04:01}
+
+The Stream Analysis Web Application actually consists of two web applications, since Front-end is decoupled from the Back-end and both of them run on different ports. The Front-end/Back-end pattern is very popular nowadays, because the role of each application is well defined. By loose coupling the two parts means that the Front-end can be reused with another Back-end. Moreover this Back-end can be written in any programming language and any web framework.
+
+\subsection{Angular}
+\label{chap:04:01:01}
+
+The Front-end of Stream Analysis Web Application was written with Angular. Angular is a TypeScript-based open-source web application framework led by the Angular Team at Google and by a community of individuals and corporations. Angular is a complete rewrite from the same team that built AngularJS.\cite{angular-description}
+
+Angular supports Single Page Applications which is used by Stream Analysis Web Application as well. Single Page Applications are a type of web applications that load a single HTML page, and the page is updated dynamically according to the interaction of the user with the web app. Single Page Applications, also known as SPAs, can communicate with the back-end servers without refreshing the full webpage, for loading data in the application. SPAs provide better user experience as no one likes to wait too long for reloading of the full webpage.\cite{why-learn-angular}
+
+Angular takes advantage of modularity. One can think of modularity in Angular as if the code is organized into “buckets”. These buckets are known as “modules” in Angular. The application’s code is divided into several reusable modules. A module has related components, directives, pipes, and services grouped together. These modules can be combined with one another to create an application. Modules also offer several benefits. One of them is lazy-loading, that is, one or more application features can be loaded on demand. If properly used, lazy-loading can increase the efficiency of an application a lot.\cite{why-learn-angular}
+
+To run Angular the developer needs to install NodeJs and Angular CLI. Once these two components are installed the developer is three steps away from running a brand new Angular application.\\
+
+\textit{npm new ProjectName}\\
+
+It creates a folder named ProjectName and downloads in it from official Angular repository the web application boilerplate files. From this point on the developer just needs to add additional to build its web site.\\
+
+\textit{npm install}\\
+
+In Angular the dependencies are located in a .json file: package.json. Based on this file the command will download and install all the dependencies in the newly created root folder. The newly installed dependencies can be found in the folder "nodemodules".\\
+
+\textit{ng serve -o}\\
+
+Once the dependencies are successfully installed the developer can run the server and see web site in the browser. The command will build web application and open the default browser automatically to the default Angular url: http://localhost:4200.\\
+
+\subsection{File structure}
+\label{chap:04:01:02}
+
+In case of Stream Analysis Web Application the file structure is pretty simple. Every Angular entity type has its own folder.\\
+
+\dirtree{%
+	.1 /.
+	.2 src.
+	.3 app.
+	.4 directives.
+	.4 guards.
+	.4 models.
+	.4 pages.
+	.4 pipes.
+	.4 services.
+}
+
+As seen in the tree folder structure above there are six different types of Angular entities.
+
+\section{Back-end}
+\label{chap:04:02}
+
+\section{Cloud environment}
+\label{chap:04:03}
+
+\section{Containerized application}
+\label{chap:04:04}

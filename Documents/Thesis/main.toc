@@ -30,4 +30,16 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {3}Framework architecture}{7}{chapter.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Titlu capitol}{9}{chapter.4}% 
+\contentsline {chapter}{\numberline {4}The Stream Analysis Web Application}{9}{chapter.4}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.1}Front-end}{9}{section.4.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.1.1}Angular}{9}{subsection.4.1.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.1.2}File structure}{10}{subsection.4.1.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.2}Back-end}{11}{section.4.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.3}Cloud environment}{11}{section.4.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.4}Containerized application}{11}{section.4.4}% 

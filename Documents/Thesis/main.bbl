@@ -26,5 +26,25 @@
     \verb https://en.wikipedia.org/wiki/Amazon_Web_Services
     \endverb
   \endentry
+
+  \entry{angular-description}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{A}
+    \field{sortinithash}{A}
+    \field{title}{"Angular"}
+    \verb{url}
+    \verb https://en.wikipedia.org/wiki/Angular_(web_framework)
+    \endverb
+  \endentry
+
+  \entry{why-learn-angular}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{A}
+    \field{sortinithash}{A}
+    \field{title}{"Angular"}
+    \verb{url}
+    \verb https://hackr.io/blog/why-should-you-learn-angular-in-2019
+    \endverb
+  \endentry
 \enddatalist
 \endinput
