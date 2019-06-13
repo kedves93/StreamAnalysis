@@ -47,10 +47,111 @@ In case of Stream Analysis Web Application the file structure is pretty simple. 
 	.4 services.
 }
 
-As seen in the tree folder structure above there are six different types of Angular entities.
+As seen in the tree folder structure above there are six different types of Angular entities used. Thanks to the Angular CLI these can be easily created as shown below.\\
+
+\textit{ng g c fileName}\\
+
+Directives represent an extended HTML syntax. Developers using the native HTML tags may want to create a customized tag that englobes the application's menu. For example in Stream Analysis Web Application's case the menu directive is used with the following HTML syntax: <app-menu></app-menu>. Other examples are: <app-live-chart></app-live-chart>, <app-zoom-chart></app-zoom-chart>, <app-login-form></app-login-form> and <app-register-form></app-register-form>. Once declared and defined, directives can be reused. Moreover they can also be parameterized. This feature is used to make charts plot different data types.\\
+
+\textit{ng g g fileName}\\
+
+Guards can be used as an internal security for routes. In the application there is a file called auth.guard.ts, which guards the menu routes: it checks of the user was marked as logged in. In case the user did not log in he is redirected to the login page. If the user checks the 'Remember me' checkbox in the login page, then he can refresh the page and he is will still be marked as logged in. The application saves the current user to the browser's local storage and retrieves it with the guard once the user tries to access the page.\\
+
+\textit{ng g i fileName}\\
+
+Models are various class declarations with the properties. These are used throughout the application. This is possible because TypeScript is strongly typed, opposite to plain JavaScript.\\
+
+\textit{ng g c fileName}\\
+
+Pages in the terms of Angular entities are in fact components. In this application they are the end result of routes. Once the user is routed to a certain page, he sees the HTML declared in these components.\\
+
+\textit{ng g p fileName}\\
+
+Pipes change the variable values used in components. They receive the current value of the variables and mutate them as the developer wishes on page rendering. Stream Analysis takes advantage of this to trim down chart dashcard card header names, since they contain as a prefix the user id. Hence on page rendering only the topic/queue names are shown, but in fact the variables used inside the charts are a concatenation of user id and topic/queue name.\\
+
+\textit{ng g s fileName}\\
+
+Services have a certain responsibility assigned to them. Usually they are used to communicate with the Back-end. However they can also persist variable values inside Angular. This feature is needed in case the user makes modifications in a certain page, then routes to another page and then routes back to the previous page. In this case the altered information on the first page will be lost. To persist the state across routings services are a great candidate.
+Services use the so called dependency injection. Developers need to inject them into components and make use of their declared methods.
 
 \section{Back-end}
 \label{chap:04:02}
+
+\subsection{ASP .NET Core}
+\label{chap:04:02:01}
+
+The Back-end of Stream Analysis Web Application is written in ASP. NET Core, hence the language used is C-Sharp.\\
+
+ASP.NET Core is a cross-platform, high-performance, open-source framework for building modern, cloud-based, Internet-connected applications. Its benefits are:\cite{asp-dotnet-core-description}:
+\begin{itemize}
+	\item A unified story for building web UI and web APIs.
+	\item Architected for testability.
+	\item Ability to develop and run on Windows, macOS, and Linux.
+	\item Open-source and community-focused.
+	\item Integration of modern, client-side frameworks and development workflows.
+	\item A cloud-ready, environment-based configuration system.
+	\item Built-in dependency injection.
+	\item A lightweight, high-performance, and modular HTTP request pipeline.
+	\item Ability to host on IIS, Nginx, Apache, Docker, or self-host in your own process.
+	\item Tooling that simplifies modern web development.
+\end{itemize}
+
+\subsection{File structure}
+\label{chap:04:02:02}
+
+The application is structured as follows:
+
+\dirtree{%
+	.1 /.
+	.2 Controllers.
+	.2 Exceptions.
+	.2 Hubs.
+	.2 Interfaces.
+	.2 Logs.
+	.2 Models.
+	.2 Services.
+}
+
+Controllers are directly responsible for handling incoming requests from the Front-end. They are declared as simple C-Sharp classes, but are decorated with attributes. These attributes indicate the routing paths they are responsible for. In ASP .NET Core the 'Route' attribute can be parameterized:
+
+\begin{itemize}
+	\item controller - At class level it interpolates the path string with the controller class name. In case the class it is sufixed with the word 'Controller' then this trimmed.
+	\item action - At method level it interpolates the path string with the method name.
+\end{itemize}
+
+Stream Analysis Web Application's Back-end has the following routes:
+
+\begin{lstlisting}[language=Java]
+import numpy as np
+
+def incmatrix(genl1,genl2):
+m = len(genl1)
+n = len(genl2)
+M = None #to become the incidence matrix
+VT = np.zeros((n*m,1), int)  #dummy variable
+
+#compute the bitwise xor matrix
+M1 = bitxormatrix(genl1)
+M2 = np.triu(bitxormatrix(genl2),1) 
+
+for i in range(m-1):
+for j in range(i+1, m):
+[r,c] = np.where(M2 == M1[i,j])
+for k in range(len(r)):
+VT[(i)*n + r[k]] = 1;
+VT[(i)*n + c[k]] = 1;
+VT[(j)*n + r[k]] = 1;
+VT[(j)*n + c[k]] = 1;
+
+if M is None:
+M = np.copy(VT)
+else:
+M = np.concatenate((M, VT), 1)
+
+VT = np.zeros((n*m,1), int)
+
+return M
+\end{lstlisting}
 
 \section{Cloud environment}
 \label{chap:04:03}

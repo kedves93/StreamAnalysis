@@ -46,5 +46,15 @@
     \verb https://hackr.io/blog/why-should-you-learn-angular-in-2019
     \endverb
   \endentry
+
+  \entry{asp-dotnet-core-description}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{A}
+    \field{sortinithash}{A}
+    \field{title}{"ASPDotNetCore"}
+    \verb{url}
+    \verb https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-2.2
+    \endverb
+  \endentry
 \enddatalist
 \endinput

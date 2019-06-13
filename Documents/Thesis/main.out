@@ -17,5 +17,7 @@
 \BOOKMARK [2][-]{subsection.4.1.1}{Angular}{section.4.1}% 17
 \BOOKMARK [2][-]{subsection.4.1.2}{File\040structure}{section.4.1}% 18
 \BOOKMARK [1][-]{section.4.2}{Back-end}{chapter.4}% 19
-\BOOKMARK [1][-]{section.4.3}{Cloud\040environment}{chapter.4}% 20
-\BOOKMARK [1][-]{section.4.4}{Containerized\040application}{chapter.4}% 21
+\BOOKMARK [2][-]{subsection.4.2.1}{ASP\040.NET\040Core}{section.4.2}% 20
+\BOOKMARK [2][-]{subsection.4.2.2}{File\040structure}{section.4.2}% 21
+\BOOKMARK [1][-]{section.4.3}{Cloud\040environment}{chapter.4}% 22
+\BOOKMARK [1][-]{section.4.4}{Containerized\040application}{chapter.4}% 23
