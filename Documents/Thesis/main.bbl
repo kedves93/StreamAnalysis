@@ -27,6 +27,17 @@
     \endverb
   \endentry
 
+  \entry{amazon-mq}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{A}
+    \field{sortinithash}{A}
+    \field{title}{"AmazonMQ"}
+    \verb{url}
+    \verb https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.
+    \verb html
+    \endverb
+  \endentry
+
   \entry{angular-description}{misc}{}
     \field{labeltitlesource}{title}
     \field{sortinit}{A}
@@ -47,6 +58,16 @@
     \endverb
   \endentry
 
+  \entry{apache-active-mq}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{A}
+    \field{sortinithash}{A}
+    \field{title}{"ApacheActiveMQ"}
+    \verb{url}
+    \verb https://activemq.apache.org/
+    \endverb
+  \endentry
+
   \entry{asp-dotnet-core-description}{misc}{}
     \field{labeltitlesource}{title}
     \field{sortinit}{A}
@@ -54,6 +75,99 @@
     \field{title}{"ASPDotNetCore"}
     \verb{url}
     \verb https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-2.2
+    \endverb
+  \endentry
+
+  \entry{aws-cloudwatch}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{A}
+    \field{sortinithash}{A}
+    \field{title}{"AWSCloudWatch"}
+    \verb{url}
+    \verb https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIs
+    \verb CloudWatch.html
+    \endverb
+  \endentry
+
+  \entry{aws-lambda}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{A}
+    \field{sortinithash}{A}
+    \field{title}{"AWSLambda"}
+    \verb{url}
+    \verb https://docs.aws.amazon.com/lambda/latest/dg/welcome.html
+    \endverb
+  \endentry
+
+  \entry{docker-description}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{D}
+    \field{sortinithash}{D}
+    \field{title}{"docker"}
+    \verb{url}
+    \verb https://opensource.com/resources/what-docker
+    \endverb
+  \endentry
+
+  \entry{aws-ec2}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{E}
+    \field{sortinithash}{E}
+    \field{title}{"EC2"}
+    \verb{url}
+    \verb https://aws.amazon.com/ec2/?nc2=h_m1
+    \endverb
+  \endentry
+
+  \entry{aws-ecr}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{E}
+    \field{sortinithash}{E}
+    \field{title}{"ECR"}
+    \verb{url}
+    \verb https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.ht
+    \verb ml
+    \endverb
+  \endentry
+
+  \entry{aws-ecs}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{E}
+    \field{sortinithash}{E}
+    \field{title}{"ECS"}
+    \verb{url}
+    \verb https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.h
+    \verb tml
+    \endverb
+  \endentry
+
+  \entry{s3}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{title}{"S3"}
+    \verb{url}
+    \verb https://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html
+    \endverb
+  \endentry
+
+  \entry{signalR-description}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{title}{"SignalR"}
+    \verb{url}
+    \verb https://en.wikipedia.org/wiki/SignalR
+    \endverb
+  \endentry
+
+  \entry{sns}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{title}{"SNS"}
+    \verb{url}
+    \verb https://docs.aws.amazon.com/sns/latest/dg/welcome.html
     \endverb
   \endentry
 \enddatalist

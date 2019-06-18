@@ -11,31 +11,22 @@
 \usepackage{listings}
 \usepackage{color}
 
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
 
-\lstdefinestyle{mystyle}{
-	backgroundcolor=\color{backcolour},   
-	commentstyle=\color{codegreen},
-	keywordstyle=\color{magenta},
-	numberstyle=\tiny\color{codegray},
-	stringstyle=\color{codepurple},
-	basicstyle=\footnotesize,
-	breakatwhitespace=false,         
-	breaklines=true,                 
-	captionpos=b,                    
-	keepspaces=true,                 
-	numbers=left,                    
-	numbersep=5pt,                  
-	showspaces=false,                
+\lstset{language=[Sharp]C,
+	showspaces=false,
+	showtabs=false,
+	breaklines=true,
 	showstringspaces=false,
-	showtabs=false,                  
-	tabsize=2
+	breakatwhitespace=true,
+	escapeinside={(*@}{@*)},
+	commentstyle=\color{greencomments},
+	keywordstyle=\color{bluekeywords},
+	stringstyle=\color{redstrings},
+	basicstyle=\ttfamily
 }
-
-\lstset{style=mystyle}
 
 \usepackage[style=numeric,backend=bibtex]{biblatex}
 \addbibresource{./BiB_files/references.bib}
@@ -55,6 +46,8 @@
 \include{./TeX_files/chapter02}
 \include{./TeX_files/chapter03}
 \include{./TeX_files/chapter04}
+\include{./TeX_files/chapter05}
+\include{./TeX_files/chapter06}
 
 \printbibliography[title=Bibliography]
 

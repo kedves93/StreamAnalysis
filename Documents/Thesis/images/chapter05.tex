@@ -866,16 +866,15 @@ The below example uses fragments of C Sharp code and provides a step by step pre
 	\begin{lstlisting}
 	using (IStreamAnalysisSession session = connection.CreateStreamingSession(queue1))
 	{
-		var queueMessage = Observable.Interval(TimeSpan.FromSeconds(8))
-		.Select(x =>
+		var queueMessage = Observable.Interval(TimeSpan.FromSeconds(8)).Select(x =>
 		{
 			var weather = ApixuService.GetWeatherDataByAutoIP();
 			return new QueueMessage()
 			{
 				Queue = queue1.Split("://")[1],
-				Value = weather.current.temp_c,
+				Value = weather.current.temp_c.ToString(),
 				Measurement = "°C",
-				TimestampEpoch = weather.last_updated_epoch
+				TimestampEpoch = weather.current.last_updated_epoch
 			}
 		});
 		session.StreamData(queueMessage);
