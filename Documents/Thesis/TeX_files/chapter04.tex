@@ -89,8 +89,9 @@ Pipes change the variable values used in components. They receive the current va
 
 \textit{ng g s fileName}\\
 
-Services have a certain responsibility assigned to them. Usually they are used to communicate with the Back-end. However they can also persist variable values inside Angular. This feature is needed in case the user makes modifications in a certain page, then routes to another page and then routes back to the previous page. In this case the altered information on the first page will be lost. To persist the state across routings services are a great candidate.
-Services use the so called dependency injection. Developers need to inject them into components and make use of their declared methods.
+Services have a certain responsibility assigned to them. Usually they are used to communicate with the Back-end. However they can also persist variable values inside Angular. This feature is needed in case the user makes modifications in a certain page, then routes to another page and then routes back to the previous page. In this case the altered information on the first page will be lost. To persist the state across routings services are a great candidate.\\
+
+Services use the so called dependency injection. Developers need to inject them into components and make use of their declared methods. \\
 
 \section{Back-end}
 \label{chap:04:02}
@@ -248,137 +249,6 @@ public class ContainerController : ControllerBase
 	* Runs the image in the cloud and creates a container
 	**/
 	public async Task<ActionResult> RunImage([FromBody] RunImageConfiguration runImageConfig)
-	
-	/**
-	* Route path is "api/Container/ScheduleImageFixedRate"
-	**/
-	[Route("[action]")]
-	[HttpPost]
-	/**
-	* Creates a scheduler in the cloud for the container. Scheduler is at a fixed rate.
-	**/
-	public async Task<ActionResult> ScheduleImageFixedRate([FromBody] ScheduledImageFixedRate scheduledImageFixedRate)
-	
-	/**
-	* Route path is "api/Container/ScheduleImageCronExp"
-	**/
-	[Route("[action]")]
-	[HttpPost]
-	/**
-	* Creates a scheduler in the cloud for the container. Scheduler is expressed as a Cron Expression. I.e. "0 0 12 * * ?" means every day at 12 PM.
-	**/
-	public async Task<ActionResult> ScheduleImageCronExp([FromBody] ScheduledImageCronExpression scheduledImageCronExpression)
-	
-	/**
-	* Route path is "api/Container/StopScheduledImage"
-	**/
-	[Route("[action]")]
-	[HttpPost]
-	/**
-	* Deletes the scheduler rule.
-	**/
-	public async Task<ActionResult> StopScheduledImage([FromBody] string configName)
-	
-	/**
-	* Route path is "api/Container/ListContainers"
-	**/
-	[Route("[action]")]
-	[HttpPost]
-	/**
-	* Lists all containers from the cloud.
-	**/
-	public async Task<ActionResult<List<Container>>> ListContainers([FromBody] string tasksGroupName)
-	
-	/**
-	* Route path is "api/Container/StopTask"
-	**/
-	[Route("[action]")]
-	[HttpPost]
-	/**
-	* Stops a container.
-	**/
-	public async Task<ActionResult> StopTask([FromBody] string taskId)
-	
-	/**
-	* Route path is "api/Container/StartFlushingQueues"
-	**/
-	[Route("[action]")]
-	[HttpPost]
-	/**
-	* Starts flushing the queues for a certain user.
-	**/
-	public async Task<ActionResult> StartFlushingQueues([FromBody] UserQueues userQueues)
-	
-	/**
-	* Route path is "api/Container/GetUserQueues"
-	**/
-	[Route("[action]")]
-	[HttpPost]
-	/**
-	* Returns the queues for a certain user.
-	**/
-	public async Task<ActionResult<List<string>>> GetUserQueues([FromBody] string userId)
-	
-	/**
-	* Route path is "api/Container/GetUserTopics"
-	**/
-	[Route("[action]")]
-	[HttpPost]
-	/**
-	* Returns the topics for a certain user.
-	**/
-	public async Task<ActionResult<List<string>>> GetUserTopics([FromBody] string userId)
-	
-	/**
-	* Route path is "api/Container/UpdateUserChannels"
-	**/
-	[Route("[action]")]
-	[HttpPost]
-	/**
-	* Updates in the database the topics/queues for a certain user.
-	**/
-	public async Task<ActionResult<bool>> UpdateUserChannels([FromBody] UserChannels channels)
-	
-	/**
-	* Route path is "api/Container/ListSchedulerRules"
-	**/
-	[Route("[action]")]
-	[HttpPost]
-	/**
-	* Returns all scheduler rules.
-	**/
-	public async Task<ActionResult<List<SchedulerRule>>> ListSchedulerRules([FromBody] string ruleNamePrefix)
-	
-	/**
-	* Route path is "api/Container/DeleteSchedulerRule"
-	**/
-	[Route("[action]")]
-	[HttpPost]
-	/**
-	* Deletes a scheduler rule.
-	**/
-	public async Task<ActionResult> DeleteSchedulerRule([FromBody] string ruleName)
-	}
-	
-	/**
-	* Route path is "api/Container/EnableSchedulerRule"
-	**/
-	[Route("[action]")]
-	[HttpPost]
-	/**
-	* Enables a scheduler rule.
-	**/
-	public async Task<ActionResult> EnableSchedulerRule([FromBody] string ruleName)
-	
-	/**
-	* Route path is "api/Container/DisableSchedulerRule"
-	**/
-	[Route("[action]")]
-	[HttpPost]
-	/**
-	* Disables a scheduler rule.
-	**/
-	public async Task<ActionResult> DisableSchedulerRule([FromBody] string ruleName)
 }
 \end{lstlisting}
 
@@ -531,22 +401,6 @@ public class ContainerUser
 }
 \end{lstlisting}
 
-\begin{lstlisting}
-/**
-* Corelates to the table 'UserChannelsTable' from the cloud hosted database.
-**/
-[DynamoDBTable("UserChannelsTable")]
-public class UserChannels
-{
-	[DynamoDBHashKey]
-	public string UserId { get; set; }
-	
-	public List<string> Queues { get; set; }
-	
-	public List<string> Topics { get; set; }
-}
-\end{lstlisting}
-
 \subsubsection{Interfaces}
 \label{chap:04:02:03:05}
 
@@ -630,11 +484,13 @@ The ECS instance details can be seen in the below figure.
 	\label{fig:ecs}
 \end{figure}
 
+\newpage
+
 ECS has the following entities:
 
 \begin{enumerate}
 	\item Cluster - logical grouping of tasks 
-	\item Task Definition - configuration of a container once it's launch via an image
+	\item Task Definition - configuration of a container once it's launched via an image
 	\item Task - container
 \end{enumerate}
 
@@ -647,6 +503,8 @@ The Web Application owns a default cluster named: stream-analysis-ecs-cluster, a
 	\caption{ECS Cluster description}
 	\label{fig:ecs-cluster}
 \end{figure}
+
+\newpage
 
 Launching a container is similar to executing the command "run" from the Docker CLI on an image. In fact behind the scenes this is exactly what AWS does. However the Docker "run" command has a lot of options expressed as command line parameters. Stream Analysis provides two of these in the benefit of the user. These two parameters can be checked on the UI when the user configures his image, as seen in the figure \ref{fig:dockerOptions}.
 
@@ -668,6 +526,8 @@ If both are checked the following command will be executed behind the scenes.\\
 	\label{fig:dockerOptions}
 \end{figure}
 
+\newpage
+
 \subsection{Elastic Container Registry (ECR)}
 \label{chap:04:03:02}
 
@@ -684,6 +544,8 @@ The Web Application uses ECR to store the Docker images that users push. These i
 \end{figure}
 
 Every image is put in a repository in ECR and user is responsible to give a name in the Front-end. Also the user is responsible to push the image to ECR from the CLI (instruction are given in the UI).
+
+\newpage
 
 \subsection{Amazon CloudWatch}
 \label{chap:04:03:03}
@@ -705,6 +567,8 @@ The scheduling system is used by the Web Application to launch scheduled contain
 	\caption{Container Scheduling Options}
 	\label{fig:schedulingOptions}
 \end{figure}
+
+\newpage
 
 \subsection{Amazon MQ}
 \label{chap:04:03:04}
@@ -763,6 +627,8 @@ Apache ActiveMQ™ is the most popular open source, multi-protocol, Java-based m
 
 Stream Analysis makes use of Apache ActiveMQ by storing the queues and topics. These channels can be then used to receive and send data.
 
+\newpage
+
 \subsection{Simple Storage Service (S3)}
 \label{chap:04:03:05}
 
@@ -789,6 +655,8 @@ The files put in separate folders based on the user. Folder are named after the 
 	\label{fig:s3Files}
 \end{figure}
 
+\newpage
+
 \subsection{Simple Notification Service (SNS)}
 \label{chap:04:03:06}
 
@@ -805,6 +673,8 @@ Figure \ref{fig:sns} shows the topic details, but also the fact that a Lambda is
 	\caption{Topic description}
 	\label{fig:sns}
 \end{figure}
+
+\newpage
 
 \subsection{Amazon Lambda}
 \label{chap:04:03:07}
@@ -842,6 +712,22 @@ Taking the Lambda function code more in-depth we have the following steps:
 	\item Append the queues content the associated files from the S3 bucket
 \end{enumerate}
 
+\newpage
+
+\subsection{DynamoDB}
+\label{chap:04:03:08}
+
+Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. DynamoDB lets the developer offload the administrative burdens of operating and scaling a distributed database, so that he doesn't have to worry about hardware provisioning, setup and configuration, replication, software patching, or cluster scaling. Also, DynamoDB offers encryption at rest, which eliminates the operational burden and complexity involved in protecting sensitive data.\cite{aws-dynamodb} 
+
+In the context of the Web Application this service is used to store in tables the users and their queues and topics. Figure \ref{fig:dynamodb} shows an example of such a table. One can see that this table stores the users of the dashboard part of the application. Also it can be seen that the password is encrypted with a salt. The salt is the username and the encryption algorithm uses the SHA-256 hash.\\
+
+\begin{figure}[p]
+	\centering
+	\noindent
+	\includegraphics[width=0.5\paperwidth]{./images/aws_resources/DynamoDB.PNG}
+	\caption{Dashboard Users Table}
+	\label{fig:dynamodb}
+\end{figure}
 
 \section{Containerized application}
 \label{chap:04:04}

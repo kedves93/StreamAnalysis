@@ -109,6 +109,17 @@
     \endverb
   \endentry
 
+  \entry{aws-dynamodb}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{D}
+    \field{sortinithash}{D}
+    \field{title}{"DynamoDB"}
+    \verb{url}
+    \verb https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Intr
+    \verb oduction.html
+    \endverb
+  \endentry
+
   \entry{aws-ec2}{misc}{}
     \field{labeltitlesource}{title}
     \field{sortinit}{E}

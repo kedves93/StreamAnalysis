@@ -28,6 +28,14 @@
 \BOOKMARK [2][-]{subsection.4.3.5}{Simple\040Storage\040Service\040\(S3\)}{section.4.3}% 28
 \BOOKMARK [2][-]{subsection.4.3.6}{Simple\040Notification\040Service\040\(SNS\)}{section.4.3}% 29
 \BOOKMARK [2][-]{subsection.4.3.7}{Amazon\040Lambda}{section.4.3}% 30
-\BOOKMARK [1][-]{section.4.4}{Containerized\040application}{chapter.4}% 31
-\BOOKMARK [0][-]{chapter.5}{Web\040Application\040Usage\040Guide}{}% 32
-\BOOKMARK [0][-]{chapter.6}{Conclusions}{}% 33
+\BOOKMARK [2][-]{subsection.4.3.8}{DynamoDB}{section.4.3}% 31
+\BOOKMARK [1][-]{section.4.4}{Containerized\040application}{chapter.4}% 32
+\BOOKMARK [0][-]{chapter.5}{Web\040Application\040Usage\040Guide}{}% 33
+\BOOKMARK [1][-]{section.5.1}{Containerized\040Application\040User}{chapter.5}% 34
+\BOOKMARK [2][-]{subsection.5.1.1}{Broker}{section.5.1}% 35
+\BOOKMARK [2][-]{subsection.5.1.2}{Repository}{section.5.1}% 36
+\BOOKMARK [2][-]{subsection.5.1.3}{Push\040Image}{section.5.1}% 37
+\BOOKMARK [2][-]{subsection.5.1.4}{Configure\040Image}{section.5.1}% 38
+\BOOKMARK [2][-]{subsection.5.1.5}{Run\040Image}{section.5.1}% 39
+\BOOKMARK [1][-]{section.5.2}{Dashboard\040User}{chapter.5}% 40
+\BOOKMARK [0][-]{chapter.6}{Conclusions}{}% 41
