@@ -3,7 +3,7 @@
     <div class="home-btn">
         <div (click)="onHome()"><span class="icon"><i class="fa fa-home"></i></span>Home</div>
     </div>
-    <p-steps [model]="stepItems" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
+    <p-steps [model]="stepItems" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
     <div *ngIf="activeIndex === 0">
         <div class="p-grid">
             <div class="p-col-12">
