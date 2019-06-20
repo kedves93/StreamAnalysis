@@ -152,6 +152,50 @@
     \endverb
   \endentry
 
+  \entry{asp-core-book1}{book}{}
+    \name{author}{1}{}{%
+      {{hash=ED}{%
+         family={Esposito},
+         familyi={E\bibinitperiod},
+         given={Dino},
+         giveni={D\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Microsoft Press}%
+    }
+    \strng{namehash}{ED1}
+    \strng{fullhash}{ED1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{E}
+    \field{sortinithash}{E}
+    \field{title}{Programming ASP.NET Core}
+    \field{year}{2018}
+  \endentry
+
+  \entry{angular-book1}{book}{}
+    \name{author}{1}{}{%
+      {{hash=FA}{%
+         family={Freeman},
+         familyi={F\bibinitperiod},
+         given={Adam},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Apress}%
+    }
+    \strng{namehash}{FA1}
+    \strng{fullhash}{FA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{F}
+    \field{sortinithash}{F}
+    \field{title}{Pro Angular}
+    \field{year}{2017}
+  \endentry
+
   \entry{s3}{misc}{}
     \field{labeltitlesource}{title}
     \field{sortinit}{S}
@@ -160,6 +204,29 @@
     \verb{url}
     \verb https://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html
     \endverb
+  \endentry
+
+  \entry{aws-book1}{book}{}
+    \name{author}{1}{}{%
+      {{hash=SG}{%
+         family={Sammons},
+         familyi={S\bibinitperiod},
+         given={George},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {CreateSpace Independent}%
+    }
+    \strng{namehash}{SG1}
+    \strng{fullhash}{SG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{title}{Introduction to AWS (Amazon Web Services) Beginner's Guide
+  Book}
+    \field{year}{2016}
   \endentry
 
   \entry{signalR-description}{misc}{}

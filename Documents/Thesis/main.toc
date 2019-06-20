@@ -28,7 +28,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.2.4}User's Guide}{7}{subsection.2.2.4}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {3}Framework architecture}{8}{chapter.3}% 
+\contentsline {chapter}{\numberline {3}Framework's architecture}{8}{chapter.3}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {4}The Stream Analysis Web Application}{10}{chapter.4}% 
 \defcounter {refsection}{0}\relax 
@@ -40,63 +40,63 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Directives}{12}{section*.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Guards}{12}{section*.3}% 
+\contentsline {subsubsection}{Guards}{13}{section*.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Models}{12}{section*.4}% 
+\contentsline {subsubsection}{Models}{13}{section*.4}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Pages}{13}{section*.5}% 
+\contentsline {subsubsection}{Pages}{14}{section*.5}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Pipes}{13}{section*.6}% 
+\contentsline {subsubsection}{Pipes}{14}{section*.6}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Services}{13}{section*.7}% 
+\contentsline {subsubsection}{Services}{15}{section*.7}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}Back-end}{14}{section.4.2}% 
+\contentsline {section}{\numberline {4.2}Back-end}{15}{section.4.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.1}ASP .NET Core}{14}{subsection.4.2.1}% 
+\contentsline {subsection}{\numberline {4.2.1}ASP .NET Core}{15}{subsection.4.2.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.2}SignalR}{14}{subsection.4.2.2}% 
+\contentsline {subsection}{\numberline {4.2.2}SignalR}{16}{subsection.4.2.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.3}File structure}{15}{subsection.4.2.3}% 
+\contentsline {subsection}{\numberline {4.2.3}File structure}{16}{subsection.4.2.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Controllers}{15}{section*.8}% 
+\contentsline {subsubsection}{Controllers}{17}{section*.8}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Exceptions}{21}{section*.9}% 
+\contentsline {subsubsection}{Exceptions}{20}{section*.9}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Hubs}{21}{section*.10}% 
+\contentsline {subsubsection}{Hubs}{20}{section*.10}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Models}{21}{section*.11}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Interfaces}{22}{section*.12}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Services}{23}{section*.13}% 
+\contentsline {subsubsection}{Services}{22}{section*.13}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.3}Cloud environment}{24}{section.4.3}% 
+\contentsline {section}{\numberline {4.3}Cloud environment}{23}{section.4.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.1}Elastic Container Service (ECS)}{24}{subsection.4.3.1}% 
+\contentsline {subsection}{\numberline {4.3.1}Elastic Container Service (ECS)}{23}{subsection.4.3.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Elastic Compute Cloud (EC2)}{24}{section*.14}% 
+\contentsline {subsubsection}{Elastic Compute Cloud (EC2)}{23}{section*.14}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Docker}{24}{section*.15}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{ECS resources}{25}{section*.16}% 
+\contentsline {subsubsection}{ECS resources}{24}{section*.16}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.2}Elastic Container Registry (ECR)}{30}{subsection.4.3.2}% 
+\contentsline {subsection}{\numberline {4.3.2}Elastic Container Registry (ECR)}{29}{subsection.4.3.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.3}Amazon CloudWatch}{32}{subsection.4.3.3}% 
+\contentsline {subsection}{\numberline {4.3.3}Amazon CloudWatch}{31}{subsection.4.3.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.4}Amazon MQ}{33}{subsection.4.3.4}% 
+\contentsline {subsection}{\numberline {4.3.4}Amazon MQ}{32}{subsection.4.3.4}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Apache ActiveMQ}{33}{section*.17}% 
+\contentsline {subsubsection}{Apache ActiveMQ}{32}{section*.17}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.5}Simple Storage Service (S3)}{36}{subsection.4.3.5}% 
+\contentsline {subsection}{\numberline {4.3.5}Simple Storage Service (S3)}{35}{subsection.4.3.5}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.6}Simple Notification Service (SNS)}{38}{subsection.4.3.6}% 
+\contentsline {subsection}{\numberline {4.3.6}Simple Notification Service (SNS)}{37}{subsection.4.3.6}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.7}Amazon Lambda}{40}{subsection.4.3.7}% 
+\contentsline {subsection}{\numberline {4.3.7}Amazon Lambda}{39}{subsection.4.3.7}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.8}DynamoDB}{42}{subsection.4.3.8}% 
+\contentsline {subsection}{\numberline {4.3.8}DynamoDB}{41}{subsection.4.3.8}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.4}Containerized application}{42}{section.4.4}% 
+\contentsline {section}{\numberline {4.4}Containerized application}{43}{section.4.4}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {5}Web Application Usage Guide}{45}{chapter.5}% 
 \defcounter {refsection}{0}\relax 
