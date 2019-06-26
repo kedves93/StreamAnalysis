@@ -7,6 +7,26 @@
 \usepackage{fancyref}
 \usepackage{float}
 \usepackage{subfigure}
+\usepackage{dirtree}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+
+\lstset{language=[Sharp]C,
+	showspaces=false,
+	showtabs=false,
+	breaklines=true,
+	showstringspaces=false,
+	breakatwhitespace=true,
+	escapeinside={(*@}{@*)},
+	commentstyle=\color{greencomments},
+	keywordstyle=\color{bluekeywords},
+	stringstyle=\color{redstrings},
+	basicstyle=\ttfamily
+}
 
 \usepackage[style=numeric,backend=bibtex]{biblatex}
 \addbibresource{./BiB_files/references.bib}
@@ -15,6 +35,7 @@
 \setmainfont{Calibri}
 
 \begin{document}
+	
 
 \include{./TeX_files/cover}
 \include{./TeX_files/innercover}
@@ -25,6 +46,8 @@
 \include{./TeX_files/chapter02}
 \include{./TeX_files/chapter03}
 \include{./TeX_files/chapter04}
+\include{./TeX_files/chapter05}
+\include{./TeX_files/chapter06}
 
 \printbibliography[title=Bibliography]
 
