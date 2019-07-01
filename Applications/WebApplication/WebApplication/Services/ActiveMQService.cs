@@ -1,13 +1,14 @@
 ﻿using Apache.NMS;
 using Apache.NMS.ActiveMQ;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
+using WebApplication.Hubs;
 using WebApplication.Interfaces;
 using WebApplication.Models;
 
@@ -19,12 +20,17 @@ namespace WebApplication.Services
 
         private readonly ILogger _logger;
 
+        private readonly IHubContext<TopicsHub> _hubContext;
+
         public event EventHandler<OnMessageEventArgs> OnTopicMessage;
 
         public Dictionary<string, CancellationTokenSource> _topicCancellationTokens;
 
-        public ActiveMQService(IConfiguration configuration, ILogger<ActiveMQService> logger)
+        public Dictionary<string, Thread> _threads;
+
+        public ActiveMQService(IConfiguration configuration, IHubContext<TopicsHub> hubContext, ILogger<ActiveMQService> logger)
         {
+            _hubContext = hubContext;
             _logger = logger;
             _topicCancellationTokens = new Dictionary<string, CancellationTokenSource>();
 
@@ -48,12 +54,14 @@ namespace WebApplication.Services
                 _logger.LogError("Connection with broker could not be started.");
         }
 
-        public async Task StartListeningOnTopicAsync(string topicName)
+        public void StartListeningOnTopic(ITopicClient caller, string topicName)
         {
             _topicCancellationTokens[topicName] = new CancellationTokenSource();
             var token = _topicCancellationTokens[topicName].Token;
 
-            await Task.Run(() =>
+            OnTopicMessage += async (sender, e) => await caller.OnNewMessageArrived(e.Message);
+
+            Thread thread = new Thread(() =>
             {
                 using (ISession session = _connection.CreateSession(AcknowledgementMode.AutoAcknowledge))
                 {
@@ -69,16 +77,14 @@ namespace WebApplication.Services
                         }
                     }
                 }
-            }, token);
+            });
+            thread.Start();
         }
 
-        public async Task StopListeningOnTopicAsync(string topicName)
+        public void StopListeningOnTopic(string topicName)
         {
-            await Task.Run(() =>
-            {
-                _topicCancellationTokens[topicName].Cancel();
-                _topicCancellationTokens[topicName].Dispose();
-            });
+            _topicCancellationTokens[topicName].Cancel();
+            _topicCancellationTokens[topicName].Dispose();
         }
 
         public class OnMessageEventArgs : EventArgs

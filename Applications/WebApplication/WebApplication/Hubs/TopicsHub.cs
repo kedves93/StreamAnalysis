@@ -18,15 +18,14 @@ namespace WebApplication.Hubs
             _logger = logger;
         }
 
-        public async Task StartRealTimeMessagesFromTopic(string topic)
+        public void StartRealTimeMessagesFromTopic(string topic)
         {
-            _activeMQService.OnTopicMessage += async (sender, e) => await Clients.Caller.OnNewMessageArrived(e.Message);
-            await _activeMQService.StartListeningOnTopicAsync(topic);
+            _activeMQService.StartListeningOnTopic(Clients.Caller, topic);
         }
 
-        public async Task StopRealTimeMessagesFromTopic(string topic)
+        public void StopRealTimeMessagesFromTopic(string topic)
         {
-            await _activeMQService.StopListeningOnTopicAsync(topic);
+            _activeMQService.StopListeningOnTopic(topic);
         }
 
         public override async Task OnConnectedAsync()
@@ -36,7 +35,7 @@ namespace WebApplication.Hubs
 
         public override async Task OnDisconnectedAsync(Exception ex)
         {
-            await Task.Run(() => _logger.LogError("Hub connection disconnected. Error: " + ex.Message));
+            await Task.Run(() => _logger.LogError("Hub connection disconnected."));
         }
     }
 }

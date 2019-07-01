@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apixu", "Apixu\Apixu.csproj", "{F08CA6DE-BCD9-48F3-8530-18A6ACD2CFF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apixu", "Apixu\Apixu.csproj", "{F08CA6DE-BCD9-48F3-8530-18A6ACD2CFF1}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{00BB4D17-9AF1-418E-AFE2-839D4513660C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F08CA6DE-BCD9-48F3-8530-18A6ACD2CFF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F08CA6DE-BCD9-48F3-8530-18A6ACD2CFF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F08CA6DE-BCD9-48F3-8530-18A6ACD2CFF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00BB4D17-9AF1-418E-AFE2-839D4513660C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00BB4D17-9AF1-418E-AFE2-839D4513660C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00BB4D17-9AF1-418E-AFE2-839D4513660C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00BB4D17-9AF1-418E-AFE2-839D4513660C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

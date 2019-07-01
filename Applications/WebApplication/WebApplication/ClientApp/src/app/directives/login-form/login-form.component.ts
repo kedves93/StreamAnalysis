@@ -33,7 +33,7 @@ export class LoginFormComponent implements OnInit {
         true)
         .subscribe(result => {
           this.validAuth = result;
-          if (this.validAuth === true) {
+          if (this.validAuth) {
             if (this.loginForm.value.rememberMe) {
               localStorage.setItem('currentUser', this.loginForm.value.username);
               localStorage.setItem('userType', 'container');

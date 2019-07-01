@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using static WebApplication.Services.ActiveMQService;
 
 namespace WebApplication.Interfaces
@@ -8,8 +7,8 @@ namespace WebApplication.Interfaces
     {
         event EventHandler<OnMessageEventArgs> OnTopicMessage;
 
-        Task StartListeningOnTopicAsync(string topicName);
+        void StartListeningOnTopic(ITopicClient caller, string topicName);
 
-        Task StopListeningOnTopicAsync(string topicName);
+        void StopListeningOnTopic(string topicName);
     }
 }

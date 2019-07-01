@@ -61,16 +61,14 @@ export class LiveChartComponent implements OnInit, AfterViewInit {
     const dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     dateAxis.title.text = 'Time';
     dateAxis.renderer.grid.template.location = 0;
-    dateAxis.renderer.minGridDistance = 30;
-    dateAxis.dateFormats.setKey('second', 'ss');
-    dateAxis.periodChangeDateFormats.setKey('second', '[bold]h:mm a');
-    dateAxis.periodChangeDateFormats.setKey('minute', '[bold]h:mm a');
-    dateAxis.periodChangeDateFormats.setKey('hour', '[bold]h:mm a');
+    dateAxis.renderer.minGridDistance = 50;
     dateAxis.renderer.inside = false;
     dateAxis.renderer.axisFills.template.disabled = true;
     dateAxis.renderer.ticks.template.disabled = true;
     dateAxis.interpolationDuration = 500;
     dateAxis.rangeChangeDuration = 500;
+    dateAxis.baseInterval.timeUnit = 'second';
+    dateAxis.baseInterval.count = 3;
     // zoom
     chart.events.on('datavalidated', function () {
       dateAxis.zoom({ start: 1 / 2, end: 1.2 }, false, true);
@@ -99,6 +97,8 @@ export class LiveChartComponent implements OnInit, AfterViewInit {
     valueAxis.tooltip.disabled = true;
     valueAxis.interpolationDuration = 500;
     valueAxis.rangeChangeDuration = 500;
+    valueAxis.min = -30;
+    valueAxis.max = 30;
 
     //
     // Series
